@@ -1,0 +1,74 @@
+{
+  "name": "ap-wimhof",
+  "version": "1.0.0",
+  "scripts": {
+    "build": "webpack --config webpack.config.prod.js",
+    "build:dev": "webpack --config webpack.config.dev.js",
+    "lint": "standard --verbose | snazzy",
+    "start": "node server.js",
+    "start:dev": "webpack serve --config webpack.config.dev.js --progress",
+    "test": "jest",
+    "test-coverage": "jest --collectCoverage",
+    "test-update": "jest --updateSnapshot"
+  },
+  "dependencies": {
+    "bootstrap": "^4.6.0",
+    "i18next": "latest",
+    "i18next-browser-languagedetector": "latest",
+    "i18next-http-backend": "latest",
+    "immer": "latest",
+    "jquery": "^3.6.0",
+    "node-sass": "latest",
+    "popper.js": "^1.16.1",
+    "react": "latest",
+    "react-dom": "latest",
+    "react-i18next": "latest",
+    "react-redux": "latest",
+    "react-router-dom": "latest",
+    "redux": "latest"
+  },
+  "devDependencies": {
+    "@babel/core": "latest",
+    "@babel/preset-env": "latest",
+    "@babel/preset-react": "latest",
+    "autoprefixer": "^10.2.5",
+    "babel-eslint": "latest",
+    "babel-jest": "latest",
+    "babel-loader": "latest",
+    "clean-webpack-plugin": "latest",
+    "copy-webpack-plugin": "latest",
+    "css-loader": "latest",
+    "file-loader": "latest",
+    "html-webpack-plugin": "latest",
+    "jest": "latest",
+    "postcss-loader": "^5.2.0",
+    "react-test-renderer": "latest",
+    "sass-loader": "latest",
+    "snazzy": "latest",
+    "standard": "latest",
+    "style-loader": "latest",
+    "webpack": "latest",
+    "webpack-cli": "latest",
+    "webpack-dev-server": "latest",
+    "webpack-merge": "latest"
+  },
+  "standard": {
+    "parser": "babel-eslint",
+    "env": [
+      "jest"
+    ]
+  },
+  "eslintConfig": {
+    "extends": "react-app",
+    "env": {
+      "node": true,
+      "jest": true
+    }
+  },
+  "browserslist": [
+    ">0.2%",
+    "not dead",
+    "not ie <= 11",
+    "not op_mini all"
+  ]
+}

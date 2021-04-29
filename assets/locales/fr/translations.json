@@ -1,0 +1,61 @@
+{
+  "title": "REACT APP FR",
+  "wimhof": {
+    "menu": {
+      "when": {
+        "title": "Quand",
+        "now": {
+          "title": "Maintenant"
+        },
+        "delay": {
+          "title": "Délai"
+        },
+        "date": {
+          "title": "Date donnée",
+          "label": "Sélectionner une date"
+        }
+      },
+      "how": {
+        "title": "Comment",
+        "short": {
+          "title": "Rapide",
+          "tooltip": ""
+        },
+        "medium": {
+          "title": "Normal",
+          "tooltip": ""
+        },
+        "long": {
+          "title": "Long",
+          "tooltip": ""
+        },
+        "custom": {
+          "title": "Personalisé",
+          "tooltip": ""
+        },
+        "session": {
+          "breaths": {
+            "label": "Nombre de respirations",
+            "tooltip": ""
+          },
+          "length": {
+            "label": "Durée de respiration",
+            "tooltip": ""
+          },
+          "hold": {
+            "label": "Durée d'apnée",
+            "tooltip": ""
+          },
+          "delete": {
+            "label": "Supprimer",
+            "tooltip": "Supprimer cette session"
+          }
+        }
+      },
+      "submit": {
+        "title": "Démarrer",
+        "tooltip": "Lancer une scénace de respiration avec les paramètres sélectionnés"
+      }
+    }
+  }
+}
