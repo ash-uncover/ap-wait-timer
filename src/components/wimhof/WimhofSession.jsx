@@ -1,12 +1,15 @@
 import React from 'react'
 
-const WimhofSession = ({
-  sessionId
-}) => {
+import {
+  useParams
+} from 'lib/hooks'
+
+const WimhofSession = () => {
+  const { sessionId } = useParams()
+
   return (
     <div className='wimhof-session'>
-      wimhof-session
-      {sessionId}
+      {atob(sessionId)}
     </div>
   )
 }

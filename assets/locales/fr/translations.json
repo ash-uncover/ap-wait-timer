@@ -15,8 +15,8 @@
           "label": "Sélectionner une date"
         }
       },
-      "how": {
-        "title": "Comment",
+      "settings": {
+        "title": "Paramètres",
         "short": {
           "title": "Rapide",
           "tooltip": ""

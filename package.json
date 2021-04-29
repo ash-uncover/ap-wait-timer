@@ -12,6 +12,9 @@
     "test-update": "jest --updateSnapshot"
   },
   "dependencies": {
+    "@fortawesome/fontawesome-svg-core": "^1.2.35",
+    "@fortawesome/free-solid-svg-icons": "^5.15.3",
+    "@fortawesome/react-fontawesome": "^0.1.14",
     "bootstrap": "^4.6.0",
     "i18next": "latest",
     "i18next-browser-languagedetector": "latest",

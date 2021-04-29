@@ -1,7 +1,5 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
-import 'bootstrap'
-import 'bootstrap/dist/css/bootstrap.min.css'
 
 import {
   BrowserRouter as Router
@@ -9,9 +7,10 @@ import {
 
 import Root from 'components/Root'
 
-import './index.css'
+import './index.scss'
 
 import './i18n'
+import './index-icons'
 
 ReactDOM.render(
   <Router hashType='noslash'>

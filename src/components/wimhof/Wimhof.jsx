@@ -18,7 +18,7 @@ const Wimhof = () => {
   const match = useRouteMatch()
 
   return (
-    <div className='wimhof'>
+    <div className='wimhof container'>
       <Switch>
         <Route path={`${match.path}/:sessionId`}>
           <WimhofSession />

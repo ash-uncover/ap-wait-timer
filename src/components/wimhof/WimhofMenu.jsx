@@ -1,9 +1,14 @@
 import React from 'react'
 
+import { Link } from 'react-router-dom'
+
 import {
+  useRouteMatch,
   useState,
   useTranslation
 } from 'lib/hooks'
+
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
 import './WimhofMenu.scss'
 
@@ -49,6 +54,7 @@ const SESSIONS_LONG = [
 ]
 
 const WimhofMenu = () => {
+  const match = useRouteMatch()
   const { t } = useTranslation()
 
   const menuWhenTitle = t('wimhof.menu.when.title')
@@ -57,15 +63,16 @@ const WimhofMenu = () => {
   const menuWhenDateTitle = t('wimhof.menu.when.date.title')
   const menuWhenDateLabel = t('wimhof.menu.when.date.label')
 
-  const menuHowTitle = t('wimhof.menu.how.title')
-  const menuHowShortTitle = t('wimhof.menu.how.short.title')
-  const menuHowMediumTitle = t('wimhof.menu.how.medium.title')
-  const menuHowLongTitle = t('wimhof.menu.how.long.title')
-  const menuHowCustomTitle = t('wimhof.menu.how.custom.title')
+  const menuHowTitle = t('wimhof.menu.settings.title')
+  const menuHowShortTitle = t('wimhof.menu.settings.short.title')
+  const menuHowMediumTitle = t('wimhof.menu.settings.medium.title')
+  const menuHowLongTitle = t('wimhof.menu.settings.long.title')
+  const menuHowCustomTitle = t('wimhof.menu.settings.custom.title')
 
   const menuSubmitTitle = t('wimhof.menu.submit.title')
   const menuSubmitTooltip = t('wimhof.menu.submit.tooltip')
 
+  const [delay, setDelay] = useState(300)
   const [date, setDate] = useState(formatDate(new Date()))
   const [when, setWhen] = useState(STATE_WHEN.NOW)
   const [sessionMode, setSessionMode] = useState(STATE_HOW.SHORT)
@@ -109,134 +116,164 @@ const WimhofMenu = () => {
     setSessionMode(STATE_HOW.CUSTOM)
   }
 
+  let sessionId = ''
+  switch (when) {
+    case STATE_WHEN.NOW: {
+      sessionId += `${STATE_WHEN.DELAY}|0|`
+      break
+    }
+    case STATE_WHEN.DELAY: {
+      sessionId += `${STATE_WHEN.DELAY}|${delay}|`
+      break
+    }
+    case STATE_WHEN.DATE: {
+      sessionId += `${STATE_WHEN.DATE}|${date}|`
+      break
+    }
+  }
+  sessions.forEach((session, index) => {
+    if (index > 0) {
+      sessionId += '-'
+    }
+    sessionId += `${session.breaths}_${session.length}_${session.hold}`
+  })
+
   return (
-    <form
-      className='wimhof-menu'
-      onSubmit={onSubmit}
-    >
-
-      <fieldset>
-        <legend>{menuWhenTitle}</legend>
-
-        <input
-          id={STATE_WHEN.NOW}
-          type='radio'
-          name='WHEN'
-          checked={when === STATE_WHEN.NOW}
-          onChange={onSelectNow}
-        />
-        <label htmlFor={STATE_WHEN.NOW}>
-          {menuWhenNowTitle}
-        </label>
-
-        <br /><br />
-
-        <input
-          id={STATE_WHEN.DELAY}
-          type='radio'
-          name='WHEN'
-          checked={when === STATE_WHEN.DELAY}
-          onChange={onSelectDelay}
-        />
-        <label htmlFor={STATE_WHEN.DELAY}>
-          {menuWhenDelayTitle}
-        </label>
-
-        <br /><br />
-
-        <input
-          id={STATE_WHEN.DATE}
-          type='radio'
-          name='WHEN'
-          checked={when === STATE_WHEN.DATE}
-          onChange={onSelectDate}
-        />
-        <label htmlFor={STATE_WHEN.DATE}>
-          {menuWhenDateTitle}
-        </label>
-
-        <br />
-
-        <label
-          htmlFor='start'
+    <div className='row'>
+      <div className='col'>
+        <form
+          className='wimhof-menu'
+          onSubmit={onSubmit}
         >
-          {menuWhenDateLabel}
-        </label>
-        <input
-          id='start'
-          type='datetime-local'
-          disabled={when !== STATE_WHEN.DATE}
-          value={date}
-          min='2021-01-01T00:00'
-          max='2021-12-12T00:00'
-          step='300'
-          onChange={onDateChange}
-        />
-      </fieldset>
 
-      <fieldset>
-        <legend>{menuHowTitle}</legend>
+          <fieldset>
+            <legend>{menuWhenTitle}</legend>
 
-        <div
-          class='btn-group'
-          role='group'
-          aria-label='Basic example'
-        >
-          <button
-            type='button'
-            className={`btn ${sessionMode === STATE_HOW.SHORT ? 'btn-primary' : 'btn-secondary'}`}
-            onClick={onHowShortClick}
-          >
-            {menuHowShortTitle}
-          </button>
-          <button
-            type='button'
-            className={`btn ${sessionMode === STATE_HOW.MEDIUM ? 'btn-primary' : 'btn-secondary'}`}
-            onClick={onHowMediumClick}
-          >
-            {menuHowMediumTitle}
-          </button>
-          <button
-            type='button'
-            className={`btn ${sessionMode === STATE_HOW.LONG ? 'btn-primary' : 'btn-secondary'}`}
-            onClick={onHowLongClick}
-          >
-            {menuHowLongTitle}
-          </button>
-          <button
-            className={`btn ${sessionMode === STATE_HOW.CUSTOM ? 'btn-primary' : 'btn-secondary'}`}
-          >
-            {menuHowCustomTitle}
-          </button>
-        </div>
-        <p>{sessions.length} Rounds</p>
-        {sessions.map((session, index) => (
-          <WimhofMenuSession
-            key={`session-${index}`}
-            {...session}
-            onChange={(data) => onChangeSession(index, data)}
-            onDelete={() => onDeleteSession(index)}
-          />
-        ))}
+            <button
+              className={`btn btn-block ${when === STATE_WHEN.NOW ? 'btn-primary' : 'btn-default'}`}
+              type='button'
+              checked={when === STATE_WHEN.NOW}
+              onClick={onSelectNow}
+            >
+              {
+              when === STATE_WHEN.NOW
+                ? <FontAwesomeIcon icon={['fas', 'check-square']} />
+                : <FontAwesomeIcon icon={['fas', 'square']} />
+              }&nbsp;&nbsp;&nbsp;{menuWhenNowTitle}
+            </button>
 
-        <button
-          className='btn btn-success'
-          onClick={onAddSession}
-        >
-          x
-        </button>
+            <button
+              className={`btn btn-block ${when === STATE_WHEN.DELAY ? 'btn-primary' : 'btn-default'}`}
+              type='button'
+              checked={when === STATE_WHEN.DELAY}
+              onClick={onSelectDelay}
+            >
+              {
+              when === STATE_WHEN.DELAY
+                ? <FontAwesomeIcon icon={['fas', 'check-square']} />
+                : <FontAwesomeIcon icon={['fas', 'square']} />
+              }&nbsp;&nbsp;&nbsp;{menuWhenDelayTitle}
+            </button>
 
-      </fieldset>
+            <button
+              className={`btn btn-block ${when === STATE_WHEN.DATE ? 'btn-primary' : 'btn-default'}`}
+              type='button'
+              checked={when === STATE_WHEN.DATE}
+              onClick={onSelectDate}
+            >
+              {
+              when === STATE_WHEN.DATE
+                ? <FontAwesomeIcon icon={['fas', 'check-square']} />
+                : <FontAwesomeIcon icon={['fas', 'square']} />
+              }&nbsp;&nbsp;&nbsp;{menuWhenDateTitle}
+            </button>
 
-      <button
-        className='btn btn-block btn-primary'
-        type='submit'
-        title={menuSubmitTooltip}
-      >
-        {menuSubmitTitle}
-      </button>
+            <label
+              htmlFor='start'
+            >
+              {menuWhenDateLabel}
+            </label>
+            <input
+              id='start'
+              type='datetime-local'
+              disabled={when !== STATE_WHEN.DATE}
+              value={date}
+              min='2021-01-01T00:00'
+              max='2021-12-12T00:00'
+              step='300'
+              onChange={onDateChange}
+            />
+          </fieldset>
 
-    </form>
+          <fieldset>
+            <legend>{menuHowTitle}</legend>
+
+            <div
+              className='btn-group'
+              role='group'
+              aria-label='Basic example'
+            >
+              <button
+                type='button'
+                className={`btn ${sessionMode === STATE_HOW.SHORT ? 'btn-primary' : 'btn-secondary'}`}
+                onClick={onHowShortClick}
+              >
+                {menuHowShortTitle}
+              </button>
+              <button
+                type='button'
+                className={`btn ${sessionMode === STATE_HOW.MEDIUM ? 'btn-primary' : 'btn-secondary'}`}
+                onClick={onHowMediumClick}
+              >
+                {menuHowMediumTitle}
+              </button>
+              <button
+                type='button'
+                className={`btn ${sessionMode === STATE_HOW.LONG ? 'btn-primary' : 'btn-secondary'}`}
+                onClick={onHowLongClick}
+              >
+                {menuHowLongTitle}
+              </button>
+              <button
+                className={`btn ${sessionMode === STATE_HOW.CUSTOM ? 'btn-primary' : 'btn-secondary'}`}
+              >
+                {menuHowCustomTitle}
+              </button>
+            </div>
+            <p>{sessions.length} Rounds</p>
+            {sessions.map((session, index) => (
+              <WimhofMenuSession
+                key={`session-${index}`}
+                {...session}
+                onChange={(data) => onChangeSession(index, data)}
+                onDelete={() => onDeleteSession(index)}
+              />
+            ))}
+
+            <button
+              className='btn btn-success'
+              onClick={onAddSession}
+            >
+              <FontAwesomeIcon icon={['fas', 'plus']} />
+            </button>
+
+          </fieldset>
+
+          <Link to={`${match.path}${btoa(sessionId)}`}>
+            <button
+              className='btn btn-block btn-primary'
+              type='submit'
+              disabled
+              title={menuSubmitTooltip}
+            >
+              <FontAwesomeIcon icon={['fas', 'coffee']} />
+              {menuSubmitTitle}
+            </button>
+          </Link>
+
+        </form>
+      </div>
+    </div>
   )
 }
 
@@ -249,12 +286,12 @@ const WimhofMenuSession = ({
 }) => {
   const { t } = useTranslation()
 
-  const breathsLabel = t('wimhof.menu.how.session.breaths.label')
-  const breathsTooltip = t('wimhof.menu.how.session.breaths.tooltip')
-  const lengthLabel = t('wimhof.menu.how.session.length.label')
-  const lengthTooltip = t('wimhof.menu.how.session.length.tooltip')
-  const holdLabel = t('wimhof.menu.how.session.hold.label')
-  const holdTooltip = t('wimhof.menu.how.session.hold.tooltip')
+  const breathsLabel = t('wimhof.menu.settings.session.breaths.label')
+  const breathsTooltip = t('wimhof.menu.settings.session.breaths.tooltip')
+  const lengthLabel = t('wimhof.menu.settings.session.length.label')
+  const lengthTooltip = t('wimhof.menu.settings.session.length.tooltip')
+  const holdLabel = t('wimhof.menu.settings.session.hold.label')
+  const holdTooltip = t('wimhof.menu.settings.session.hold.tooltip')
 
   const onBreathsChange = (event) => { onChange({ breaths: Number(event.target.value), length, hold }) }
   const onLengthChange = (event) => { onChange({ breaths, length: Number(event.target.value), hold }) }
@@ -311,10 +348,10 @@ const WimhofMenuSession = ({
       />
 
       <button
-        className='btn btn-danger'
+        className='btn btn-default'
         onClick={onDelete}
       >
-        x
+        <FontAwesomeIcon icon={['fas', 'trash']} />
       </button>
     </p>
   )
