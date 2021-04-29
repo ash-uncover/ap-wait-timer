@@ -13,6 +13,7 @@
   },
   "dependencies": {
     "@fortawesome/fontawesome-svg-core": "latest",
+    "@fortawesome/free-regular-svg-icons": "latest",
     "@fortawesome/free-solid-svg-icons": "latest",
     "@fortawesome/react-fontawesome": "latest",
     "bootstrap": "latest",

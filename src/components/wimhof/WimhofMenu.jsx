@@ -76,7 +76,7 @@ const WimhofMenu = () => {
   const [date, setDate] = useState(formatDate(new Date()))
   const [when, setWhen] = useState(STATE_WHEN.NOW)
   const [sessionMode, setSessionMode] = useState(STATE_HOW.SHORT)
-  const [sessions, setSessions] = useState(SESSIONS_SHORT)
+  const [sessions, setSessions] = useState(SESSIONS_SHORT.slice())
 
   const onDateChange = (event) => { setDate(event.target.value) }
 
@@ -88,15 +88,15 @@ const WimhofMenu = () => {
   const onSelectDate = () => { setWhen(STATE_WHEN.DATE) }
 
   const onHowShortClick = () => {
-    setSessions(SESSIONS_SHORT)
+    setSessions(SESSIONS_SHORT.slice())
     setSessionMode(STATE_HOW.SHORT)
   }
   const onHowMediumClick = () => {
-    setSessions(SESSIONS_MEDIUM)
+    setSessions(SESSIONS_MEDIUM.slice())
     setSessionMode(STATE_HOW.MEDIUM)
   }
   const onHowLongClick = () => {
-    setSessions(SESSIONS_LONG)
+    setSessions(SESSIONS_LONG.slice())
     setSessionMode(STATE_HOW.LONG)
   }
 
@@ -158,7 +158,7 @@ const WimhofMenu = () => {
               {
               when === STATE_WHEN.NOW
                 ? <FontAwesomeIcon icon={['fas', 'check-square']} />
-                : <FontAwesomeIcon icon={['fas', 'square']} />
+                : <FontAwesomeIcon icon={['far', 'square']} />
               }&nbsp;&nbsp;&nbsp;{menuWhenNowTitle}
             </button>
 
@@ -263,7 +263,6 @@ const WimhofMenu = () => {
             <button
               className='btn btn-block btn-primary'
               type='submit'
-              disabled
               title={menuSubmitTooltip}
             >
               <FontAwesomeIcon icon={['fas', 'coffee']} />

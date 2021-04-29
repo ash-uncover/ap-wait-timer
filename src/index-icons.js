@@ -1,16 +1,21 @@
 import { library } from '@fortawesome/fontawesome-svg-core'
 import {
-  faCheckSquare,
-  faCoffee,
-  faPlus,
-  faSquare,
-  faTrash
+  faCheckSquare as fasCheckSquare,
+  faCoffee as fasCoffee,
+  faPlus as fasPlus,
+  faSquare as fasSquare,
+  faTrash as fasTrash
 } from '@fortawesome/free-solid-svg-icons'
 
+import {
+  faSquare as farSquare
+} from '@fortawesome/free-regular-svg-icons'
+
 library.add(
-  faCheckSquare,
-  faCoffee,
-  faPlus,
-  faSquare,
-  faTrash
+  fasCheckSquare,
+  fasCoffee,
+  fasPlus,
+  fasSquare,
+  fasTrash,
+  farSquare
 )

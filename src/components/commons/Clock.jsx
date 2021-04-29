@@ -28,9 +28,13 @@ const formatDuration = (seconds) => {
 }
 
 const Clock = ({
-  date
+  duration,
+  showHours,
+  showMinutes,
+  showSeconds,
+  showMilliseconds
 }) => {
-  const [value, setValue] = useState(formatDuration(Math.floor((date - Date.now()) / 1000)))
+  const [value, setValue] = useState(formatDuration(duration))
   useEffect(() => {
     const interval = setInterval(() => {
       const newVal = formatDuration(Math.floor((date - Date.now()) / 1000))
