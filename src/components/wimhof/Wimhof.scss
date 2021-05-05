@@ -11,14 +11,12 @@
   .wimhof-background,
   .wimhof-background-image,
   .wimhof-background-mask,
-  .wimhof-content {
+  .wimhof-main {
     position: absolute;
     top: 0;
     left: 0;
     bottom: 0;
     right: 0;
-
-
   }
 
   .wimhof-background {
@@ -31,7 +29,13 @@
     }
   }
 
-  .wimhof-content {
+  .wimhof-main {
+    display: flex;
+    flex-direction: column;
     overflow: auto;
+    .wimhof-content {
+      flex-grow: 1;
+      background: rgba(255,255,255, 0.7);
+    }
   }
 }

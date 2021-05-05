@@ -11,6 +11,7 @@ import './index.scss'
 
 import './i18n'
 import './index-icons'
+import './index-sounds'
 
 ReactDOM.render(
   <Router hashType='noslash'>

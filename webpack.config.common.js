@@ -22,9 +22,7 @@ module.exports = {
       template: 'src/index.html',
       title: 'Wimhof Breath Provider',
     }),
-    new webpack.EnvironmentPlugin({
-      URL: 'http://localhost:8090'
-    }),
+    new webpack.EnvironmentPlugin(),
     new CopyPlugin({
       patterns: [
         { from: path.resolve(__dirname, '_redirects'), },
@@ -67,6 +65,13 @@ module.exports = {
         generator: {
           filename: 'images/[name][ext][query]'
         },
+      },
+      {
+        test: /\.(mp3|flac)$/i,
+        type: 'asset/resource',
+        generator: {
+          filename: 'sound/[name][ext][query]'
+        }
       },
       {
         test: /\.(_redirects)$/i,

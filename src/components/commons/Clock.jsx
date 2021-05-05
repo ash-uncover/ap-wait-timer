@@ -5,39 +5,41 @@ import {
   useState
 } from 'lib/hooks'
 
-const formatHours = (seconds) => {
-  const hh = Math.floor(seconds / 3600)
+const formatHours = (duration) => {
+  const hh = Math.floor(duration / 3600000)
   return `${hh < 10 ? '0' : ''}${hh}`
 }
-const formatMinutes = (seconds) => {
-  const mm = Math.floor(seconds / 60) % 60
+const formatMinutes = (duration) => {
+  const mm = Math.floor(duration / 60000) % 60
   return `${mm < 10 ? '0' : ''}${mm}`
 }
-const formatSeconds = (seconds) => {
-  const ss = seconds % 60
+const formatSeconds = (duration) => {
+  const ss = Math.floor((duration % 60000) / 1000)
   return `${ss < 10 ? '0' : ''}${ss}`
 }
-const formatDuration = (seconds) => {
-  if (seconds > 0) {
-    const hh = formatHours(seconds)
-    const mm = formatMinutes(seconds)
-    const ss = formatSeconds(seconds)
+const formatAlarm = (alarm) => {
+  const now = new Date().getTime()
+  const duration = Math.max(0, alarm - now)
+  if (duration > 0) {
+    const hh = formatHours(duration)
+    const mm = formatMinutes(duration)
+    const ss = formatSeconds(duration)
     return `${hh}:${mm}:${ss}`
   }
   return '00:00:00'
 }
 
 const Clock = ({
-  duration,
+  alarm,
   showHours,
   showMinutes,
   showSeconds,
   showMilliseconds
 }) => {
-  const [value, setValue] = useState(formatDuration(duration))
+  const [value, setValue] = useState(formatAlarm(alarm))
   useEffect(() => {
     const interval = setInterval(() => {
-      const newVal = formatDuration(Math.floor((date - Date.now()) / 1000))
+      const newVal = formatAlarm(alarm)
       setValue(newVal)
     }, 100)
     return () => clearInterval(interval)

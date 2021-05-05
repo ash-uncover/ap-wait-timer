@@ -1,18 +1,35 @@
 import React from 'react'
 
 import {
-  useParams
+  useParams,
+  useState
 } from 'lib/hooks'
+
+import {
+  decode
+} from 'lib/utils/SessionsUtils'
+
+import Clock from 'components/commons/Clock'
+import AudioPlayer from 'components/commons/AudioPlayer'
+import SoundLibrary from 'lib/utils/SoundLibrary'
 
 const WimhofSession = () => {
   const { sessionId } = useParams()
+  const session = decode(sessionId)
 
-  const audio = new Audio('/sound/Kurup - Joeira.flac')
-  audio.play()
+  const [currentSoundIndex, setCurrentSoundIndex] = useState(0)
 
   return (
     <div className='wimhof-session'>
-      {atob(sessionId)}
+
+      <Clock
+        alarm={session.date}
+      />
+      <AudioPlayer
+        title={SoundLibrary.listSounds()[currentSoundIndex].title}
+        src={SoundLibrary.listSounds()[currentSoundIndex].src}
+        onComplete={() => setCurrentSoundIndex((currentSoundIndex + 1) % SoundLibrary.list().length)}
+      />
     </div>
   )
 }

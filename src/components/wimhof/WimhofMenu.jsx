@@ -8,6 +8,10 @@ import {
   useTranslation
 } from 'lib/hooks'
 
+import {
+  encode
+} from 'lib/utils/SessionsUtils'
+
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
 import './WimhofMenu.scss'
@@ -23,7 +27,6 @@ const formatDate = (date) => {
 
 const STATE_WHEN = {
   NOW: 'NOW',
-  DELAY: 'DELAY',
   DATE: 'DATE'
 }
 
@@ -72,7 +75,6 @@ const WimhofMenu = () => {
   const menuSubmitTitle = t('wimhof.menu.submit.title')
   const menuSubmitTooltip = t('wimhof.menu.submit.tooltip')
 
-  const [delay, setDelay] = useState(300)
   const [date, setDate] = useState(formatDate(new Date()))
   const [when, setWhen] = useState(STATE_WHEN.NOW)
   const [sessionMode, setSessionMode] = useState(STATE_HOW.SHORT)
@@ -116,27 +118,7 @@ const WimhofMenu = () => {
     setSessionMode(STATE_HOW.CUSTOM)
   }
 
-  let sessionId = ''
-  switch (when) {
-    case STATE_WHEN.NOW: {
-      sessionId += `${STATE_WHEN.DELAY}|0|`
-      break
-    }
-    case STATE_WHEN.DELAY: {
-      sessionId += `${STATE_WHEN.DELAY}|${delay}|`
-      break
-    }
-    case STATE_WHEN.DATE: {
-      sessionId += `${STATE_WHEN.DATE}|${date}|`
-      break
-    }
-  }
-  sessions.forEach((session, index) => {
-    if (index > 0) {
-      sessionId += '-'
-    }
-    sessionId += `${session.breaths}_${session.length}_${session.hold}`
-  })
+  const sessionId = encode(date, sessions)
 
   return (
     <div className='row'>
@@ -253,6 +235,7 @@ const WimhofMenu = () => {
 
             <button
               className='btn btn-success'
+              type='button'
               onClick={onAddSession}
             >
               <FontAwesomeIcon icon={['fas', 'plus']} />
@@ -260,7 +243,7 @@ const WimhofMenu = () => {
 
           </fieldset>
 
-          <Link to={`${match.path}${btoa(sessionId)}`}>
+          <Link to={`${match.path}${sessionId}`}>
             <button
               className='btn btn-block btn-primary'
               type='submit'

@@ -24,9 +24,9 @@ const Wimhof = () => {
         <div className='wimhof-background-image' />
         <div className='wimhof-background-mask' />
       </div>
-      <div className='wimhof-content'>
+      <div className='wimhof-main'>
         <WimhofToolbar />
-        <div className='container'>
+        <div className='wimhof-content container'>
           <Switch>
             <Route path={`${match.path}/:sessionId`}>
               <WimhofSession />
