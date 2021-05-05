@@ -1,5 +1,37 @@
 .wimhof {
-  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
 
   user-select: none;
+  overflow: hidden;
+
+  .wimhof-background,
+  .wimhof-background-image,
+  .wimhof-background-mask,
+  .wimhof-content {
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+
+
+  }
+
+  .wimhof-background {
+    .wimhof-background-image {
+      background: url('assets/images/wimhof-background.jpg');
+      object-fit: cover;
+    }
+    .wimhof-background-mask {
+      background: rgba(255,255,255, 0.5);
+    }
+  }
+
+  .wimhof-content {
+    overflow: auto;
+  }
 }

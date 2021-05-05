@@ -236,6 +236,7 @@ const WimhofMenu = () => {
               </button>
               <button
                 className={`btn ${sessionMode === STATE_HOW.CUSTOM ? 'btn-primary' : 'btn-secondary'}`}
+                type='button'
               >
                 {menuHowCustomTitle}
               </button>
@@ -348,6 +349,7 @@ const WimhofMenuSession = ({
 
       <button
         className='btn btn-default'
+        type='button'
         onClick={onDelete}
       >
         <FontAwesomeIcon icon={['fas', 'trash']} />

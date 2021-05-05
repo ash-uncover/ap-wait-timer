@@ -13,11 +13,7 @@ import Clock from './commons/Clock'
 import Wimhof from 'components/wimhof/Wimhof'
 
 const Root = () => {
-  const audio = new Audio('/assets/sound/Kurup - Joeira.flac')
   const { t } = useTranslation()
-  const onPlay = () => {
-    audio.play()
-  }
   return (
     <div
       className='root'

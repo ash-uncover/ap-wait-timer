@@ -3,8 +3,8 @@ import { initReactI18next } from 'react-i18next'
 
 import LanguageDetector from 'i18next-browser-languagedetector'
 
-const enFile = require('../assets/locales/en/translations.json')
-const frFile = require('../assets/locales/fr/translations.json')
+const enFile = require('assets/locales/en/translations.json')
+const frFile = require('assets/locales/fr/translations.json')
 
 const resources = {
   en: {

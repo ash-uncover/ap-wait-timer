@@ -9,6 +9,7 @@ import {
   Route
 } from 'react-router-dom'
 
+import WimhofToolbar from './WimhofToolbar'
 import WimhofMenu from './WimhofMenu'
 import WimhofSession from './WimhofSession'
 
@@ -18,15 +19,24 @@ const Wimhof = () => {
   const match = useRouteMatch()
 
   return (
-    <div className='wimhof container'>
-      <Switch>
-        <Route path={`${match.path}/:sessionId`}>
-          <WimhofSession />
-        </Route>
-        <Route path={`${match.path}/`}>
-          <WimhofMenu />
-        </Route>
-      </Switch>
+    <div className='wimhof'>
+      <div className='wimhof-background'>
+        <div className='wimhof-background-image' />
+        <div className='wimhof-background-mask' />
+      </div>
+      <div className='wimhof-content'>
+        <WimhofToolbar />
+        <div className='container'>
+          <Switch>
+            <Route path={`${match.path}/:sessionId`}>
+              <WimhofSession />
+            </Route>
+            <Route path={`${match.path}/`}>
+              <WimhofMenu />
+            </Route>
+          </Switch>
+        </div>
+      </div>
     </div>
   )
 }

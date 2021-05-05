@@ -20,10 +20,10 @@ module.exports = {
     new CleanWebpackPlugin(),
     new HtmlWebpackPlugin({
       template: 'src/index.html',
-      title: 'Manage your Alpha Account',
+      title: 'Wimhof Breath Provider',
     }),
     new webpack.EnvironmentPlugin({
-      ALPHA_AUTH_REST_URL: 'http://localhost:8090'
+      URL: 'http://localhost:8090'
     }),
     new CopyPlugin({
       patterns: [

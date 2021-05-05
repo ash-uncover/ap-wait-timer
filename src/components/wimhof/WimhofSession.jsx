@@ -7,6 +7,9 @@ import {
 const WimhofSession = () => {
   const { sessionId } = useParams()
 
+  const audio = new Audio('/sound/Kurup - Joeira.flac')
+  audio.play()
+
   return (
     <div className='wimhof-session'>
       {atob(sessionId)}
