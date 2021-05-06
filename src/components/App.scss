@@ -1,0 +1,36 @@
+.app {
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+
+  user-select: none;
+  overflow: hidden;
+
+  .app-background,
+  .app-background-image,
+  .app-background-mask,
+  .app-page {
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+  }
+
+  .app-background {
+    .app-background-image {
+      background: url('assets/images/background.jpg');
+      background-size: cover;
+      background-position: center;
+    }
+    .app-background-mask {}
+  }
+
+  .app-page {
+    display: flex;
+    flex-direction: column;
+    overflow: auto;
+  }
+}

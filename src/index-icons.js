@@ -5,6 +5,7 @@ import {
   faHome as fasHome,
   faPlus as fasPlus,
   faSquare as fasSquare,
+  faStopwatch as fasStopwatch,
   faTrash as fasTrash
 } from '@fortawesome/free-solid-svg-icons'
 
@@ -18,6 +19,7 @@ library.add(
   fasHome,
   fasPlus,
   fasSquare,
+  fasStopwatch,
   fasTrash,
   farSquare
 )

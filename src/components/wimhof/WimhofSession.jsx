@@ -9,7 +9,7 @@ import {
   decode
 } from 'lib/utils/SessionsUtils'
 
-import Clock from 'components/commons/Clock'
+import Clock from 'components/commons/alarm/Alarm'
 import AudioPlayer from 'components/commons/AudioPlayer'
 import SoundLibrary from 'lib/utils/SoundLibrary'
 

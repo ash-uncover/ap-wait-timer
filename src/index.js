@@ -5,7 +5,7 @@ import {
   BrowserRouter as Router
 } from 'react-router-dom'
 
-import Root from 'components/Root'
+import App from 'components/App'
 
 import './index.scss'
 
@@ -15,7 +15,7 @@ import './index-sounds'
 
 ReactDOM.render(
   <Router hashType='noslash'>
-    <Root />
+    <App />
   </Router>,
   document.getElementById('react-root')
 )

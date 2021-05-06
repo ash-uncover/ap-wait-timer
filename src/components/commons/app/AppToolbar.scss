@@ -1,0 +1,23 @@
+$toolbar-height: 2.5rem;
+$background: #3F3B38;
+$color: #eeeeee;
+$color-highlight: #DFDBD8;
+
+.app-toolbar {
+  height: $toolbar-height;
+  background: $background;
+
+  display: flex;
+  align-items: center;
+  color: $color;
+
+  button {
+    background: none;
+    border: 0;
+    color: $color;
+
+    &:hover {
+      color: $color-highlight;
+    }
+  }
+}

@@ -1,0 +1,11 @@
+.waitroom {
+  .app-toolbar {
+    transition: height 0.5s ease-in-out;
+  }
+
+  &.waitroom-idle {
+    .app-toolbar {
+      height: 0;
+    }
+  }
+}

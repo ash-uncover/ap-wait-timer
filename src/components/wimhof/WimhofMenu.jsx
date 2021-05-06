@@ -153,7 +153,7 @@ const WimhofMenu = () => {
               {
               when === STATE_WHEN.DELAY
                 ? <FontAwesomeIcon icon={['fas', 'check-square']} />
-                : <FontAwesomeIcon icon={['fas', 'square']} />
+                : <FontAwesomeIcon icon={['far', 'square']} />
               }&nbsp;&nbsp;&nbsp;{menuWhenDelayTitle}
             </button>
 
@@ -166,7 +166,7 @@ const WimhofMenu = () => {
               {
               when === STATE_WHEN.DATE
                 ? <FontAwesomeIcon icon={['fas', 'check-square']} />
-                : <FontAwesomeIcon icon={['fas', 'square']} />
+                : <FontAwesomeIcon icon={['far', 'square']} />
               }&nbsp;&nbsp;&nbsp;{menuWhenDateTitle}
             </button>
 
