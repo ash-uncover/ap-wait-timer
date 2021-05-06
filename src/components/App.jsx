@@ -22,9 +22,6 @@ const App = () => {
         <Route path='/wimhof'>
           <Wimhof />
         </Route>
-        <Route path='/wait/:date'>
-          <Waitroom />
-        </Route>
         <Route path='/wait'>
           <Waitroom />
         </Route>

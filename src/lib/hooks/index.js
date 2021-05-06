@@ -20,6 +20,10 @@ import {
   useTranslation as useTranslationBase
 } from 'react-i18next'
 
+export const useQuery = () => {
+  return new URLSearchParams(useLocationBase().search)
+}
+
 export const useEffect = useEffectBase
 export const useRef = useRefBase
 export const useState = useStateBase

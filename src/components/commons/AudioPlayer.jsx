@@ -16,7 +16,8 @@ const AudioPlayer = ({
 }) => {
   // HOOKS
 
-  const [audio] = useState(new Audio(src))
+  const audio = new Audio(src)
+
   const [playing, setPlaying] = useState(false)
   const [percentage, setPercentage] = useState(0)
 
@@ -25,9 +26,11 @@ const AudioPlayer = ({
     const interval = setInterval(() => {
       const newPercentage = audio.currentTime * 100 / audio.duration
       setPercentage(newPercentage)
-      if (newPercentage === 100) {
-        onComplete()
+      console.log(newPercentage)
+      if (newPercentage >= 100) {
+        setPercentage(0)
         setPlaying(false)
+        onComplete()
       }
     }, 100)
     return () => clearInterval(interval)

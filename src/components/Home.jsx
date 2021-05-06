@@ -45,12 +45,15 @@ const Home = () => {
   const menuWhenDelayTitle = t('wimhof.menu.when.delay.title')
   const menuWhenDateTitle = t('wimhof.menu.when.date.title')
   const menuWhenDateLabel = t('wimhof.menu.when.date.label')
+  const menuTitleTitle = t('wimhof.menu.title.title')
+  const menuTitleLabel = t('wimhof.menu.title.label')
 
   const menuSubmitTitle = t('wimhof.menu.submit.title')
   const menuSubmitTooltip = t('wimhof.menu.submit.tooltip')
 
   const [when, setWhen] = useState(STATE_WHEN.NOW)
   const [date, setDate] = useState(formatDate(new Date()))
+  const [title, setTitle] = useState('')
 
   // VIEW CALLBACKS
 
@@ -59,11 +62,13 @@ const Home = () => {
   const onSelectDate = () => { setWhen(STATE_WHEN.DATE) }
 
   const onDateChange = (event) => { setDate(event.target.value) }
+  const onTitleChange = (event) => { setTitle(event.target.value) }
 
   const onSubmit = (e) => { e.preventDefault() }
 
   // RENDERING
-  const sessionId = `${btoa(new Date(date).getTime())}`
+
+  const targetDate = `${new Date(date).getTime()}`
 
   return (
     <AppPage className='home'>
@@ -79,8 +84,6 @@ const Home = () => {
           className='home-form'
           onSubmit={onSubmit}
         >
-          <legend>{menuWhenTitle}</legend>
-
           <Button
             block
             primary={when === STATE_WHEN.NOW}
@@ -127,7 +130,18 @@ const Home = () => {
             onChange={onDateChange}
           />
 
-          <Link to={`/wait/${sessionId}`}>
+          <label
+            htmlFor='title'
+          >
+            {menuTitleLabel}
+          </label>
+          <input
+            id='title'
+            value={title}
+            onChange={onTitleChange}
+          />
+
+          <Link to={`/wait?date=${targetDate}&title=${title}`}>
             <Button
               block
               primary

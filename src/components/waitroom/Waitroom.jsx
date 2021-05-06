@@ -1,10 +1,8 @@
-/* globals atob */
-
 import React from 'react'
 
 import {
   useEffect,
-  useParams,
+  useQuery,
   useState
 } from 'lib/hooks'
 
@@ -25,11 +23,16 @@ const Waitroom = () => {
 
   // HOOKS
 
-  const { date } = useParams()
-  const actualDate = date ? atob(date) : 0
+  const query = useQuery()
+  const queryDate = query.get('date')
+  const date = queryDate ? Number(queryDate) : 0
+  const queryTitle = query.get('title')
+  const title = queryTitle || ''
 
   const [idle, setIdle] = useState(false)
-  const [currentSoundIndex, setCurrentSoundIndex] = useState(0)
+  const [audioIndex, setAudioIndex] = useState(0)
+  const [audioTitle, setAudioTitle] = useState(SoundLibrary.listSounds()[audioIndex].title)
+  const [audioSource, setAudioSource] = useState(SoundLibrary.listSounds()[audioIndex].src)
 
   useEffect(() => {
     timeout = setTimeout(() => {
@@ -37,8 +40,6 @@ const Waitroom = () => {
     }, 1500)
     return () => clearTimeout(timeout)
   })
-
-  console.log(actualDate)
 
   // VIEW CALLBACKS
 
@@ -54,6 +55,16 @@ const Waitroom = () => {
     }
   }
 
+  const onComplete = () => {
+    const nextAudioIndex = (audioIndex + 1) % SoundLibrary.list().length
+    const nextAudioTitle = SoundLibrary.listSounds()[nextAudioIndex].title
+    const nextAudioSource = SoundLibrary.listSounds()[nextAudioIndex].src
+    console.log(nextAudioIndex + ' - ' + nextAudioTitle)
+    setAudioIndex(nextAudioIndex)
+    setAudioTitle(nextAudioTitle)
+    setAudioSource(nextAudioSource)
+  }
+
   return (
     <AppPage
       className={idle ? 'waitroom waitroom-idle' : 'waitroom'}
@@ -63,13 +74,16 @@ const Waitroom = () => {
       <AppToolbar />
 
       <AppContent>
+        <h1>
+          {title}
+        </h1>
         <Alarm
-          alarm={actualDate}
+          alarm={date}
         />
         <AudioPlayer
-          title={SoundLibrary.listSounds()[currentSoundIndex].title}
-          src={SoundLibrary.listSounds()[currentSoundIndex].src}
-          onComplete={() => setCurrentSoundIndex((currentSoundIndex + 1) % SoundLibrary.list().length)}
+          title={audioTitle}
+          src={audioSource}
+          onComplete={onComplete}
         />
       </AppContent>
     </AppPage>
