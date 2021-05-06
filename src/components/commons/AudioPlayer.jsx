@@ -16,7 +16,7 @@ const AudioPlayer = ({
 }) => {
   // HOOKS
 
-  const audio = new Audio(src)
+  const [audio, setAudio] = useState(new Audio(src))
 
   const [playing, setPlaying] = useState(false)
   const [percentage, setPercentage] = useState(0)
@@ -28,6 +28,7 @@ const AudioPlayer = ({
       setPercentage(newPercentage)
       console.log(newPercentage)
       if (newPercentage >= 100) {
+        setAudio(null)
         setPercentage(0)
         setPlaying(false)
         onComplete()
@@ -39,7 +40,10 @@ const AudioPlayer = ({
   // VIEW CALLBACKS
 
   const play = () => {
-    if (!playing) {
+    if (audio === null) {
+      setAudio(new Audio(src))
+    }
+    if (audio !== null && !playing) {
       audio.play()
         .then(() => {
           setPlaying(true)
