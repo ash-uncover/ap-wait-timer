@@ -1,3 +1,5 @@
+/* globals atob */
+
 import React from 'react'
 
 import {
@@ -24,8 +26,7 @@ const Waitroom = () => {
   // HOOKS
 
   const { date } = useParams()
-  const now = new Date().getTime()
-  const actualDate = date || now
+  const actualDate = date ? atob(date) : 0
 
   const [idle, setIdle] = useState(false)
   const [currentSoundIndex, setCurrentSoundIndex] = useState(0)
@@ -36,6 +37,8 @@ const Waitroom = () => {
     }, 1500)
     return () => clearTimeout(timeout)
   })
+
+  console.log(actualDate)
 
   // VIEW CALLBACKS
 

@@ -1,3 +1,5 @@
+/* globals btoa */
+
 import React from 'react'
 
 import {
@@ -61,8 +63,7 @@ const Home = () => {
   const onSubmit = (e) => { e.preventDefault() }
 
   // RENDERING
-
-  const sessionId = 'toto'
+  const sessionId = `${btoa(new Date(date).getTime())}`
 
   return (
     <AppPage className='home'>
