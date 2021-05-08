@@ -3,7 +3,6 @@
 import React from 'react'
 
 import {
-  useRef,
   useEffect,
   useState
 } from 'lib/hooks'
@@ -22,7 +21,7 @@ export const AudioPlayer = ({
 
   const [percentage, setPercentage] = useState(0)
   const [playing, setPlaying] = useState(false)
-  const [error, setError] = useState('')
+  const [error, setError] = useState(null)
 
   useEffect(() => {
     play()
@@ -41,20 +40,22 @@ export const AudioPlayer = ({
     audio.play()
       .then(() => {
         setPlaying(true)
+        setError(null)
       })
-      .catch(() => {
+      .catch((error) => {
         setPlaying(false)
-        setError(true)
+        setError(error)
       })
   }
 
   // RENDERING
 
   return (
-    <div>
+    <div style={{ display: 'flex' }}>
       {!playing && <button onClick={play}>Play</button>}
       <AudioPlayerRenderer
-        title={title}
+        className={error ? 'error' : ''}
+        title={error ? 'Failed to start' : title}
         percentage={percentage}
       />
     </div>
@@ -62,11 +63,13 @@ export const AudioPlayer = ({
 }
 
 export const AudioPlayerRenderer = ({
+  className,
   title,
-  percentage
+  percentage,
+  onPlay
 }) => {
   return (
-    <div className='audio-player'>
+    <div className={`audio-player ${className}`}>
       <div className='audio-player-header'>
         <div className='audio-player-title'>
           {title}
