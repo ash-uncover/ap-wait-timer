@@ -3,56 +3,49 @@
 import React from 'react'
 
 import {
+  useRef,
   useEffect,
   useState
 } from 'lib/hooks'
 
 import './AudioPlayer.scss'
 
-const AudioPlayer = ({
+export const AudioPlayer = ({
   title,
   src,
   onComplete
 }) => {
   // HOOKS
 
-  const [audio, setAudio] = useState(new Audio(src))
+  const audio = new Audio(src)
+  audio.addEventListener('ended', onComplete)
 
-  const [playing, setPlaying] = useState(false)
   const [percentage, setPercentage] = useState(0)
+  const [playing, setPlaying] = useState(false)
+  const [error, setError] = useState('')
 
   useEffect(() => {
     play()
     const interval = setInterval(() => {
       const newPercentage = audio.currentTime * 100 / audio.duration
       setPercentage(newPercentage)
-      console.log(newPercentage)
-      if (newPercentage >= 100) {
-        setAudio(null)
-        setPercentage(0)
-        setPlaying(false)
-        onComplete()
-      }
     }, 100)
-    return () => clearInterval(interval)
-  })
+    return () => {
+      clearInterval(interval)
+    }
+  }, [src])
 
   // VIEW CALLBACKS
 
   const play = () => {
-    if (audio === null) {
-      setAudio(new Audio(src))
-    }
-    if (audio !== null && !playing) {
-      audio.play()
-        .then(() => {
-          setPlaying(true)
-        })
-        .catch(() => {
-          console.log('couldnt start playing')
-          setPlaying(false)
-        })
-    }
+    audio.play()
+      .then(() => {
+        setPlaying(true)
+      })
+      .catch(() => {
+        setPlaying(false)
+        setError(true)
+      })
   }
 
   // RENDERING
