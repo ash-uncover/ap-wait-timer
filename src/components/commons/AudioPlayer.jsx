@@ -9,59 +9,53 @@ import {
 
 import './AudioPlayer.scss'
 
-const AudioPlayer = ({
+export const AudioPlayer = ({
   title,
   src,
   onComplete
 }) => {
   // HOOKS
 
-  const [audio, setAudio] = useState(new Audio(src))
+  const audio = new Audio(src)
+  audio.addEventListener('ended', onComplete)
 
-  const [playing, setPlaying] = useState(false)
   const [percentage, setPercentage] = useState(0)
+  const [playing, setPlaying] = useState(false)
+  const [error, setError] = useState(null)
 
   useEffect(() => {
     play()
     const interval = setInterval(() => {
       const newPercentage = audio.currentTime * 100 / audio.duration
       setPercentage(newPercentage)
-      console.log(newPercentage)
-      if (newPercentage >= 100) {
-        setAudio(null)
-        setPercentage(0)
-        setPlaying(false)
-        onComplete()
-      }
     }, 100)
-    return () => clearInterval(interval)
-  })
+    return () => {
+      clearInterval(interval)
+    }
+  }, [src])
 
   // VIEW CALLBACKS
 
   const play = () => {
-    if (audio === null) {
-      setAudio(new Audio(src))
-    }
-    if (audio !== null && !playing) {
-      audio.play()
-        .then(() => {
-          setPlaying(true)
-        })
-        .catch(() => {
-          console.log('couldnt start playing')
-          setPlaying(false)
-        })
-    }
+    audio.play()
+      .then(() => {
+        setPlaying(true)
+        setError(null)
+      })
+      .catch((error) => {
+        setPlaying(false)
+        setError(error)
+      })
   }
 
   // RENDERING
 
   return (
-    <div>
+    <div style={{ display: 'flex' }}>
       {!playing && <button onClick={play}>Play</button>}
       <AudioPlayerRenderer
-        title={title}
+        className={error ? 'error' : ''}
+        title={error ? 'Failed to start' : title}
         percentage={percentage}
       />
     </div>
@@ -69,11 +63,13 @@ const AudioPlayer = ({
 }
 
 export const AudioPlayerRenderer = ({
+  className,
   title,
-  percentage
+  percentage,
+  onPlay
 }) => {
   return (
-    <div className='audio-player'>
+    <div className={`audio-player ${className}`}>
       <div className='audio-player-header'>
         <div className='audio-player-title'>
           {title}

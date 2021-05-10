@@ -2,6 +2,45 @@
   .app-toolbar {
     transition: height 0.5s ease-in-out;
   }
+  .app-content {
+    background: none;
+    max-width: none;
+    padding: 0rem 5rem;
+
+    .waitroom-header {
+      position: relative;
+      top: 0;
+      height: 100%;
+      left: 0;
+      width: 20rem;
+      background: rgba(255,255,255,0.5);
+      padding: 5rem 1rem;
+
+      .title {
+        text-align: center;
+        font-weight: bold;
+        text-transform: uppercase;
+        color: gray;
+        margin-bottom: 3rem;
+        >*+* {
+          margin-top: 1rem;
+        }
+      }
+      h2 {
+        margin-bottom: 5rem;
+      }
+    }
+
+    .waitroom-audio {
+      position: absolute;
+      height: 8rem;
+      bottom: 5rem;
+      padding: 0rem 5rem;
+      left: 0;
+      right: 0;
+      background: rgba(255,255,255, 0.5);
+    }
+  }
 
   &.waitroom-idle {
     .app-toolbar {

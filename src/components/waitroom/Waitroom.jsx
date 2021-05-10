@@ -12,8 +12,14 @@ import {
   AppToolbar
 } from 'components/commons/app'
 
+import {
+  Link
+} from 'react-router-dom'
+
 import Alarm from 'components/commons/alarm/Alarm'
+import Button from 'components/commons/basic/Button'
 import AudioPlayer from 'components/commons/AudioPlayer'
+
 import SoundLibrary from 'lib/utils/SoundLibrary'
 
 import './Waitroom.scss'
@@ -26,8 +32,10 @@ const Waitroom = () => {
   const query = useQuery()
   const queryDate = query.get('date')
   const date = queryDate ? Number(queryDate) : 0
-  const queryTitle = query.get('title')
-  const title = queryTitle || ''
+  const queryTitle1 = query.get('title1')
+  const queryTitle2 = query.get('title2')
+  const title1 = queryTitle1 || ''
+  const title2 = queryTitle2 || ''
 
   const [idle, setIdle] = useState(false)
   const [audioIndex, setAudioIndex] = useState(0)
@@ -59,7 +67,7 @@ const Waitroom = () => {
     const nextAudioIndex = (audioIndex + 1) % SoundLibrary.list().length
     const nextAudioTitle = SoundLibrary.listSounds()[nextAudioIndex].title
     const nextAudioSource = SoundLibrary.listSounds()[nextAudioIndex].src
-    console.log(nextAudioIndex + ' - ' + nextAudioTitle)
+
     setAudioIndex(nextAudioIndex)
     setAudioTitle(nextAudioTitle)
     setAudioSource(nextAudioSource)
@@ -71,20 +79,41 @@ const Waitroom = () => {
       onClick={onClick}
       onMouseMove={onMouseMove}
     >
-      <AppToolbar />
+      <AppToolbar>
+        <Link to='/'>
+          <Button
+            icon={['fas', 'home']}
+          />
+        </Link>
+      </AppToolbar>
 
       <AppContent>
-        <h1>
-          {title}
-        </h1>
-        <Alarm
-          alarm={date}
-        />
-        <AudioPlayer
-          title={audioTitle}
-          src={audioSource}
-          onComplete={onComplete}
-        />
+        <div
+          className='waitroom-header'
+        >
+          <h1 className='title'>
+            <div>
+              {title1}
+            </div>
+            <Alarm
+              alarm={date}
+            />
+          </h1>
+          <h2 className='subtitle'>
+            {title2}
+          </h2>
+        </div>
+
+        <div
+          className='waitroom-audio'
+        >
+          <AudioPlayer
+            title={audioTitle}
+            src={audioSource}
+            onComplete={onComplete}
+          />
+        </div>
+
       </AppContent>
     </AppPage>
   )
