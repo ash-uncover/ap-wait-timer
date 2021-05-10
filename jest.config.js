@@ -1,7 +1,7 @@
 module.exports = {
   modulePaths: [
     'src',
-    'test'
+    'test-unit'
   ],
   moduleNameMapper: {
     '^.+\\.(css|less|scss)$': 'babel-jest'
