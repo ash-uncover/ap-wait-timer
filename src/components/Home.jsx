@@ -30,6 +30,7 @@ import {
 import ImageLibrary from 'lib/utils/ImageLibrary'
 
 import './Home.scss'
+import SoundLibrary from '../lib/utils/SoundLibrary'
 
 const formatDate = (date) => {
   const YY = date.getYear() + 1900
@@ -259,10 +260,19 @@ const Home = () => {
           </FieldSet>
 
           <FieldSet title={t('home.form.musik.title')}>
-            Musik
+            <div className='home-sound-list'>
+              {SoundLibrary.listSounds().map(sound => {
+                return (
+                  <HomeSound
+                    key={sound.title}
+                    {...sound}
+                  />
+                )
+              })}
+            </div>
           </FieldSet>
 
-          <Link to={`/wait?date=${targetDate}&title1=${title1}&title2=${title2}`}>
+          <Link to={`/wait?date=${targetDate}&title1=${title1}&title2=${title2}&showClock=${showClock}`}>
             <Button
               block
               primary
@@ -294,6 +304,30 @@ const HomeThumbnail = ({
         className='img-thumbnail'
         src={src}
       />
+    </div>
+  )
+}
+
+const HomeSound = ({
+  title,
+  selected,
+  onChange
+}) => {
+  const className = `home-sound form-check ${selected ? 'selected' : ''}`
+  return (
+    <div className={className} onClick={onChange}>
+      <input
+        className='form-check-input'
+        type='checkbox'
+        checked={selected}
+        onChange={onChange}
+      />
+      <label
+        className='form-check-label'
+        htmlFor='showClock'
+      >
+        {title}
+      </label>
     </div>
   )
 }

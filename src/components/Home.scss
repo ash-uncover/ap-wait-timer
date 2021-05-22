@@ -12,6 +12,7 @@
       font-weight: bold;
     }
   }
+
   .home-thumbnail {
     cursor: pointer;
     &.selected {
@@ -28,6 +29,18 @@
         background: $ice-secondary;
       }
 
+    }
+  }
+
+  .home-sound-list {
+    background: white;
+    height: 12rem;
+    overflow: auto;
+    .home-sound {
+      height: 1.5rem;
+      &:hover {
+        background: $ice-secondary;
+      }
     }
   }
 }
