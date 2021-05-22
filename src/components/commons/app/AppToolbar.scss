@@ -11,6 +11,8 @@ $color-highlight: #DFDBD8;
   align-items: center;
   color: $color;
 
+  overflow: hidden;
+
   button {
     background: none;
     border: 0;

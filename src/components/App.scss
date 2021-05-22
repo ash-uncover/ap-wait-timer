@@ -21,9 +21,9 @@
 
   .app-background {
     .app-background-image {
-      background: url('assets/images/background.jpg');
-      background-size: cover;
-      background-position: center;
+      object-fit: cover;
+      height: 100%;
+      width: 100%;
     }
     .app-background-mask {}
   }

@@ -25,7 +25,7 @@ import ThomashCosmosamba from "assets/sound/Thomash & Projeto Mujique - Cosmosam
 import TotemoOrigami from "assets/sound/Totemo - Origami.flac"
 import TrippinJaguarDuat from "assets/sound/Trippin Jaguar - Duat.flac"
 import TwentyOnePilotsStressedOut from "assets/sound/Twenty One Pilots - Stressed Out.flac"
-import BroussardAwaken from "assets/sound/Valerie Broussard -  Awaken.flac"
+import BroussardAwaken from "assets/sound/Valerie Broussard - Awaken.flac"
 import BroussardWicked from "assets/sound/Valerie Broussard - A Little Wicked.mp3"
 
 SoundLibrary.add('Billie Eilish - Bad Guy', BillieEilishBadGuy)

@@ -1,3 +1,33 @@
-.home {
+// Variables
+@import 'src/index.scss';
 
+.home {
+  fieldset {
+    margin: 1rem 0;
+    padding: 0rem 1rem;
+    border: 1px solid grey;
+    border-radius: 0.5rem;
+    legend {
+      font-size: 1rem;
+      font-weight: bold;
+    }
+  }
+  .home-thumbnail {
+    cursor: pointer;
+    &.selected {
+      .img-thumbnail {
+        border: none;
+        background: $ice-primary;
+        &:hover {
+          background: $ice-primary;
+        }
+      }
+    }
+    .img-thumbnail {
+      &:hover {
+        background: $ice-secondary;
+      }
+
+    }
+  }
 }

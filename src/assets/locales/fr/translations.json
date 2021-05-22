@@ -1,5 +1,44 @@
 {
   "title": "REACT APP FR",
+  "home": {
+    "form": {
+      "when": {
+        "title": "Quand",
+        "now": {
+          "title": "Maintenant"
+        },
+        "delay": {
+          "title": "Délai"
+        },
+        "date": {
+          "title": "Date donnée",
+          "label": "Sélectionner une date"
+        }
+      },
+      "infos": {
+        "title": "Affichage",
+        "title1": {
+          "label": "Titre",
+          "tooltip": "Saississez le titre"
+        },
+        "title2": {
+          "label": "Sous titre",
+          "tooltip": "Saississez le sous-titre"
+        },
+        "showclock": {
+          "label": "Chronomètre",
+          "tooltip": "Afficher le temps restant"
+        }
+      },
+      "musik": {
+        "title": "Musique"
+      },
+      "submit": {
+        "label": "Démarrer",
+        "tooltip": "Démarre la page d'attente avec les paramètres sélectionnés"
+      }
+    }
+  },
   "wimhof": {
     "menu": {
       "when": {
