@@ -54,6 +54,7 @@ const Home = () => {
   const title1 = useSelector(AppSelectors.appTitle1Selector)
   const title2 = useSelector(AppSelectors.appTitle2Selector)
   const showClock = useSelector(AppSelectors.appShowClockSelector)
+  const music = useSelector(AppSelectors.appMusicSelector)
 
   const { t } = useTranslation()
 
@@ -99,6 +100,9 @@ const Home = () => {
   }
   const onBackgroundSelect = (background) => {
     dispatch(AppActions.appChangeBackground({ background }))
+  }
+  const onMusicToggle = (music) => {
+    dispatch(AppActions.appToggleMusicSelection({ music }))
   }
 
   const onSubmit = (e) => { e.preventDefault() }
@@ -265,7 +269,9 @@ const Home = () => {
                 return (
                   <HomeSound
                     key={sound.title}
+                    selected={music.includes(sound.title)}
                     {...sound}
+                    onChange={() => onMusicToggle(sound.title)}
                   />
                 )
               })}
@@ -315,7 +321,7 @@ const HomeSound = ({
 }) => {
   const className = `home-sound form-check ${selected ? 'selected' : ''}`
   return (
-    <div className={className} onClick={onChange}>
+    <div className={className}>
       <input
         className='form-check-input'
         type='checkbox'

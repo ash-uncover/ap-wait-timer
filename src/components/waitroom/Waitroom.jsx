@@ -3,7 +3,8 @@ import React from 'react'
 import {
   useEffect,
   useQuery,
-  useState
+  useState,
+  useSelector
 } from 'lib/hooks'
 
 import {
@@ -11,6 +12,10 @@ import {
   AppPage,
   AppToolbar
 } from 'components/commons/app'
+
+import {
+  selectors as AppSelectors
+} from 'store/app'
 
 import {
   Link
@@ -36,11 +41,12 @@ const Waitroom = () => {
   const queryTitle2 = query.get('title2')
   const title1 = queryTitle1 || ''
   const title2 = queryTitle2 || ''
+  const music = useSelector(AppSelectors.appMusicSelector)
 
   const [idle, setIdle] = useState(false)
   const [audioIndex, setAudioIndex] = useState(0)
-  const [audioTitle, setAudioTitle] = useState(SoundLibrary.listSounds()[audioIndex].title)
-  const [audioSource, setAudioSource] = useState(SoundLibrary.listSounds()[audioIndex].src)
+  const [audioTitle, setAudioTitle] = useState(music[0])
+  const [audioSource, setAudioSource] = useState(SoundLibrary.get(music[0]).src)
 
   useEffect(() => {
     timeout = setTimeout(() => {
@@ -64,9 +70,9 @@ const Waitroom = () => {
   }
 
   const onComplete = () => {
-    const nextAudioIndex = (audioIndex + 1) % SoundLibrary.list().length
-    const nextAudioTitle = SoundLibrary.listSounds()[nextAudioIndex].title
-    const nextAudioSource = SoundLibrary.listSounds()[nextAudioIndex].src
+    const nextAudioIndex = (audioIndex + 1) % music.length
+    const nextAudioTitle = music[nextAudioIndex]
+    const nextAudioSource = SoundLibrary.get(music[nextAudioIndex].src)
 
     setAudioIndex(nextAudioIndex)
     setAudioTitle(nextAudioTitle)

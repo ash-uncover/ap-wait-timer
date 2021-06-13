@@ -6,7 +6,8 @@ export const initialState = () => ({
   background: '/images/background.jpg',
   title1: '',
   title2: '',
-  showClock: true
+  showClock: true,
+  music: []
 })
 
 // START //
@@ -23,6 +24,14 @@ export const appChangeTitle2 = (state, { payload }) => {
 export const appChangeShowClock = (state, { payload }) => {
   state.showClock = payload.showClock
 }
+export const appToggleMusicSelection = (state, { payload }) => {
+  const index = state.music.indexOf(payload.music)
+  if (index === -1) {
+    state.music.push(payload.music)
+  } else {
+    state.music.splice(index, 1)
+  }
+}
 
 // MAIN REDUCER //
 
@@ -34,7 +43,8 @@ const appSlice = createSlice({
     appChangeBackground,
     appChangeTitle1,
     appChangeTitle2,
-    appChangeShowClock
+    appChangeShowClock,
+    appToggleMusicSelection
   }
 })
 
@@ -44,7 +54,8 @@ appSlice.selectors = {
   appBackgroundSelector: (state) => appSlice.selectors.appSelector(state).background,
   appTitle1Selector: (state) => appSlice.selectors.appSelector(state).title1,
   appTitle2Selector: (state) => appSlice.selectors.appSelector(state).title2,
-  appShowClockSelector: (state) => appSlice.selectors.appSelector(state).showClock
+  appShowClockSelector: (state) => appSlice.selectors.appSelector(state).showClock,
+  appMusicSelector: (state) => appSlice.selectors.appSelector(state).music
 }
 
 export const {
