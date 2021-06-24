@@ -37,6 +37,7 @@ const Waitroom = () => {
   const query = useQuery()
   const queryDate = query.get('date')
   const date = queryDate ? Number(queryDate) : 0
+  const queryShowClock = Boolean(query.get('showClock'))
   const queryTitle1 = query.get('title1')
   const queryTitle2 = query.get('title2')
   const title1 = queryTitle1 || ''
@@ -72,7 +73,7 @@ const Waitroom = () => {
   const onComplete = () => {
     const nextAudioIndex = (audioIndex + 1) % music.length
     const nextAudioTitle = music[nextAudioIndex]
-    const nextAudioSource = SoundLibrary.get(music[nextAudioIndex].src)
+    const nextAudioSource = SoundLibrary.get(music[nextAudioIndex]).src
 
     setAudioIndex(nextAudioIndex)
     setAudioTitle(nextAudioTitle)
@@ -101,9 +102,7 @@ const Waitroom = () => {
             <div>
               {title1}
             </div>
-            <Alarm
-              alarm={date}
-            />
+            {queryShowClock && <Alarm alarm={date} />}
           </h1>
           <h2 className='subtitle'>
             {title2}

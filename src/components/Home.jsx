@@ -1,4 +1,4 @@
-import React from 'react'
+ximport React from 'react'
 
 import {
   useDispatch,
@@ -271,6 +271,7 @@ const Home = () => {
                     key={sound.title}
                     selected={music.includes(sound.title)}
                     {...sound}
+                    title={sound.title}
                     onChange={() => onMusicToggle(sound.title)}
                   />
                 )
@@ -330,7 +331,6 @@ const HomeSound = ({
       />
       <label
         className='form-check-label'
-        htmlFor='showClock'
       >
         {title}
       </label>
