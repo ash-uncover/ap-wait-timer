@@ -49,11 +49,11 @@ const songsSlice = createSlice({
 })
 
 songsSlice.selectors = {
-    restSongsSelector: (state) => dataSelectors.restSelector(state).songs,
+    songsSelector: (state) => dataSelectors.restSelector(state).songs,
 
-    restSongsDataSelector: (state) => songsSlice.selectors.restSongsSelector(state).data,
-    restSongsStatusSelector: (state) => songsSlice.selectors.restSongsSelector(state).status,
-    restSongsErrorSelector: (state) => songsSlice.selectors.restSongsSelector(state).error,
+    songsDataSelector: (state) => songsSlice.selectors.songsSelector(state).data,
+    songsStatusSelector: (state) => songsSlice.selectors.songsSelector(state).status,
+    songsErrorSelector: (state) => songsSlice.selectors.songsSelector(state).error,
 }
 
 export const {

@@ -16,7 +16,7 @@ const getPictures = async () => {
     return data
 }
 
-const Service = {
+const RestService = {
     api: {
         songs: {
             get: getSongs,
@@ -27,4 +27,4 @@ const Service = {
     },
 }
 
-export default Service
+export default RestService

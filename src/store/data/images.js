@@ -49,11 +49,11 @@ const imagesSlice = createSlice({
 })
 
 imagesSlice.selectors = {
-    restImagesSelector: (state) => dataSelectors.restSelector(state).images,
+    imagesSelector: (state) => dataSelectors.restSelector(state).images,
 
-    restImagesDataSelector: (state) => imagesSlice.selectors.restImagesSelector(state).data,
-    restImagesStatusSelector: (state) => imagesSlice.selectors.restImagesSelector(state).status,
-    restImagesErrorSelector: (state) => imagesSlice.selectors.restImagesSelector(state).error,
+    imagesDataSelector: (state) => imagesSlice.selectors.imagesSelector(state).data,
+    imagesStatusSelector: (state) => imagesSlice.selectors.imagesSelector(state).status,
+    imagesErrorSelector: (state) => imagesSlice.selectors.imagesSelector(state).error,
 }
 
 export const {

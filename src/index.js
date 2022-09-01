@@ -9,14 +9,14 @@ import {
   Provider
 } from 'react-redux'
 
+// Should be imported before first access to the reducers
+import store from 'store'
+
 import Root from 'routes/__layout'
 
 import './index.scss'
-
 import './i18n'
 import './index-icons'
-
-import store from 'store'
 
 ReactDOM.render(
   <Provider store={store}>
