@@ -1,8 +1,20 @@
 .wait-wizard {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+    height: 100%;
+
     >.wait-wizard-progress {
+        flex-grow: 0;
+        flex-shrink: 0;
+        width: 100%;
+
         display: flex;
         align-items: center;
         justify-content: center;
+
 
         padding: 1rem;
 
@@ -53,22 +65,18 @@
                     border: 1px solid lightgrey;
                 }
             }
-            >.wait-wizard-progress-step-info:first-child {
-                &::before {
-                    content: '';
-                }
-            }
-            >.wait-wizard-progress-step-info:last-child {
-                &::after {
-                    content: '';
-                }
-            }
 
             &.done {
                 >.wait-wizard-progress-step-info {
                     >.wait-wizard-progress-step-info-index {
-                        background-color: teal;
+                        background: teal;
                         color: white;
+                    }
+                    &::before {
+                        border-color: teal;
+                    }
+                    &::after {
+                        border-color: teal;
                     }
                     >.wait-wizard-progress-step-info-name {
                         color: teal;
@@ -78,7 +86,11 @@
             &.current {
                 >.wait-wizard-progress-step-info {
                     >.wait-wizard-progress-step-info-index {
+                        border-color: teal;
                         font-weight: bold;
+                    }
+                    &::before {
+                        border-color: teal;
                     }
                     >.wait-wizard-progress-step-info-name {
                         font-weight: bold;
@@ -101,5 +113,21 @@
                 }
             }
         }
+    }
+    >.wait-wizard-step {
+        flex-grow: 1;
+        flex-shrink: 1;
+        width: 100%;
+    }
+    >.wait-wizard-footer {
+        flex-grow: 0;
+        flex-shrink: 0;
+        width: 100%;
+        height: 3rem;
+        display: flex;
+        align-items: center;
+        justify-content: flex-end;
+        background: lightgrey;
+        border-top: 1px solid darkgrey;
     }
 }

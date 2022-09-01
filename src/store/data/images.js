@@ -49,7 +49,7 @@ const imagesSlice = createSlice({
 })
 
 imagesSlice.selectors = {
-    imagesSelector: (state) => dataSelectors.restSelector(state).images,
+    imagesSelector: (state) => dataSelectors.dataSelector(state).images,
 
     imagesDataSelector: (state) => imagesSlice.selectors.imagesSelector(state).data,
     imagesStatusSelector: (state) => imagesSlice.selectors.imagesSelector(state).status,

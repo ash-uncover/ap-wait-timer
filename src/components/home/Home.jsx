@@ -54,7 +54,9 @@ const Home = () => {
                     title='wizard'
                     onClose={onDialogClose}
                 >
-                    <WaitWizard />
+                    <WaitWizard
+                        onCancel={onDialogClose}
+                    />
                 </Dialog>
             : null}
         </AppPage>
