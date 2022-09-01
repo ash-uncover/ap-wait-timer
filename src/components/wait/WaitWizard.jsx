@@ -44,12 +44,21 @@ const WaitWizard = ({ onCancel }) => {
     const [subTitle, setSubTitle] = useState('')
     const [background, setBackground] = useState(images[0].name)
 
+    const now = new Date()
+    const nowDate = now.toISOString().split('T')[0]
+    const [hour, min] = now.toISOString().split('T')[1].split('.')[0].split(':')
+    const nowTime = `${hour}:${min}`
+
+    const [date, setDate] = useState(nowDate)
+    const [time, setTime] = useState(nowTime)
 
     const handleStepChange = (index) => {
         setStep(index)
     }
 
     const handleComplete = () => {
+        const targetDate = new Date(`${date}T${time}`);
+        console.log(targetDate.toLocaleString())
     }
 
     const renderStep = () => {
@@ -71,6 +80,10 @@ const WaitWizard = ({ onCancel }) => {
             case STEPS.TIMING.index: {
                 return (
                     <WaitWizardStepTiming
+                        date={date}
+                        onDateChange={setDate}
+                        time={time}
+                        onTimeChange={setTime}
                         onCancel={onCancel}
                         onPrevious={() => handleStepChange(STEPS.BACKGROUND.index)}
                         onNext={() => handleStepChange(STEPS.MUSIC.index)}
@@ -205,11 +218,42 @@ const WaitWizardStepVisual = ({ title, subTitle, background, onTitleChange, onSu
     )
 }
 
-const WaitWizardStepTiming = ({ onCancel, onPrevious, onNext }) => {
+const WaitWizardStepTiming = ({ date, onDateChange, time, onTimeChange, onCancel, onPrevious, onNext }) => {
     return (
         <>
             <div className='wait-wizard-step'>
-                TIMING
+                <div className='wait-wizard-step-section'>
+                    <label className='wait-wizard-step-section-title' htmlFor='date'>
+                        Choose end date
+                    </label>
+                    <input
+                        id='date'
+                        className='wait-wizard-step-section-input'
+                        type='date'
+                        value={date}
+                        onChange={(e) => onDateChange(e.target.value)}
+                    />
+                </div>
+                <div className='wait-wizard-step-section'>
+                    <label className='wait-wizard-step-section-title' htmlFor='time'>
+                        Choose end time
+                    </label>
+                    <input
+                        id='time'
+                        className='wait-wizard-step-section-input'
+                        type='time'
+                        value={time}
+                        onChange={(e) => onTimeChange(e.target.value)}
+                    />
+                </div>
+                <div className='wait-wizard-step-section'>
+                    <label className='wait-wizard-step-section-title' htmlFor='time'>
+                        Current selection
+                    </label>
+                    <label>
+                        {date} {time}
+                    </label>
+                </div>
             </div>
             <div className='wait-wizard-footer'>
                 <button onClick={onCancel}>
