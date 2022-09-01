@@ -1,5 +1,9 @@
 import express from 'express'
 
+import {
+    HttpUtils,
+} from '@uncover/js-utils'
+
 const { getAudioDurationInSeconds } = require('get-audio-duration');
 
 const path = require('path');
@@ -10,6 +14,38 @@ const DIR_IMAGE = path.join(__dirname, '../public/assets/images');
 
 const DATA_SOUND:any[] = []
 const DATA_IMAGE:any[] = []
+
+export const useHeaders = (req: any, res: any, next: any) => {
+    res.setHeader(
+      HttpUtils.HttpHeader.ACCESS_CONTROL_ALLOW_ORIGIN,
+      '*'
+    )
+    res.setHeader(
+      HttpUtils.HttpHeader.ACCESS_CONTROL_ALLOW_HEADERS,
+      [
+        'Origin',
+        'Accept',
+        'Accept-Version',
+        'Content-Length',
+        'Content-MD5',
+        'Content-Type',
+        'Date',
+        'Authorization'
+      ].join(',')
+    )
+    res.setHeader(
+      HttpUtils.HttpHeader.ACCESS_CONTROL_ALLOW_METHODS,
+      [
+        HttpUtils.HttpMethod.GET,
+        HttpUtils.HttpMethod.POST,
+        HttpUtils.HttpMethod.PUT,
+        HttpUtils.HttpMethod.PATCH,
+        HttpUtils.HttpMethod.DELETE,
+        HttpUtils.HttpMethod.OPTIONS
+      ].join(',')
+    )
+    return next()
+  }
 
 export const loadSounds = async () => {
     fs.readdir(DIR_SOUND, (err:any, files:any) => {
@@ -63,6 +99,8 @@ export const getPictures = (req:any, res:any, next:any) => {
 const app = express()
 
 app.use(express.static('public'))
+
+app.use(useHeaders)
 
 app.use(express.urlencoded({ extended: true }))
 app.use(express.json())

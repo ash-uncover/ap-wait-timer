@@ -2,12 +2,20 @@ import {
     createSlice
 } from '@reduxjs/toolkit'
 
+import {
+    DataStates
+} from 'lib/constants'
+
 export const initialState = () => ({
     background: '/images/background.jpg',
     title1: '',
     title2: '',
     showClock: true,
-    music: []
+    music: [],
+    app: {
+        status: DataStates.NEVER,
+        error: null,
+    }
 })
 
 // START //
@@ -32,6 +40,21 @@ export const appToggleMusicSelection = (state, { payload }) => {
         state.music.splice(index, 1)
     }
 }
+export const appLoadFetch = (state) => {
+    state.app.status = DataStates.NEVER ? DataStates.FETCHING_FIRST : DataStates.FETCHING
+}
+export const appLoadSuccess = (state) => {
+    state.app = {
+        status: DataStates.SUCCESS,
+        error: null,
+    }
+}
+export const appLoadFailure = (state, { payload }) => {
+    state.app = {
+        status: DataStates.FAILURE,
+        error: payload.error,
+    }
+}
 
 // MAIN REDUCER //
 
@@ -44,6 +67,9 @@ const appSlice = createSlice({
         appChangeTitle1,
         appChangeTitle2,
         appChangeShowClock,
+        appLoadFetch,
+        appLoadSuccess,
+        appLoadFailure,
         appToggleMusicSelection
     }
 })
@@ -55,7 +81,10 @@ appSlice.selectors = {
     appTitle1Selector: (state) => appSlice.selectors.appSelector(state).title1,
     appTitle2Selector: (state) => appSlice.selectors.appSelector(state).title2,
     appShowClockSelector: (state) => appSlice.selectors.appSelector(state).showClock,
-    appMusicSelector: (state) => appSlice.selectors.appSelector(state).music
+    appMusicSelector: (state) => appSlice.selectors.appSelector(state).music,
+
+    appLoadStatus: (state) => appSlice.selectors.appSelector(state).app.status,
+    appLoadError: (state) => appSlice.selectors.appSelector(state).app.error,
 }
 
 export const {

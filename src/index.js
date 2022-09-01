@@ -9,7 +9,7 @@ import {
   Provider
 } from 'react-redux'
 
-import App from 'components/App'
+import Root from 'routes/__layout'
 
 import './index.scss'
 
@@ -21,7 +21,7 @@ import store from 'store'
 ReactDOM.render(
   <Provider store={store}>
     <Router hashType='noslash'>
-      <App />
+      <Root />
     </Router>
   </Provider>,
   document.getElementById('react-root')

@@ -27,10 +27,7 @@ import {
   selectors as AppSelectors
 } from 'store/app'
 
-import ImageLibrary from 'lib/utils/ImageLibrary'
-
 import './Home.scss'
-import SoundLibrary from '../lib/utils/SoundLibrary'
 
 const formatDate = (date) => {
   const YY = date.getYear() + 1900

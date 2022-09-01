@@ -1,7 +1,9 @@
 import { library } from '@fortawesome/fontawesome-svg-core'
+
 import {
   faCheckSquare as fasCheckSquare,
   faCoffee as fasCoffee,
+  faCog as fasCog,
   faHome as fasHome,
   faPlus as fasPlus,
   faSquare as fasSquare,
@@ -16,10 +18,12 @@ import {
 library.add(
   fasCheckSquare,
   fasCoffee,
+  fasCog,
   fasHome,
   fasPlus,
   fasSquare,
   fasStopwatch,
   fasTrash,
-  farSquare
+
+  farSquare,
 )
