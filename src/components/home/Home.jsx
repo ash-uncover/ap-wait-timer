@@ -15,6 +15,8 @@ import {
     AppToolbar,
 } from 'components/commons/app'
 
+import WaitWizard from 'components/wait/WaitWizard'
+
 import './Home.scss'
 
 const Home = () => {
@@ -22,6 +24,10 @@ const Home = () => {
     const [showWizard, setShowWizard] = useState(false)
 
     const onNewWaitPress = () => {
+        setShowWizard(!showWizard)
+    }
+
+    const onDialogClose = () => {
         setShowWizard(!showWizard)
     }
 
@@ -43,7 +49,14 @@ const Home = () => {
                     onClick={onNewWaitPress}
                 />
             </AppContent>
-            { showWizard ? <Dialog title='wizard'></Dialog> : null}
+            { showWizard ?
+                <Dialog
+                    title='wizard'
+                    onClose={onDialogClose}
+                >
+                    <WaitWizard />
+                </Dialog>
+            : null}
         </AppPage>
     )
 }

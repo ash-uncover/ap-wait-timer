@@ -1,0 +1,105 @@
+.wait-wizard {
+    >.wait-wizard-progress {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        padding: 1rem;
+
+        >.wait-wizard-progress-step {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-grow: 1;
+            width: 0;
+            position: relative;
+            cursor: pointer;
+
+            >.wait-wizard-progress-step-info {
+                display: inline-flex;
+                flex-direction: column;
+                align-items: center;
+                justify-content: center;
+                z-index: 2;
+
+                >.wait-wizard-progress-step-info-index {
+                    border: 2px solid lightgrey;
+                    background: white;
+                    border-radius: 50%;
+                    width: 35px;
+                    height: 35px;
+                    text-align: center;
+                    line-height: 31px;
+                }
+                >.wait-wizard-progress-step-info-name {
+
+                }
+                &::before {
+                    content: ' ';
+                    position: absolute;
+                    z-index: -1;
+                    top: 17px;
+                    left: 0;
+                    width: 50%;
+                    border: 1px solid lightgrey;
+                }
+                &::after {
+                    content: ' ';
+                    position: absolute;
+                    z-index: -1;
+                    top: 17px;
+                    right: 0;
+                    width: 50%;
+                    border: 1px solid lightgrey;
+                }
+            }
+            >.wait-wizard-progress-step-info:first-child {
+                &::before {
+                    content: '';
+                }
+            }
+            >.wait-wizard-progress-step-info:last-child {
+                &::after {
+                    content: '';
+                }
+            }
+
+            &.done {
+                >.wait-wizard-progress-step-info {
+                    >.wait-wizard-progress-step-info-index {
+                        background-color: teal;
+                        color: white;
+                    }
+                    >.wait-wizard-progress-step-info-name {
+                        color: teal;
+                    }
+                }
+            }
+            &.current {
+                >.wait-wizard-progress-step-info {
+                    >.wait-wizard-progress-step-info-index {
+                        font-weight: bold;
+                    }
+                    >.wait-wizard-progress-step-info-name {
+                        font-weight: bold;
+                    }
+                }
+            }
+        }
+
+        >.wait-wizard-progress-step:first-child {
+            >.wait-wizard-progress-step-info {
+                &::before {
+                    content: none;
+                }
+            }
+        }
+        >.wait-wizard-progress-step:last-child {
+            >.wait-wizard-progress-step-info {
+                &::after {
+                    content: none;
+                }
+            }
+        }
+    }
+}

@@ -8,7 +8,8 @@ import {
   faPlus as fasPlus,
   faSquare as fasSquare,
   faStopwatch as fasStopwatch,
-  faTrash as fasTrash
+  faTrash as fasTrash,
+  faTimes as fasTimes,
 } from '@fortawesome/free-solid-svg-icons'
 
 import {
@@ -24,6 +25,7 @@ library.add(
   fasSquare,
   fasStopwatch,
   fasTrash,
+  fasTimes,
 
   farSquare,
 )
