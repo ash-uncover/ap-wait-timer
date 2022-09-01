@@ -1,0 +1,100 @@
+{
+  "title": "Time Waiter",
+  "home": {
+    "form": {
+      "when": {
+        "title": "When",
+        "now": {
+          "title": "Now"
+        },
+        "delay": {
+          "title": "Delayed"
+        },
+        "date": {
+          "title": "Time",
+          "label": "Choose time"
+        }
+      },
+      "infos": {
+        "title": "Display",
+        "title1": {
+          "label": "Title",
+          "tooltip": "Enter title"
+        },
+        "title2": {
+          "label": "Subtitle",
+          "tooltip": "Enter subtitle-titre"
+        },
+        "showclock": {
+          "label": "Timer",
+          "tooltip": "Display time"
+        }
+      },
+      "musik": {
+        "title": "Songs"
+      },
+      "submit": {
+        "label": "Start",
+        "tooltip": "Starts waiting screen"
+      }
+    }
+  },
+  "wimhof": {
+    "menu": {
+      "when": {
+        "title": "Quand",
+        "now": {
+          "title": "Maintenant"
+        },
+        "delay": {
+          "title": "Délai"
+        },
+        "date": {
+          "title": "Date donnée",
+          "label": "Sélectionner une date"
+        }
+      },
+      "settings": {
+        "title": "Paramètres",
+        "short": {
+          "title": "Rapide",
+          "tooltip": ""
+        },
+        "medium": {
+          "title": "Normal",
+          "tooltip": ""
+        },
+        "long": {
+          "title": "Long",
+          "tooltip": ""
+        },
+        "custom": {
+          "title": "Personalisé",
+          "tooltip": ""
+        },
+        "session": {
+          "breaths": {
+            "label": "Nombre de respirations",
+            "tooltip": ""
+          },
+          "length": {
+            "label": "Durée de respiration",
+            "tooltip": ""
+          },
+          "hold": {
+            "label": "Durée d'apnée",
+            "tooltip": ""
+          },
+          "delete": {
+            "label": "Supprimer",
+            "tooltip": "Supprimer cette session"
+          }
+        }
+      },
+      "submit": {
+        "title": "Démarrer",
+        "tooltip": "Lancer une scénace de respiration avec les paramètres sélectionnés"
+      }
+    }
+  }
+}

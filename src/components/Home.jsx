@@ -1,4 +1,4 @@
-ximport React from 'react'
+import React from 'react'
 
 import {
   useDispatch,
@@ -110,6 +110,7 @@ const Home = () => {
   // RENDERING
 
   const targetDate = `${new Date(date).getTime()}`
+  console.log(targetDate, new Date(Number(targetDate)))
 
   return (
     <AppPage className='home'>
@@ -167,8 +168,8 @@ const Home = () => {
               type='datetime-local'
               disabled={when !== STATE_WHEN.DATE}
               value={date}
-              min='2021-01-01T00:00'
-              max='2021-12-12T00:00'
+              min='2022-04-01T00:00'
+              max='2022-05-01T00:00'
               step='300'
               onChange={onDateChange}
             />

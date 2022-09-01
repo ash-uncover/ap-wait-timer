@@ -15,8 +15,6 @@ import './index.scss'
 
 import './i18n'
 import './index-icons'
-import Toto from './index-images'
-import './index-sounds'
 
 import store from 'store'
 

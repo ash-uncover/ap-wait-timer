@@ -102,7 +102,7 @@ const Waitroom = () => {
             <div>
               {title1}
             </div>
-            {queryShowClock && <Alarm alarm={date} />}
+            {queryShowClock && <Alarm alarm={date} showHours={true} showMinutes={true} showSeconds={true} />}
           </h1>
           <h2 className='subtitle'>
             {title2}
