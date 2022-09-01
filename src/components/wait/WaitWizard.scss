@@ -118,6 +118,60 @@
         flex-grow: 1;
         flex-shrink: 1;
         width: 100%;
+        overflow: auto;
+        padding: 0 2rem;
+
+        >.wait-wizard-step-section {
+            margin-top: 1rem;
+            >.wait-wizard-step-section-title,
+            >.wait-wizard-step-section-input {
+                display: block;
+                width: 100%;
+            }
+            >.thumbnails {
+                text-align: center;
+                >.thumbnail {
+                    cursor: pointer;
+                    pointer-events: all;
+                    height: 100px;
+                    width: 100px;
+                    display: inline-block;
+                    overflow: hidden;
+                    margin: 5px;
+                    border: 5px solid transparent;
+                    background: transparent;
+                    border-radius: 5px;
+                    position: relative;
+                    &.selected {
+                        border-color: teal;
+                        background: teal;
+                        &::after {
+                            content: none;
+                        }
+                    }
+                    &::after {
+                        content: ' ';
+                        position: absolute;
+                        top: 0;
+                        left: 0;
+                        right: 0;
+                        bottom: 0;
+                        background: rgba(255,255,255,0.6);
+                    }
+                    &:hover {
+                        &::after {
+                            content: none;
+                        }
+                    }
+                    >img {
+                        border-radius: 3px;
+                        height: 100%;
+                        width: 100%;
+                        object-fit: cover;
+                    }
+                }
+            }
+        }
     }
     >.wait-wizard-footer {
         flex-grow: 0;

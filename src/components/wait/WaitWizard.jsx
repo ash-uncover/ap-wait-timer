@@ -16,7 +16,7 @@ import './WaitWizard.scss'
 const STEPS = {
     BACKGROUND: {
         index: 0,
-        name: 'Background',
+        name: 'Visual',
     },
     TIMING: {
         index: 1,
@@ -36,7 +36,14 @@ const STEP_STATE = {
 
 const WaitWizard = ({ onCancel }) => {
 
+    const images = useSelector(ImagesSelectors.imagesDataSelector)
+
     const [step, setStep] = useState(STEPS.BACKGROUND.index)
+
+    const [title, setTitle] = useState('')
+    const [subTitle, setSubTitle] = useState('')
+    const [background, setBackground] = useState(images[0].name)
+
 
     const handleStepChange = (index) => {
         setStep(index)
@@ -49,7 +56,13 @@ const WaitWizard = ({ onCancel }) => {
         switch (step) {
             case STEPS.BACKGROUND.index: {
                 return (
-                    <WaitWizardStepBackground
+                    <WaitWizardStepVisual
+                        title={title}
+                        subTitle={subTitle}
+                        background={background}
+                        onTitleChange={setTitle}
+                        onSubTitleChange={setSubTitle}
+                        onBackgroundChange={setBackground}
                         onCancel={onCancel}
                         onNext={() => handleStepChange(STEPS.TIMING.index)}
                     />
@@ -125,18 +138,61 @@ const WaitWizardProgressStep = ({ step, state, last, onClick }) => {
     )
 }
 
-const WaitWizardStepBackground = ({ onCancel, onNext }) => {
+const WaitWizardStepVisual = ({ title, subTitle, background, onTitleChange, onSubTitleChange, onBackgroundChange, onCancel, onNext }) => {
     const images = useSelector(ImagesSelectors.imagesDataSelector)
 
     return (
         <>
             <div className='wait-wizard-step'>
-                {images.map((image) => {
-                    return (
-                        <div key={image.name}>{image.name}</div>
-                    )
-                })}
+
+                <div className='wait-wizard-step-section'>
+                    <label className='wait-wizard-step-section-title' htmlFor='title'>
+                        Title
+                    </label>
+                    <input
+                        id='title'
+                        className='wait-wizard-step-section-input'
+                        value={title}
+                        onChange={(e) => onTitleChange(e.target.value)}
+                    />
+                </div>
+
+                <div className='wait-wizard-step-section'>
+                    <label className='wait-wizard-step-section-title' htmlFor='subtitle'>
+                        Sub title
+                    </label>
+                    <input
+                        id='subtitle'
+                        className='wait-wizard-step-section-input'
+                        value={subTitle}
+                        onChange={(e) => onSubTitleChange(e.target.value)}
+                    />
+                </div>
+
+                <div className='wait-wizard-step-section'>
+                    <label className='wait-wizard-step-section-title'>
+                        Choose Background
+                    </label>
+                    <div className='thumbnails'>
+                        {images.map((image) => {
+                            const selected = image.name === background
+                            return (
+                                <div
+                                    key={image.name}
+                                    className={`thumbnail ${selected ? 'selected' : ''}`}
+                                    onClick={() => onBackgroundChange(image.name)}
+                                >
+                                    <img
+                                        alt={image.name}
+                                        src={image.url}
+                                    />
+                                </div>
+                            )
+                        })}
+                    </div>
+                </div>
             </div>
+
             <div className='wait-wizard-footer'>
                 <button onClick={onCancel}>
                     Cancel
