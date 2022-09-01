@@ -1,0 +1,30 @@
+.dialog-layer{
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    right: 0;
+    left: 0;
+    z-index: 100;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    &::before {
+        content: ' ';
+        z-index: -1;
+        position: fixed;
+        top: 0;
+        bottom: 0;
+        right: 0;
+        left: 0;
+        background-color: rgba(255,255,255,0.4);
+
+    }
+
+    >.dialog {
+        background: white;
+        border-radius: 5px;
+        overflow: hidden;
+    }
+}

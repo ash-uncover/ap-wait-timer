@@ -1,7 +1,12 @@
 import React from 'react'
 
 import {
+    useState,
+} from 'lib/hooks'
+
+import {
     Button,
+    Dialog,
 } from 'components/commons/basic'
 
 import {
@@ -13,6 +18,12 @@ import {
 import './Home.scss'
 
 const Home = () => {
+
+    const [showWizard, setShowWizard] = useState(false)
+
+    const onNewWaitPress = () => {
+        setShowWizard(!showWizard)
+    }
 
     return (
         <AppPage className='home'>
@@ -26,8 +37,13 @@ const Home = () => {
                 />
             </AppToolbar>
             <AppContent>
-                HOME 2
+                <Button
+                    label='New Wait'
+                    primary
+                    onClick={onNewWaitPress}
+                />
             </AppContent>
+            { showWizard ? <Dialog title='wizard'></Dialog> : null}
         </AppPage>
     )
 }

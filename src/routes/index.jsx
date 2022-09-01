@@ -11,6 +11,9 @@ import {
   } from 'store/app'
 
 import Home from 'components/home/Home'
+import HomeError from 'components/home/HomeError'
+import HomeLoading from 'components/home/HomeLoading'
+
 import * as Service from 'lib/services/ServiceHelper'
 import DataStates from 'lib/constants/DataStates'
 
@@ -19,7 +22,6 @@ const Root = () => {
     const dispatch = useDispatch()
 
     const appLoadStatus = useSelector(AppSelectors.appLoadStatus)
-    const appLoadError = useSelector(AppSelectors.appLoadError)
 
     useEffect(() => {
         Service.loadData(dispatch)
@@ -29,13 +31,13 @@ const Root = () => {
         case DataStates.NEVER:
         case DataStates.FETCHING_FIRST:
         case DataStates.FETCHING: {
-            return <div>LOADING</div>
+            return <HomeLoading />
         }
-        case DataStates.SUCCESS:{
+        case DataStates.SUCCESS: {
             return <Home />
         }
         default: {
-            return <div>{appLoadError}</div>
+            return <HomeError />
         }
     }
 }
