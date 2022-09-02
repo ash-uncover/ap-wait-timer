@@ -5,10 +5,9 @@ import {
 } from 'react'
 
 import {
-  useHistory as useHistoryBase,
   useLocation as useLocationBase,
+  useNavigate as useNavigateBase,
   useParams as useParamsBase,
-  useRouteMatch as useRouteMatchBase
 } from 'react-router-dom'
 
 import {
@@ -28,10 +27,9 @@ export const useEffect = useEffectBase
 export const useRef = useRefBase
 export const useState = useStateBase
 
-export const useHistory = useHistoryBase
 export const useLocation = useLocationBase
+export const useNavigate = useNavigateBase
 export const useParams = useParamsBase
-export const useRouteMatch = useRouteMatchBase
 
 export const useDispatch = useDispatchBase
 export const useSelector = useSelectorBase

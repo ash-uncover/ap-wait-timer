@@ -121,6 +121,17 @@
         overflow: auto;
         padding: 0 2rem;
 
+        &.flex {
+            display: flex;
+            flex-direction: column;
+            >.wait-wizard-step-section.grow {
+                flex-grow: 1;
+                display: flex;
+                flex-direction: column;
+                overflow: hidden;
+            }
+        }
+
         >.wait-wizard-step-section {
             margin-top: 1rem;
             >.wait-wizard-step-section-title,
@@ -169,6 +180,37 @@
                         width: 100%;
                         object-fit: cover;
                     }
+                }
+            }
+            >.list {
+                flex-grow: 1;
+                height: 0;
+                overflow: auto;
+                margin-bottom: 1rem;
+            }
+            .checkbox {
+                cursor: pointer;
+                display: flex;
+                align-items: center;
+                padding: 2px;
+                border-bottom: 1px solid lightgrey;
+                >input {
+                    margin-right: 0.5rem;
+                    cursor: pointer;
+                }
+                >label {
+                    cursor: pointer;
+                    overflow: hidden;
+                    white-space: nowrap;
+                    text-overflow: ellipsis;
+                    width: 0;
+                    flex-grow: 1;
+                }
+                &.list-header {
+                    margin-top: 0.5rem;
+                    background: lightgrey;
+                    font-weight: bold;
+                    border: 1px solid darkgrey;
                 }
             }
         }

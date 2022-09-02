@@ -23,7 +23,7 @@ export const getSongsFetch = (state, { payload }) => {
 }
 export const getSongsSuccess = (state, { payload }) => {
     const { data } = payload
-    state.data = data
+    state.data = data.map((entry, i) => ({ ...entry, id: i }))
     state.error = null
     state.status = DataStates.SUCCESS
 }
@@ -49,7 +49,7 @@ const songsSlice = createSlice({
 })
 
 songsSlice.selectors = {
-    songsSelector: (state) => dataSelectors.restSelector(state).songs,
+    songsSelector: (state) => dataSelectors.dataSelector(state).songs,
 
     songsDataSelector: (state) => songsSlice.selectors.songsSelector(state).data,
     songsStatusSelector: (state) => songsSlice.selectors.songsSelector(state).status,

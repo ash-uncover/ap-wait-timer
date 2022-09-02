@@ -1,5 +1,3 @@
-@import "node_modules/bootstrap/scss/bootstrap";
-
 html, body, #react-root {
   min-height: 100%;
   margin: 0;
@@ -20,5 +18,3 @@ $theme-colors: (
   "primary": #00adb5,
   "secondary": #eeeeee
 );
-
-@import "bootstrap";

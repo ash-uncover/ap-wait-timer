@@ -23,7 +23,7 @@ export const getImagesFetch = (state, { payload }) => {
 }
 export const getImagesSuccess = (state, { payload }) => {
     const { data } = payload
-    state.data = data
+    state.data = data.map((entry, i) => ({ ...entry, id: i }))
     state.error = null
     state.status = DataStates.SUCCESS
 }

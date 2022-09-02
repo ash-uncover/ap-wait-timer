@@ -1,39 +1,20 @@
 /* eslint-disable */
 
-const webpack = require('webpack')
 const path = require('path')
 
-const dir_build = path.resolve(__dirname, 'dist')
-const dir_src = path.resolve(__dirname, 'src')
-const node_modules = path.resolve(__dirname, 'node_modules')
-const pathToReact = path.resolve(node_modules, 'react/dist/react.min.js')
+const DIR_DIST = path.resolve(__dirname, 'dist')
+const DIR_SRC = path.resolve(__dirname, 'src')
+const DIR_NODE_MODULES = path.resolve(__dirname, 'node_modules')
 
 const HtmlWebpackPlugin = require('html-webpack-plugin')
-const { CleanWebpackPlugin } = require('clean-webpack-plugin')
-const CopyPlugin = require('copy-webpack-plugin')
 
 module.exports = {
-
-    entry: path.resolve(dir_src, 'index.js'),
-
-    plugins: [
-        new CleanWebpackPlugin(),
-        new HtmlWebpackPlugin({
-            template: 'src/index.html',
-            title: 'Wimhof Breath Provider',
-        }),
-        new webpack.EnvironmentPlugin(),
-        new CopyPlugin({
-            patterns: [
-                { from: path.resolve(__dirname, '_redirects'), },
-            ],
-        }),
-    ],
+    entry: path.resolve(DIR_SRC, 'index.js'),
 
     output: {
-        path: dir_build,
+        clean: true,
+        path: DIR_DIST,
         filename: '[name].bundle.js',
-        publicPath: '/',
     },
 
     resolve: {
@@ -41,11 +22,27 @@ module.exports = {
         extensions: ['.js', '.jsx'],
     },
 
+    plugins: [
+        new HtmlWebpackPlugin({
+            template: './src/index.html',
+            title: 'Wait App',
+        }),
+    ],
+
+    devServer: {
+        static: {
+          directory: path.join(__dirname, 'public'),
+        },
+        compress: true,
+        port: 8080,
+      },
+
     module: {
         rules: [
             {
                 test: /.(jsx|js)$/,
-                include: dir_src,
+                include: DIR_SRC,
+                exclude: DIR_NODE_MODULES,
                 use: [
                     { loader: 'babel-loader' },
                 ],
@@ -55,7 +52,6 @@ module.exports = {
                 use: [
                     { loader: 'style-loader' },
                     { loader: 'css-loader' },
-                    { loader: 'postcss-loader' },
                     { loader: 'sass-loader' },
                 ],
             },
@@ -78,6 +74,5 @@ module.exports = {
                 type: 'asset/resource',
             },
         ],
-        noParse: [pathToReact],
     },
 }

@@ -1,27 +1,22 @@
 import React from 'react'
 
 import {
-    Switch,
-    Route
+    BrowserRouter as Router,
+    Route,
+    Routes,
 } from 'react-router-dom'
-
-import App from 'components/commons/app/App'
 
 import Wait from 'routes/wait'
 import Home from 'routes'
 
 const Root = () => {
     return (
-        <App>
-            <Switch>
-                <Route path='/wait'>
-                    <Wait />
-                </Route>
-                <Route path='/'>
-                    <Home />
-                </Route>
-            </Switch>
-        </App>
+        <Router hashType='noslash'>
+            <Routes>
+                <Route path='/wait' element={<Wait />} />
+                <Route path='/' element={<Home />} />
+            </Routes>
+        </Router>
     )
 }
 

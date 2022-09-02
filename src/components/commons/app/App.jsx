@@ -9,7 +9,7 @@ const App = ({
 }) => {
     return (
         <div className='app'>
-            <AppBackground src='http://localhost:8090/assets/images/wait-background-color.jpg' />
+            <AppBackground src='http://localhost:8080/assets/images/wait-background-color.jpg' />
             {children}
         </div>
     )

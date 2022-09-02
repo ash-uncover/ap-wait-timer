@@ -8,6 +8,7 @@ __coverage__
 
 # production
 /build
+/dist
 
 # misc
 .DS_Store

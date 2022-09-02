@@ -1,13 +1,11 @@
 import React from 'react'
-import ReactDOM from 'react-dom'
+import { createRoot } from 'react-dom/client';
 
 import {
-  BrowserRouter as Router
-} from 'react-router-dom'
-
-import {
-  Provider
+    Provider
 } from 'react-redux'
+
+import App from 'components/commons/app/App'
 
 // Should be imported before first access to the reducers
 import store from 'store'
@@ -18,11 +16,12 @@ import './index.scss'
 import './i18n'
 import './index-icons'
 
-ReactDOM.render(
-  <Provider store={store}>
-    <Router hashType='noslash'>
-      <Root />
-    </Router>
-  </Provider>,
-  document.getElementById('react-root')
+const container = document.getElementById('react-root')
+const root = createRoot(container)
+root.render(
+    <Provider store={store}>
+        <App>
+            <Root />
+        </App>
+    </Provider>
 )

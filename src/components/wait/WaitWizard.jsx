@@ -1,6 +1,7 @@
 import React from 'react'
 
 import {
+    useNavigate,
     useState,
     useSelector,
 } from 'lib/hooks'
@@ -8,6 +9,10 @@ import {
 import {
     selectors as ImagesSelectors
 } from 'store/data/images'
+
+import {
+    selectors as SongsSelectors
+} from 'store/data/songs'
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
@@ -36,13 +41,15 @@ const STEP_STATE = {
 
 const WaitWizard = ({ onCancel }) => {
 
+    const navigate = useNavigate()
+
     const images = useSelector(ImagesSelectors.imagesDataSelector)
 
     const [step, setStep] = useState(STEPS.BACKGROUND.index)
 
     const [title, setTitle] = useState('')
     const [subTitle, setSubTitle] = useState('')
-    const [background, setBackground] = useState(images[0].name)
+    const [background, setBackground] = useState(images[0].id)
 
     const now = new Date()
     const nowDate = now.toISOString().split('T')[0]
@@ -52,13 +59,15 @@ const WaitWizard = ({ onCancel }) => {
     const [date, setDate] = useState(nowDate)
     const [time, setTime] = useState(nowTime)
 
+    const [songs, setSongs] = useState([])
+
     const handleStepChange = (index) => {
         setStep(index)
     }
 
     const handleComplete = () => {
         const targetDate = new Date(`${date}T${time}`);
-        console.log(targetDate.toLocaleString())
+        navigate(`/wait?title=${title}&subTitle=${subTitle}&background=${background}&date=${targetDate}&songs=${subTitle}`)
     }
 
     const renderStep = () => {
@@ -93,6 +102,8 @@ const WaitWizard = ({ onCancel }) => {
             case STEPS.MUSIC.index: {
                 return (
                     <WaitWizardStepMusic
+                        songs={songs}
+                        onSongsChange={setSongs}
                         onCancel={onCancel}
                         onPrevious={() => handleStepChange(STEPS.TIMING.index)}
                         onComplete={handleComplete}
@@ -188,12 +199,12 @@ const WaitWizardStepVisual = ({ title, subTitle, background, onTitleChange, onSu
                     </label>
                     <div className='thumbnails'>
                         {images.map((image) => {
-                            const selected = image.name === background
+                            const selected = image.id === background
                             return (
                                 <div
                                     key={image.name}
                                     className={`thumbnail ${selected ? 'selected' : ''}`}
-                                    onClick={() => onBackgroundChange(image.name)}
+                                    onClick={() => onBackgroundChange(image.id)}
                                 >
                                     <img
                                         alt={image.name}
@@ -270,11 +281,70 @@ const WaitWizardStepTiming = ({ date, onDateChange, time, onTimeChange, onCancel
     )
 }
 
-const WaitWizardStepMusic = ({ onCancel, onPrevious, onComplete }) => {
+const WaitWizardStepMusic = ({ songs, onSongsChange, onCancel, onPrevious, onComplete }) => {
+    const allSongs = useSelector(SongsSelectors.songsDataSelector)
+
+    const selectAll = songs.length === allSongs.length
+
+    const onSelectAll = () => {
+        if (selectAll) {
+            onSongsChange([])
+        } else {
+            onSongsChange(allSongs.map(song => song.id))
+        }
+    }
+
+    const onSelectSong = (songId) => {
+        const index = songs.indexOf(songId)
+        if (index > -1) {
+            const newSongs = songs.slice()
+            newSongs.splice(index, 1)
+            onSongsChange(newSongs)
+        } else {
+            const newSongs = [...songs, songId]
+            onSongsChange(newSongs)
+        }
+    }
+
     return (
         <>
-            <div className='wait-wizard-step'>
-                MUSIC
+            <div className='wait-wizard-step flex'>
+                <div className='wait-wizard-step-section grow'>
+                    <label className='wait-wizard-step-section-title'>
+                        Choose Songs
+                    </label>
+                    <div className='checkbox list-header'>
+                        <input
+                            type='checkbox'
+                            id='all'
+                            name='all'
+                            checked={selectAll}
+                            onChange={() => onSelectAll()}
+                        />
+                        <label htmlFor='all'>
+                            Select All
+                        </label>
+                    </div>
+                    <div className='list'>
+                        {allSongs.map((song) => {
+                            const selected = songs.includes(song.id)
+                            return (
+                                <div className='checkbox' key={song.name}>
+                                    <input
+                                        type='checkbox'
+                                        id={song.name}
+                                        name={song.name}
+                                        checked={selected}
+                                        onChange={() => onSelectSong(song.id)}
+                                    />
+                                    <label htmlFor={song.name}>
+                                        {song.name}
+                                    </label>
+                                </div>
+                            )
+                        })}
+                    </div>
+                </div>
             </div>
             <div className='wait-wizard-footer'>
                 <button onClick={onCancel}>
