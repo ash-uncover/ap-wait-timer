@@ -12,7 +12,7 @@ import store from 'store'
 
 import Root from 'routes/__layout'
 
-import './index.scss'
+import './index.css'
 import './i18n'
 import './index-icons'
 

@@ -1,3 +1,7 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
 html, body, #react-root {
   min-height: 100%;
   margin: 0;
@@ -8,13 +12,6 @@ html, body, #react-root {
   height: 100%;
 }
 
-$ice-dark: #393e46;
-$ice-light: #eeeeee;
-$ice-primary: #00adb5;
-$ice-secondary: #aad8d3;
-
-$theme-colors: (
-  "default": #aad8d3,
-  "primary": #00adb5,
-  "secondary": #eeeeee
-);
+:root {
+  font-size: 16px;
+}
