@@ -66,7 +66,7 @@ const WaitWizard = ({ onCancel }) => {
     }
 
     const handleComplete = () => {
-        const targetDate = new Date(`${date}T${time}`);
+        const targetDate = new Date(`${date}T${time}`).getTime();
         navigate(`/wait?title=${title}&subTitle=${subTitle}&background=${background}&date=${targetDate}&songs=${subTitle}`)
     }
 

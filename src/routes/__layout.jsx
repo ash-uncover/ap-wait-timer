@@ -6,15 +6,15 @@ import {
     Routes,
 } from 'react-router-dom'
 
-import Wait from 'routes/wait'
-import Home from 'routes'
+import RouteWait from 'routes/wait'
+import RouteHome from 'routes'
 
 const Root = () => {
     return (
         <Router hashType='noslash'>
             <Routes>
-                <Route path='/wait' element={<Wait />} />
-                <Route path='/' element={<Home />} />
+                <Route path='/wait' element={<RouteWait />} />
+                <Route path='/' element={<RouteHome />} />
             </Routes>
         </Router>
     )

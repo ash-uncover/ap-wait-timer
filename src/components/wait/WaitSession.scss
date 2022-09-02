@@ -1,4 +1,4 @@
-.waitroom {
+.waitsession {
   .app-toolbar {
     transition: height 0.5s ease-in-out;
   }
@@ -7,7 +7,7 @@
     max-width: none;
     padding: 0rem 5rem;
 
-    .waitroom-header {
+    .waitsession-header {
       position: relative;
       top: 0;
       height: 100%;
@@ -32,7 +32,7 @@
       }
     }
 
-    .waitroom-audio {
+    .waitsession-audio {
       position: absolute;
       height: 8rem;
       bottom: 5rem;
@@ -43,7 +43,7 @@
     }
   }
 
-  &.waitroom-idle {
+  &.waitsession-idle {
     .app-toolbar {
       height: 0;
     }

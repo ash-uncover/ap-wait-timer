@@ -1,11 +1,11 @@
 import React from 'react'
 
-const Root = () => {
+import WaitSession from 'components/wait/WaitSession'
+
+const RouteWait = () => {
     return (
-        <div className='wait'>
-            WAIT
-        </div>
+        <WaitSession />
     )
 }
 
-export default Root
+export default RouteWait

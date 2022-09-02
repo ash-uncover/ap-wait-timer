@@ -17,7 +17,7 @@ import HomeLoading from 'components/home/HomeLoading'
 import * as Service from 'lib/services/ServiceHelper'
 import DataStates from 'lib/constants/DataStates'
 
-const Root = () => {
+const RouteRoot = () => {
 
     const dispatch = useDispatch()
 
@@ -42,4 +42,4 @@ const Root = () => {
     }
 }
 
-export default Root
+export default RouteRoot

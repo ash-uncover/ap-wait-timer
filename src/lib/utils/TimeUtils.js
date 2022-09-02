@@ -15,7 +15,6 @@ export const formatSeconds = (duration) => {
 
 export const formatAlarm = (alarm, options) => {
   const now = new Date().getTime()
-  console.log(new Date(now), new Date(alarm));
   const duration = Math.max(0, Math.abs(alarm - now))
   if (duration > 0) {
     const hh = formatHours(duration)

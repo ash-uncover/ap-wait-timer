@@ -32,7 +32,7 @@ const Home = () => {
     }
 
     return (
-        <AppPage className='home'>
+        <AppPage>
             <AppToolbar>
                 Toolbar
                 <Button
