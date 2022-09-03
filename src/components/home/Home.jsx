@@ -5,7 +5,6 @@ import {
 } from 'lib/hooks'
 
 import {
-    Button,
     Dialog,
 } from 'components/commons/basic'
 
@@ -17,39 +16,56 @@ import {
 
 import WaitWizard from 'components/wait/WaitWizard'
 
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+
 import './Home.scss'
 
 const Home = () => {
 
-    const [showWizard, setShowWizard] = useState(false)
+    const [showWaitWizard, setShowWaitWizard] = useState(false)
 
     const onNewWaitPress = () => {
-        setShowWizard(!showWizard)
+        setShowWaitWizard(!showWaitWizard)
     }
 
     const onDialogClose = () => {
-        setShowWizard(!showWizard)
+        setShowWaitWizard(!showWaitWizard)
     }
 
     return (
         <AppPage>
             <AppToolbar>
-                Toolbar
-                <Button
-                    icon={['fas', 'home']}
-                />
-                <Button
-                    icon={['fas', 'cog']}
-                />
+                <div className='app-toolbar-left'>
+                    <button>
+                        <FontAwesomeIcon icon={['fas', 'home']} />
+                    </button>
+                    <label>
+                        AP Sounds
+                    </label>
+                </div>
+                <div className='app-toolbar-right'>
+                    <button>
+                        <FontAwesomeIcon icon={['fas', 'cog']} />
+                    </button>
+                </div>
             </AppToolbar>
             <AppContent>
-                <Button
-                    label='New Wait'
-                    primary
-                    onClick={onNewWaitPress}
-                />
+                <div className='tile-container'>
+                    <button
+                        className='tile red'
+                        onClick={onNewWaitPress}
+                    >
+                        <FontAwesomeIcon icon={['fas', 'stopwatch']} />
+                    </button>
+                    <button
+                        className='tile teal'
+                        onClick={onNewWaitPress}
+                    >
+                        <FontAwesomeIcon icon={['fas', 'lungs']} />
+                    </button>
+                </div>
             </AppContent>
-            { showWizard ?
+            { showWaitWizard ?
                 <Dialog
                     title='wizard'
                     onClose={onDialogClose}

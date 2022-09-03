@@ -4,12 +4,14 @@ import { AppBackground } from 'components/commons/app'
 
 import './App.scss'
 
+import mainBackground from 'assets/images/background.jpg'
+
 const App = ({
     children,
 }) => {
     return (
         <div className='app'>
-            <AppBackground src='http://localhost:8080/assets/images/wait-background-color.jpg' />
+            <AppBackground src={mainBackground} />
             {children}
         </div>
     )

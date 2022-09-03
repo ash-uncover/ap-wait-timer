@@ -42,7 +42,6 @@ const Root = () => {
             return <HomeLoading />
         }
         case DataStates.SUCCESS: {
-            console.log('loaded')
             return (
                 <Router hashType='noslash'>
                     <Routes>

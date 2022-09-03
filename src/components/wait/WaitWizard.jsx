@@ -200,7 +200,7 @@ const WaitWizardStepVisual = ({ title, subTitle, background, onTitleChange, onSu
 
                 <div className='wait-wizard-step-section'>
                     <label className='wait-wizard-step-section-title'>
-                        Choose Background
+                        Background
                     </label>
                     <div className='thumbnails'>
                         {images.map((image) => {

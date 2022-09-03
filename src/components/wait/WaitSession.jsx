@@ -93,11 +93,6 @@ const WaitSession = () => {
         playlistDuration = songlistDuration(playlist)
     }
 
-    console.log('playlist')
-    console.log(playlist)
-    console.log(playlistDuration)
-    console.log(duration)
-
     const [idle, setIdle] = useState(false)
     const [song, setSong] = useState(0)
     const [songCurrentTime, setSongCurrentTime] = useState(playlistDuration - duration)
@@ -108,7 +103,7 @@ const WaitSession = () => {
         }, 1500)
         return () => {
             clearTimeout(timeout)
-            
+
         }
     }, [])
 
@@ -134,6 +129,9 @@ const WaitSession = () => {
 
     return (
         <>
+            <AppBackground
+                src={background.url}
+            />
             <AppPage
                 className={idle ? 'waitsession waitsession-idle' : 'waitsession'}
                 onClick={onClick}

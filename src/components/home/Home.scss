@@ -1,1 +1,32 @@
-.home {}
+.home {
+
+}
+
+.tile-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    >.tile {
+        font-size: 48px;
+        height: 120px;
+        width: 120px;
+        border: none;
+        border-radius: 10px;
+        color: white;
+        cursor: pointer;
+        margin: 1rem;
+        &.red {
+            background-color: darkred;
+            &:hover {
+                background-color: red;
+            }
+        }
+        &.teal {
+            background-color: darkslategrey;
+            &:hover {
+                background-color: teal;
+            }
+        }
+    }
+}

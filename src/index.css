@@ -15,3 +15,26 @@ html, body, #react-root {
 :root {
   font-size: 16px;
 }
+
+input {
+
+}
+
+.container {
+  width: 100%;
+  margin: auto;
+}
+
+@media screen and (min-width: 800px) {
+  .container {
+    width: 760px;
+
+  }
+}
+
+@media screen and (min-width: 1200px) {
+    .container {
+      width: 1024px;
+    }
+  }
+
