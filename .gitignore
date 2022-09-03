@@ -23,5 +23,7 @@ yarn-error.log*
 
 *.mp3
 *.flac
+public/assets/**/*.jpg
+public/assets/**/*.png
 
 
