@@ -23,7 +23,11 @@ export const getSongsFetch = (state, { payload }) => {
 }
 export const getSongsSuccess = (state, { payload }) => {
     const { data } = payload
-    state.data = data.map((entry, i) => ({ ...entry, id: i }))
+    state.data = data.map((entry, i) => ({
+        ...entry,
+        name: entry.name.split('.')[0],
+        id: i,
+    }))
     state.error = null
     state.status = DataStates.SUCCESS
 }

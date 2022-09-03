@@ -14,6 +14,10 @@ import {
     selectors as SongsSelectors
 } from 'store/data/songs'
 
+import {
+    ArrayUtils,
+} from '@uncover/js-utils'
+
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
 import './WaitWizard.scss'
@@ -43,18 +47,18 @@ const WaitWizard = ({ onCancel }) => {
 
     const navigate = useNavigate()
 
-    const images = useSelector(ImagesSelectors.imagesDataSelector)
+    const dataImages = useSelector(ImagesSelectors.imagesDataSelector)
+    const dataSongs = useSelector(SongsSelectors.songsDataSelector)
 
     const [step, setStep] = useState(STEPS.BACKGROUND.index)
 
     const [title, setTitle] = useState('')
     const [subTitle, setSubTitle] = useState('')
-    const [background, setBackground] = useState(images[0].id)
+    const [background, setBackground] = useState(dataImages[0].id)
 
     const now = new Date()
-    const nowDate = now.toISOString().split('T')[0]
-    const [hour, min] = now.toISOString().split('T')[1].split('.')[0].split(':')
-    const nowTime = `${hour}:${min}`
+    const nowDate = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}-${String(now.getDate()).padStart(2, 0)}`
+    const nowTime = `${String(now.getHours()).padStart(2, '0')}:${String(now.getMinutes()).padStart(2, '0')}`
 
     const [date, setDate] = useState(nowDate)
     const [time, setTime] = useState(nowTime)
@@ -67,7 +71,8 @@ const WaitWizard = ({ onCancel }) => {
 
     const handleComplete = () => {
         const targetDate = new Date(`${date}T${time}`).getTime();
-        navigate(`/wait?title=${title}&subTitle=${subTitle}&background=${background}&date=${targetDate}&songs=${subTitle}`)
+        const targetSongs = ArrayUtils.shuffle(songs)
+        navigate(`/wait?title=${title}&subTitle=${subTitle}&background=${background}&date=${targetDate}&songs=${targetSongs}`)
     }
 
     const renderStep = () => {
