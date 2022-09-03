@@ -21,8 +21,9 @@ npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 
-*.mp3
-*.flac
+# images & sounds
+public/assets/**/*.mp3
+public/assets/**/*.flac
 public/assets/**/*.jpg
 public/assets/**/*.png
 

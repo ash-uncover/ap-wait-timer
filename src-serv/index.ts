@@ -49,12 +49,15 @@ export const useHeaders = (req: any, res: any, next: any) => {
 
 export const loadSounds = async () => {
     fs.readdir(DIR_SOUND, (err:any, files:any) => {
+        DATA_SOUND.splice(0, DATA_SOUND.length)
         if (err) {
             throw new Error(err)
         }
         files.forEach(async (file:string) => {
-            const data = await loadSound(file)
-            DATA_SOUND.push(data)
+            if (file !== '.__root') {
+                const data = await loadSound(file)
+                DATA_SOUND.push(data)
+            }
         })
     })
 }
@@ -75,12 +78,15 @@ export const getSongs = (req:any, res:any, next:any) => {
 
 export const loadImages = async () => {
     fs.readdir(DIR_IMAGE, (err:any, files:any) => {
+        DATA_IMAGE.splice(0, DATA_IMAGE.length)
         if (err) {
             throw new Error(err)
         }
         files.forEach((file:string) => {
-            const data = loadImage(file)
-            DATA_IMAGE.push(data)
+            if (file !== '.__root') {
+                const data = loadImage(file)
+                DATA_IMAGE.push(data)
+            }
         })
     })
 }
@@ -95,6 +101,14 @@ export const loadImage = (file:string) => {
 export const getPictures = (req:any, res:any, next:any) => {
     res.status(200).send({ data: DATA_IMAGE })
 }
+
+fs.watch(DIR_IMAGE, () => {
+    loadImages()
+})
+
+fs.watch(DIR_SOUND, () => {
+    loadSounds()
+})
 
 const app = express()
 
