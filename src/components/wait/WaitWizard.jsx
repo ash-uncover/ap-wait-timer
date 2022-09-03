@@ -54,7 +54,7 @@ const WaitWizard = ({ onCancel }) => {
 
     const [title, setTitle] = useState('')
     const [subTitle, setSubTitle] = useState('')
-    const [background, setBackground] = useState(dataImages[0].id)
+    const [background, setBackground] = useState('random')
 
     const now = new Date()
     const nowDate = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}-${String(now.getDate()).padStart(2, 0)}`
@@ -203,6 +203,14 @@ const WaitWizardStepVisual = ({ title, subTitle, background, onTitleChange, onSu
                         Background
                     </label>
                     <div className='thumbnails'>
+                        <div
+                            className={`thumbnail ${background === 'random' ? 'selected' : ''}`}
+                            onClick={() => onBackgroundChange('random')}
+                        >
+                            <div className='thumbnail-icon'>
+                                <FontAwesomeIcon icon={['fas', 'question']} />
+                            </div>
+                        </div>
                         {images.map((image) => {
                             const selected = image.id === background
                             return (

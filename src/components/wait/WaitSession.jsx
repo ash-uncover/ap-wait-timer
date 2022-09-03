@@ -40,9 +40,9 @@ const extractSubTitle = (querySubTitle) => {
     return querySubTitle || ''
 }
 
-const extractBackground = (queryBackground) => {
+const extractBackground = (queryBackground, size) => {
     if (isNaN(queryBackground)) {
-        return 0
+        return Math.floor(Math.random() * size);
     }
     return Number(queryBackground)
 }
@@ -71,7 +71,7 @@ const WaitSession = () => {
 
     const title = extractTitle(query.get('title'))
     const subTitle = extractSubTitle(query.get('subTitle'))
-    const background = dataImages[extractBackground(query.get('background'))]
+    const background = dataImages[extractBackground(query.get('background'), dataImages.length)]
     const date = extractDate(query.get('date'))
     const songs = extractSongs(query.get('songs')).map(i => dataSongs[i])
     const playlist = []

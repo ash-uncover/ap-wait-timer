@@ -155,6 +155,15 @@
                     background: transparent;
                     border-radius: 5px;
                     position: relative;
+                    >.thumbnail-icon {
+                        height: 100%;
+                        width: 100%;
+                        background: lightgrey;
+                        display: flex;
+                        align-items: center;
+                        justify-content: center;
+                        font-size: 45px;
+                    }
                     &.selected {
                         border-color: teal;
                         background: teal;

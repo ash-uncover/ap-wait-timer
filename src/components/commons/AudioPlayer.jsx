@@ -29,14 +29,12 @@ export const AudioPlayer = ({
         play()
     }
 
+    let progressInterval;
+
     useEffect(() => {
         audio.addEventListener('canplay', startAudio)
-        const interval = setInterval(() => {
-            const newPercentage = audio.currentTime * 100 / audio.duration
-            setPercentage(newPercentage)
-        }, 100)
         return () => {
-            clearInterval(interval)
+            clearInterval(progressInterval)
             audio.pause()
         }
     }, [src])
@@ -47,6 +45,10 @@ export const AudioPlayer = ({
         audio.play()
             .then(() => {
                 audio.currentTime = time
+                progressInterval = setInterval(() => {
+                    const newPercentage = audio.currentTime * 100 / audio.duration
+                    setPercentage(newPercentage)
+                }, 100)
                 setPlaying(true)
                 setError(null)
             })
