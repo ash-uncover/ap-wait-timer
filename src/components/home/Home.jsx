@@ -63,6 +63,12 @@ const Home = () => {
                     >
                         <FontAwesomeIcon icon={['fas', 'lungs']} />
                     </button>
+                    <button
+                        className='tile yellow'
+                        onClick={onNewWaitPress}
+                    >
+                        <FontAwesomeIcon icon={['fas', 'music']} />
+                    </button>
                 </div>
             </AppContent>
             { showWaitWizard ?

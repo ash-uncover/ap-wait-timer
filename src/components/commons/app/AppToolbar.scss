@@ -15,6 +15,7 @@ $color-highlight: #DFDBD8;
         background: none;
         border: 0;
         color: $color;
+        cursor: pointer;
 
         &:hover {
             color: $color-highlight;

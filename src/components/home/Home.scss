@@ -28,5 +28,11 @@
                 background-color: teal;
             }
         }
+        &.yellow {
+            background-color: darkgoldenrod;
+            &:hover {
+                background-color: goldenrod;
+            }
+        }
     }
 }
