@@ -26,7 +26,6 @@ export const AudioPlayer = ({
 
     const startAudio = () => {
         audio.removeEventListener('canplay', startAudio)
-        audio.currentTime = time
         play()
     }
 
@@ -47,6 +46,7 @@ export const AudioPlayer = ({
     const play = () => {
         audio.play()
             .then(() => {
+                audio.currentTime = time
                 setPlaying(true)
                 setError(null)
             })

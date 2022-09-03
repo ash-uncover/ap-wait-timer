@@ -1,51 +1,52 @@
 .waitsession {
-  .app-toolbar {
-    transition: height 0.5s ease-in-out;
-  }
-  .app-content {
     background: none;
     max-width: none;
     padding: 0rem 5rem;
 
-    .waitsession-header {
-      position: relative;
-      top: 0;
-      height: 100%;
-      left: 0;
-      width: 20rem;
-      background: rgba(255,255,255,0.5);
-      padding: 5rem 1rem;
+    >.app-toolbar {
+        transition: height 0.5s ease-in-out;
+    }
 
-      .title {
-        text-align: center;
-        font-weight: bold;
-        text-transform: uppercase;
-        color: gray;
-        margin-bottom: 3rem;
-        >*+* {
-          margin-top: 1rem;
+    .waitsession-header {
+        position: relative;
+        top: 0;
+        height: 100%;
+        left: 0;
+        width: 20rem;
+        background: rgba(255, 255, 255, 0.5);
+        padding: 5rem 1rem;
+
+        .title {
+            text-align: center;
+            font-weight: bold;
+            text-transform: uppercase;
+            color: gray;
+            margin-bottom: 3rem;
+
+            >*+* {
+                margin-top: 1rem;
+            }
         }
-      }
-      .subtitle {
-        text-align: center;
-        margin-top: 5rem;
-      }
+
+        .subtitle {
+            text-align: center;
+            margin-top: 5rem;
+        }
     }
 
     .waitsession-audio {
-      position: absolute;
-      height: 8rem;
-      bottom: 5rem;
-      padding: 0rem 5rem;
-      left: 0;
-      right: 0;
-      background: rgba(255,255,255, 0.5);
+        position: absolute;
+        height: 8rem;
+        bottom: 5rem;
+        padding: 0rem 5rem;
+        left: 0;
+        right: 0;
+        background: rgba(255, 255, 255, 0.5);
     }
-  }
 
-  &.waitsession-idle {
-    .app-toolbar {
-      height: 0;
+    &.waitsession-idle {
+        .app-toolbar {
+            height: 0;
+        }
     }
-  }
 }

@@ -89,7 +89,7 @@ const WaitSession = () => {
     let next = 0
     let playlistDuration = songlistDuration(playlist)
     while (playlistDuration < duration) {
-        playlist.push(songs[next++ % songs.length])
+        playlist.unshift(songs[next++ % songs.length])
         playlistDuration = songlistDuration(playlist)
     }
 
@@ -132,51 +132,47 @@ const WaitSession = () => {
             <AppBackground
                 src={background.url}
             />
+            <AppToolbar>
+                <Link to='/'>
+                    <Button
+                        icon={['fas', 'home']}
+                    />
+                </Link>
+            </AppToolbar>
             <AppPage
                 className={idle ? 'waitsession waitsession-idle' : 'waitsession'}
                 onClick={onClick}
                 onMouseMove={onMouseMove}
             >
-                <AppToolbar>
-                    <Link to='/'>
-                        <Button
-                            icon={['fas', 'home']}
+                <div
+                    className='waitsession-header'
+                >
+                    <h1 className='title'>
+                        <div>
+                            {title}
+                        </div>
+                        <Alarm
+                            alarm={date}
+                            showHours={true}
+                            showMinutes={true}
+                            showSeconds={true}
                         />
-                    </Link>
-                </AppToolbar>
+                    </h1>
+                    <h2 className='subtitle'>
+                        {subTitle}
+                    </h2>
+                </div>
 
-                <AppContent>
-                    <div
-                        className='waitsession-header'
-                    >
-                        <h1 className='title'>
-                            <div>
-                                {title}
-                            </div>
-                            <Alarm
-                                alarm={date}
-                                showHours={true}
-                                showMinutes={true}
-                                showSeconds={true}
-                            />
-                        </h1>
-                        <h2 className='subtitle'>
-                            {subTitle}
-                        </h2>
-                    </div>
-
-                    <div
-                        className='waitsession-audio'
-                    >
-                        <AudioPlayer
-                            title={playlist[song]?.name}
-                            src={playlist[song]?.url}
-                            time={songCurrentTime}
-                            onComplete={onComplete}
-                        />
-                    </div>
-
-                </AppContent>
+                <div
+                    className='waitsession-audio'
+                >
+                    <AudioPlayer
+                        title={playlist[song]?.name}
+                        src={playlist[song]?.url}
+                        time={songCurrentTime}
+                        onComplete={onComplete}
+                    />
+                </div>
             </AppPage>
         </>
     )
