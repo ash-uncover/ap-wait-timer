@@ -103,7 +103,6 @@ const WaitSession = () => {
         }, 1500)
         return () => {
             clearTimeout(timeout)
-
         }
     }, [])
 
@@ -132,22 +131,22 @@ const WaitSession = () => {
             <AppBackground
                 src={background.url}
             />
-            <AppToolbar>
-                <Link to='/'>
-                    <Button
-                        icon={['fas', 'home']}
-                    />
-                </Link>
-            </AppToolbar>
-            <AppPage
+            <div
                 className={idle ? 'waitsession waitsession-idle' : 'waitsession'}
                 onClick={onClick}
                 onMouseMove={onMouseMove}
             >
+                <AppToolbar>
+                    <Link to='/'>
+                        <Button
+                            icon={['fas', 'home']}
+                        />
+                    </Link>
+                </AppToolbar>
                 <div
-                    className='waitsession-header'
+                    className='overlay-header overlay'
                 >
-                    <h1 className='title'>
+                    <h1 className='text title'>
                         <div>
                             {title}
                         </div>
@@ -158,13 +157,13 @@ const WaitSession = () => {
                             showSeconds={true}
                         />
                     </h1>
-                    <h2 className='subtitle'>
+                    <h2 className='text subtitle'>
                         {subTitle}
                     </h2>
                 </div>
 
                 <div
-                    className='waitsession-audio'
+                    className='overlay-audio overlay'
                 >
                     <AudioPlayer
                         title={playlist[song]?.name}
@@ -173,7 +172,7 @@ const WaitSession = () => {
                         onComplete={onComplete}
                     />
                 </div>
-            </AppPage>
+            </div>
         </>
     )
 }

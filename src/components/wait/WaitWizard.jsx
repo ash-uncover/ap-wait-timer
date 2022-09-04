@@ -47,9 +47,6 @@ const WaitWizard = ({ onCancel }) => {
 
     const navigate = useNavigate()
 
-    const dataImages = useSelector(ImagesSelectors.imagesDataSelector)
-    const dataSongs = useSelector(SongsSelectors.songsDataSelector)
-
     const [step, setStep] = useState(STEPS.BACKGROUND.index)
 
     const [title, setTitle] = useState('')

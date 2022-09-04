@@ -35,13 +35,13 @@
                 z-index: 2;
 
                 >.wait-wizard-progress-step-info-index {
-                    border: 2px solid lightgrey;
+                    border: 3px solid lightgrey;
                     background: white;
                     border-radius: 50%;
                     width: 35px;
                     height: 35px;
                     text-align: center;
-                    line-height: 31px;
+                    line-height: 35px;
                 }
                 >.wait-wizard-progress-step-info-name {
 
@@ -50,19 +50,19 @@
                     content: ' ';
                     position: absolute;
                     z-index: -1;
-                    top: 17px;
+                    top: 18px;
                     left: 0;
                     width: 50%;
-                    border: 1px solid lightgrey;
+                    border: 1.5px solid lightgrey;
                 }
                 &::after {
                     content: ' ';
                     position: absolute;
                     z-index: -1;
-                    top: 17px;
+                    top: 18px;
                     right: 0;
                     width: 50%;
-                    border: 1px solid lightgrey;
+                    border: 1.5px solid lightgrey;
                 }
             }
 
