@@ -2,7 +2,6 @@ import React from 'react'
 
 import {
     useEffect,
-    useMemo,
     useQuery,
     useState,
     useSelector
@@ -31,7 +30,7 @@ import {
     selectors as SongsSelectors
 } from 'store/data/songs'
 
-import './WaitSession.scss'
+import './BreathSession.scss'
 
 const extractTitle = (queryTitle) => {
     return queryTitle || ''
@@ -60,12 +59,6 @@ const extractSongs = (querySongs) => {
     return list.map(Number)
 }
 
-const songlistDuration = (songlist) => {
-    return songlist.reduce((acc, song) => {
-        return acc + song.duration
-    }, 0)
-}
-
 const WaitSession = () => {
     let timeout
 
@@ -75,39 +68,34 @@ const WaitSession = () => {
     const dataSongs = useSelector(SongsSelectors.songsDataSelector)
 
     const query = useQuery()
-    const queryString = String(query)
 
     const title = extractTitle(query.get('title'))
     const subTitle = extractSubTitle(query.get('subTitle'))
     const background = dataImages[extractBackground(query.get('background'), dataImages.length)]
     const date = extractDate(query.get('date'))
     const songs = extractSongs(query.get('songs')).map(i => dataSongs[i])
+    const playlist = []
 
-    console.log('rerender')
-    console.log(queryString)
-    
-    const { playlist, songInitialTime } = useMemo(() => {
-        const result = []
-        const now = new Date()
-        const endDate = new Date(date)
-        const duration = (endDate.getTime() - now.getTime()) / 1000
+    const songlistDuration = (songlist) => {
+        return songlist.reduce((acc, song) => {
+            return acc + song.duration
+        }, 0)
+    }
 
-        let next = 0
-        let resultDuration = songlistDuration(result)
-        while (resultDuration < duration) {
-            result.unshift(songs[next++ % songs.length])
-            resultDuration = songlistDuration(result)
-        }
-        console.log(result)
-        return {
-            playlist: result,
-            songInitialTime: resultDuration - duration
-        }
-    }, [queryString])
+    const now = new Date()
+    const endDate = new Date(date)
+    const duration = (endDate.getTime() - now.getTime()) / 1000
+
+    let next = 0
+    let playlistDuration = songlistDuration(playlist)
+    while (playlistDuration < duration) {
+        playlist.unshift(songs[next++ % songs.length])
+        playlistDuration = songlistDuration(playlist)
+    }
 
     const [idle, setIdle] = useState(false)
-    const [playlistSong, setPlaylistSong] = useState(0)
-    const [songCurrentTime, setSongCurrentTime] = useState(songInitialTime)
+    const [song, setSong] = useState(0)
+    const [songCurrentTime, setSongCurrentTime] = useState(playlistDuration - duration)
 
     useEffect(() => {
         timeout = setTimeout(() => {
@@ -133,10 +121,9 @@ const WaitSession = () => {
     }
 
     const onComplete = () => {
-        console.log('complete')
-        const nextPlaylistSong = (playlistSong + 1) % playlist.length
+        const nextSong = (song + 1) % songs.length
         setSongCurrentTime(0)
-        setPlaylistSong(nextPlaylistSong)
+        setSong(nextSong)
     }
 
     return (
@@ -179,8 +166,8 @@ const WaitSession = () => {
                     className='overlay-audio overlay'
                 >
                     <AudioPlayer
-                        title={playlist[playlistSong]?.name}
-                        src={playlist[playlistSong]?.url}
+                        title={playlist[song]?.name}
+                        src={playlist[song]?.url}
                         time={songCurrentTime}
                         onComplete={onComplete}
                     />

@@ -10,21 +10,9 @@ import {
     selectors as ImagesSelectors
 } from 'store/data/images'
 
-import {
-    selectors as SongsSelectors
-} from 'store/data/songs'
-
-import {
-    ArrayUtils,
-} from '@uncover/js-utils'
-
-import {
-    WizardProgressSteps,
-} from 'components/commons/basic'
-
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
-import './WaitWizard.scss'
+import './BreathWizard.scss'
 
 const STEPS = {
     BACKGROUND: {
@@ -35,10 +23,16 @@ const STEPS = {
         index: 1,
         name: 'Timing',
     },
-    MUSIC: {
+    ROUNDS: {
         index: 2,
-        name: 'Music',
+        name: 'Rounds',
     }
+}
+
+const STEP_STATE = {
+    DONE: 'done',
+    CURRENT: 'current',
+    FUTURE: 'future',
 }
 
 const WaitWizard = ({ onCancel }) => {
@@ -47,8 +41,6 @@ const WaitWizard = ({ onCancel }) => {
 
     const [step, setStep] = useState(STEPS.BACKGROUND.index)
 
-    const [title, setTitle] = useState('')
-    const [subTitle, setSubTitle] = useState('')
     const [background, setBackground] = useState('random')
 
     const now = new Date()
@@ -58,7 +50,7 @@ const WaitWizard = ({ onCancel }) => {
     const [date, setDate] = useState(nowDate)
     const [time, setTime] = useState(nowTime)
 
-    const [songs, setSongs] = useState([])
+    const [rounds, setRounds] = useState(nowTime)
 
     const handleStepChange = (index) => {
         setStep(index)
@@ -66,20 +58,15 @@ const WaitWizard = ({ onCancel }) => {
 
     const handleComplete = () => {
         const targetDate = new Date(`${date}T${time}`).getTime();
-        const targetSongs = ArrayUtils.shuffle(songs)
-        navigate(`/wait?title=${title}&subTitle=${subTitle}&background=${background}&date=${targetDate}&songs=${targetSongs}`)
+        navigate(`/breath?background=${background}&date=${targetDate}&rounds=${rounds}`)
     }
 
     const renderStep = () => {
         switch (step) {
             case STEPS.BACKGROUND.index: {
                 return (
-                    <WaitWizardStepVisual
-                        title={title}
-                        subTitle={subTitle}
+                    <BreathWizardStepVisual
                         background={background}
-                        onTitleChange={setTitle}
-                        onSubTitleChange={setSubTitle}
                         onBackgroundChange={setBackground}
                         onCancel={onCancel}
                         onNext={() => handleStepChange(STEPS.TIMING.index)}
@@ -88,20 +75,20 @@ const WaitWizard = ({ onCancel }) => {
             }
             case STEPS.TIMING.index: {
                 return (
-                    <WaitWizardStepTiming
+                    <BreathWizardStepTiming
                         date={date}
                         onDateChange={setDate}
                         time={time}
                         onTimeChange={setTime}
                         onCancel={onCancel}
                         onPrevious={() => handleStepChange(STEPS.BACKGROUND.index)}
-                        onNext={() => handleStepChange(STEPS.MUSIC.index)}
+                        onNext={() => handleStepChange(STEPS.ROUNDS.index)}
                     />
                 )
             }
-            case STEPS.MUSIC.index: {
+            case STEPS.ROUNDS.index: {
                 return (
-                    <WaitWizardStepMusic
+                    <BreathWizardStepRounds
                         songs={songs}
                         onSongsChange={setSongs}
                         onCancel={onCancel}
@@ -128,7 +115,7 @@ const WaitWizard = ({ onCancel }) => {
     )
 }
 
-const WaitWizardStepVisual = ({ title, subTitle, background, onTitleChange, onSubTitleChange, onBackgroundChange, onCancel, onNext }) => {
+const BreathWizardStepVisual = ({ title, subTitle, background, onTitleChange, onSubTitleChange, onBackgroundChange, onCancel, onNext }) => {
     const images = useSelector(ImagesSelectors.imagesDataSelector)
 
     return (
@@ -203,7 +190,7 @@ const WaitWizardStepVisual = ({ title, subTitle, background, onTitleChange, onSu
     )
 }
 
-const WaitWizardStepTiming = ({ date, onDateChange, time, onTimeChange, onCancel, onPrevious, onNext }) => {
+const BreathWizardStepTiming = ({ date, onDateChange, time, onTimeChange, onCancel, onPrevious, onNext }) => {
     return (
         <>
             <div className='wait-wizard-step'>
@@ -255,7 +242,7 @@ const WaitWizardStepTiming = ({ date, onDateChange, time, onTimeChange, onCancel
     )
 }
 
-const WaitWizardStepMusic = ({ songs, onSongsChange, onCancel, onPrevious, onComplete }) => {
+const BreathWizardStepRounds = ({ songs, onSongsChange, onCancel, onPrevious, onComplete }) => {
     const allSongs = useSelector(SongsSelectors.songsDataSelector)
 
     const selectAll = songs.length === allSongs.length

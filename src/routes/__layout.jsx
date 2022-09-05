@@ -20,6 +20,8 @@ import DataStates from 'lib/constants/DataStates'
 
 import HomeError from 'components/home/HomeError'
 import HomeLoading from 'components/home/HomeLoading'
+
+import RouteBreath from 'routes/breath'
 import RouteWait from 'routes/wait'
 import RouteHome from 'routes'
 
@@ -45,6 +47,7 @@ const Root = () => {
             return (
                 <Router hashType='noslash'>
                     <Routes>
+                        <Route path='/breath' element={<RouteBreath />} />
                         <Route path='/wait' element={<RouteWait />} />
                         <Route path='/' element={<RouteHome />} />
                     </Routes>
