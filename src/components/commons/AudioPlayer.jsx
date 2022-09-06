@@ -4,6 +4,7 @@ import React from 'react'
 
 import {
     useEffect,
+    useMemo,
     useState
 } from 'lib/hooks'
 
@@ -17,7 +18,10 @@ export const AudioPlayer = ({
 }) => {
     // HOOKS
 
-    const audio = new Audio(src)
+    const audio = useMemo(() => {
+        console.log('AudioPlayer - useMemo')
+        return new Audio(src)
+    }, [src])
     audio.addEventListener('ended', onComplete)
 
     const [percentage, setPercentage] = useState(0)
