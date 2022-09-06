@@ -77,32 +77,49 @@ const WaitSession = () => {
     const query = useQuery()
     const queryString = String(query)
 
-    const title = extractTitle(query.get('title'))
-    const subTitle = extractSubTitle(query.get('subTitle'))
-    const background = dataImages[extractBackground(query.get('background'), dataImages.length)]
-    const date = extractDate(query.get('date'))
-    const songs = extractSongs(query.get('songs')).map(i => dataSongs[i])
-
     console.log('rerender')
     console.log(queryString)
-    
-    const { playlist, songInitialTime } = useMemo(() => {
-        const result = []
+
+    const {
+        title,
+        subTitle,
+        background,
+        date,
+        playlist,
+        songInitialTime
+    } = useMemo(() => {
+        const titleMemo = extractTitle(query.get('title'))
+        const subTitleMemo = extractSubTitle(query.get('subTitle'))
+        const backgroundMemo = dataImages[extractBackground(query.get('background'), dataImages.length)]
+        const dateMemo = extractDate(query.get('date'))
+        const songsMemo = extractSongs(query.get('songs')).map(i => dataSongs[i])
+
+        const playlistMemo = []
         const now = new Date()
-        const endDate = new Date(date)
+        const endDate = new Date(dateMemo)
         const duration = (endDate.getTime() - now.getTime()) / 1000
 
+        console.log(dateMemo)
+        console.log(endDate)
+        console.log(now)
+
         let next = 0
-        let resultDuration = songlistDuration(result)
+        let resultDuration = songlistDuration(playlistMemo)
         while (resultDuration < duration) {
-            result.unshift(songs[next++ % songs.length])
-            resultDuration = songlistDuration(result)
+            playlistMemo.unshift(songsMemo[next++ % songsMemo.length])
+            resultDuration = songlistDuration(playlistMemo)
         }
-        console.log(result)
-        return {
-            playlist: result,
+        const result = {
+            title: titleMemo,
+            subTitle: subTitleMemo,
+            background: backgroundMemo,
+            date: dateMemo,
+            playlist: playlistMemo,
             songInitialTime: resultDuration - duration
         }
+        console.log('WaitSession - useMemo')
+        console.log(result)
+        return result
     }, [queryString])
 
     const [idle, setIdle] = useState(false)
@@ -110,6 +127,7 @@ const WaitSession = () => {
     const [songCurrentTime, setSongCurrentTime] = useState(songInitialTime)
 
     useEffect(() => {
+        console.log('WaitSession - useEffect')
         timeout = setTimeout(() => {
             setIdle(true)
         }, 1500)
@@ -133,7 +151,7 @@ const WaitSession = () => {
     }
 
     const onComplete = () => {
-        console.log('complete')
+        console.log('WaitSession - onComplete')
         const nextPlaylistSong = (playlistSong + 1) % playlist.length
         setSongCurrentTime(0)
         setPlaylistSong(nextPlaylistSong)
