@@ -9,6 +9,10 @@ import {
 } from 'lib/hooks'
 
 import {
+    FontAwesomeIcon
+} from '@fortawesome/react-fontawesome'
+
+import {
     AppBackground,
     AppToolbar
 } from 'components/commons/app'
@@ -190,7 +194,7 @@ const WaitSession = () => {
                 );
             }
             case STATE.NOT_STARTED:
-            case STATE.END:
+            case STATE.ENDED:
             default:  {
                 return null;
             }
@@ -201,8 +205,12 @@ const WaitSession = () => {
         switch (playerState) {
             case STATE.NOT_STARTED: {
                 return (
-                    <button onClick={onStartPlaying}>
-                        Start
+
+                    <button
+                        className='button-start'
+                        onClick={onStartPlaying}
+                    >
+                        <FontAwesomeIcon icon={['fas', 'play']} />
                     </button>
                 );
             }
@@ -223,13 +231,21 @@ const WaitSession = () => {
         }
     }
 
+    const classes = ['waitsession']
+    if (idle) {
+        classes.push('waitsession-idle')
+    }
+    if (playerState === STATE.ENDED) {
+        classes.push('waitsession-ended')
+    }
+
     return (
         <>
             <AppBackground
                 src={background.url}
             />
             <div
-                className={idle ? 'waitsession waitsession-idle' : 'waitsession'}
+                className={classes.join(' ')}
                 onClick={onClick}
                 onMouseMove={onMouseMove}
             >
@@ -240,9 +256,7 @@ const WaitSession = () => {
                         />
                     </Link>
                 </AppToolbar>
-                <div
-                    className='overlay-header overlay'
-                >
+                <div className='overlay-header overlay'>
                     <h1 className='text title'>
                         <div>
                             {title}
@@ -254,9 +268,7 @@ const WaitSession = () => {
                     </h2>
                 </div>
 
-                <div
-                    className='overlay-audio overlay'
-                >
+                <div className='overlay-audio overlay'>
                     {renderAudioArea()}
                 </div>
             </div>
