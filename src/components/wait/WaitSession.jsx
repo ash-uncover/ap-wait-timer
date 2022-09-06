@@ -31,6 +31,12 @@ import {
 
 import './WaitSession.scss'
 
+const STATE = {
+    NOT_STARTED: 'NOT_STARTED',
+    PLAYING: 'PLAYING',
+    ENDED: 'ENDED',
+}
+
 const extractTitle = (queryTitle) => {
     return queryTitle || ''
 }
@@ -69,6 +75,12 @@ const WaitSession = () => {
 
     // HOOKS
 
+    const [idle, setIdle] = useState(false)
+    const [playerState, setPlayerState] = useState(STATE.NOT_STARTED)
+    const [playlist, setPlaylist] = useState([])
+    const [playlistSong, setPlaylistSong] = useState(0)
+    const [songCurrentTime, setSongCurrentTime] = useState(0)
+
     const dataImages = useSelector(ImagesSelectors.imagesDataSelector)
     const dataSongs = useSelector(SongsSelectors.songsDataSelector)
 
@@ -83,8 +95,7 @@ const WaitSession = () => {
         subTitle,
         background,
         date,
-        playlist,
-        songInitialTime
+        songs,
     } = useMemo(() => {
         const titleMemo = extractTitle(query.get('title'))
         const subTitleMemo = extractSubTitle(query.get('subTitle'))
@@ -92,33 +103,19 @@ const WaitSession = () => {
         const dateMemo = extractDate(query.get('date'))
         const songsMemo = extractSongs(query.get('songs')).map(i => dataSongs[i])
 
-        const playlistMemo = []
-        const now = new Date()
-        const endDate = new Date(dateMemo)
-        const duration = (endDate.getTime() - now.getTime()) / 1000
-
-        let next = 0
-        let resultDuration = songlistDuration(playlistMemo)
-        while (resultDuration < duration) {
-            playlistMemo.unshift(songsMemo[next++ % songsMemo.length])
-            resultDuration = songlistDuration(playlistMemo)
-        }
         const result = {
             title: titleMemo,
             subTitle: subTitleMemo,
             background: backgroundMemo,
             date: dateMemo,
-            playlist: playlistMemo,
-            songInitialTime: resultDuration - duration
+            songs: songsMemo
         }
         console.log('WaitSession - useMemo')
         console.log(result)
         return result
     }, [queryString])
 
-    const [idle, setIdle] = useState(false)
-    const [playlistSong, setPlaylistSong] = useState(0)
-    const [songCurrentTime, setSongCurrentTime] = useState(songInitialTime)
+
 
     useEffect(() => {
         console.log('WaitSession - useEffect')
@@ -144,11 +141,86 @@ const WaitSession = () => {
         }
     }
 
+    const onStartPlaying = () => {
+        // Compute playlist and starting point
+        const now = new Date()
+        const endDate = new Date(date)
+        const duration = (endDate.getTime() - now.getTime()) / 1000
+        const playlist = []
+
+        if (duration < 0) {
+            setPlayerState(STATE.ENDED)
+        } else {
+            let next = 0
+            let resultDuration = songlistDuration(playlist)
+            while (resultDuration < duration) {
+                playlist.unshift(songs[next++ % songs.length])
+                resultDuration = songlistDuration(playlist)
+            }
+            setPlaylist(playlist)
+            setSongCurrentTime(resultDuration - duration)
+            setPlayerState(STATE.PLAYING)
+        }
+
+    }
+
     const onComplete = () => {
         console.log('WaitSession - onComplete')
-        const nextPlaylistSong = (playlistSong + 1) % playlist.length
-        setSongCurrentTime(0)
-        setPlaylistSong(nextPlaylistSong)
+        if (playlistSong + 1 === playlist.length) {
+            setPlayerState(STATE.ENDED)
+            setSongCurrentTime(0)
+            setPlaylistSong(null)
+        } else {
+            const nextPlaylistSong = playlistSong + 1
+            setSongCurrentTime(0)
+            setPlaylistSong(nextPlaylistSong)
+        }
+    }
+
+    const renderAlarmArea = () => {
+        switch (playerState) {
+            case STATE.PLAYING: {
+                return (
+                    <Alarm
+                        alarm={date}
+                        showHours={true}
+                        showMinutes={true}
+                        showSeconds={true}
+                    />
+                );
+            }
+            case STATE.NOT_STARTED:
+            case STATE.END:
+            default:  {
+                return null;
+            }
+        }
+    }
+
+    const renderAudioArea = () => {
+        switch (playerState) {
+            case STATE.NOT_STARTED: {
+                return (
+                    <button onClick={onStartPlaying}>
+                        Start
+                    </button>
+                );
+            }
+            case STATE.PLAYING: {
+                return (
+                    <AudioPlayer
+                        title={playlist[playlistSong]?.name}
+                        src={playlist[playlistSong]?.url}
+                        time={songCurrentTime}
+                        onComplete={onComplete}
+                    />
+                );
+            }
+            case STATE.END:
+            default: {
+                return null;
+            }
+        }
     }
 
     return (
@@ -175,12 +247,7 @@ const WaitSession = () => {
                         <div>
                             {title}
                         </div>
-                        <Alarm
-                            alarm={date}
-                            showHours={true}
-                            showMinutes={true}
-                            showSeconds={true}
-                        />
+                        {renderAlarmArea()}
                     </h1>
                     <h2 className='text subtitle'>
                         {subTitle}
@@ -190,12 +257,7 @@ const WaitSession = () => {
                 <div
                     className='overlay-audio overlay'
                 >
-                    <AudioPlayer
-                        title={playlist[playlistSong]?.name}
-                        src={playlist[playlistSong]?.url}
-                        time={songCurrentTime}
-                        onComplete={onComplete}
-                    />
+                    {renderAudioArea()}
                 </div>
             </div>
         </>
