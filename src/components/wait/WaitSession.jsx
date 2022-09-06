@@ -10,8 +10,6 @@ import {
 
 import {
     AppBackground,
-    AppContent,
-    AppPage,
     AppToolbar
 } from 'components/commons/app'
 
@@ -77,7 +75,7 @@ const WaitSession = () => {
     const query = useQuery()
     const queryString = String(query)
 
-    console.log('rerender')
+    console.log('WaitSession - rerender')
     console.log(queryString)
 
     const {
@@ -98,10 +96,6 @@ const WaitSession = () => {
         const now = new Date()
         const endDate = new Date(dateMemo)
         const duration = (endDate.getTime() - now.getTime()) / 1000
-
-        console.log(dateMemo)
-        console.log(endDate)
-        console.log(now)
 
         let next = 0
         let resultDuration = songlistDuration(playlistMemo)
