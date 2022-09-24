@@ -1,5 +1,6 @@
 import {
   useEffect as useEffectBase,
+  useMemo as useMemoBase,
   useRef as useRefBase,
   useState as useStateBase
 } from 'react'
@@ -24,6 +25,7 @@ export const useQuery = () => {
 }
 
 export const useEffect = useEffectBase
+export const useMemo = useMemoBase
 export const useRef = useRefBase
 export const useState = useStateBase
 

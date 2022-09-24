@@ -59,6 +59,7 @@ export const loadSounds = async () => {
                 DATA_SOUND.push(data)
             }
         })
+        DATA_SOUND.sort((e1, e2) => e1.name.localeCompare(e2.name))
     })
 }
 
@@ -88,6 +89,7 @@ export const loadImages = async () => {
                 DATA_IMAGE.push(data)
             }
         })
+        DATA_IMAGE.sort((e1, e2) => e1.name.localeCompare(e2.name))
     })
 }
 
@@ -102,6 +104,7 @@ export const getPictures = (req:any, res:any, next:any) => {
     res.status(200).send({ data: DATA_IMAGE })
 }
 
+/*
 fs.watch(DIR_IMAGE, () => {
     loadImages()
 })
@@ -109,6 +112,7 @@ fs.watch(DIR_IMAGE, () => {
 fs.watch(DIR_SOUND, () => {
     loadSounds()
 })
+*/
 
 const app = express()
 
@@ -127,8 +131,6 @@ Promise.all([
     loadImages()
 ])
     .then(() => {
-        DATA_SOUND.sort((e1, e2) => e1.name.localeCompare(e2.name))
-        DATA_IMAGE.sort((e1, e2) => e1.name.localeCompare(e2.name))
         app.listen(8090, () => {
             console.log('server started')
         })

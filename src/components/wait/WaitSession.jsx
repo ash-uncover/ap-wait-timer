@@ -2,15 +2,18 @@ import React from 'react'
 
 import {
     useEffect,
+    useMemo,
     useQuery,
     useState,
     useSelector
 } from 'lib/hooks'
 
 import {
+    FontAwesomeIcon
+} from '@fortawesome/react-fontawesome'
+
+import {
     AppBackground,
-    AppContent,
-    AppPage,
     AppToolbar
 } from 'components/commons/app'
 
@@ -31,6 +34,12 @@ import {
 } from 'store/data/songs'
 
 import './WaitSession.scss'
+
+const STATE = {
+    NOT_STARTED: 'NOT_STARTED',
+    PLAYING: 'PLAYING',
+    ENDED: 'ENDED',
+}
 
 const extractTitle = (queryTitle) => {
     return queryTitle || ''
@@ -59,51 +68,66 @@ const extractSongs = (querySongs) => {
     return list.map(Number)
 }
 
+const songlistDuration = (songlist) => {
+    return songlist.reduce((acc, song) => {
+        return acc + song.duration
+    }, 0)
+}
+
 const WaitSession = () => {
     let timeout
 
     // HOOKS
 
+    const [idle, setIdle] = useState(false)
+    const [playerState, setPlayerState] = useState(STATE.NOT_STARTED)
+    const [playlist, setPlaylist] = useState([])
+    const [playlistSong, setPlaylistSong] = useState(0)
+    const [songCurrentTime, setSongCurrentTime] = useState(0)
+
     const dataImages = useSelector(ImagesSelectors.imagesDataSelector)
     const dataSongs = useSelector(SongsSelectors.songsDataSelector)
 
     const query = useQuery()
+    const queryString = String(query)
 
-    const title = extractTitle(query.get('title'))
-    const subTitle = extractSubTitle(query.get('subTitle'))
-    const background = dataImages[extractBackground(query.get('background'), dataImages.length)]
-    const date = extractDate(query.get('date'))
-    const songs = extractSongs(query.get('songs')).map(i => dataSongs[i])
-    const playlist = []
+    console.log('WaitSession - rerender')
+    console.log(queryString)
 
-    const songlistDuration = (songlist) => {
-        return songlist.reduce((acc, song) => {
-            return acc + song.duration
-        }, 0)
-    }
+    const {
+        title,
+        subTitle,
+        background,
+        date,
+        songs,
+    } = useMemo(() => {
+        const titleMemo = extractTitle(query.get('title'))
+        const subTitleMemo = extractSubTitle(query.get('subTitle'))
+        const backgroundMemo = dataImages[extractBackground(query.get('background'), dataImages.length)]
+        const dateMemo = extractDate(query.get('date'))
+        const songsMemo = extractSongs(query.get('songs')).map(i => dataSongs[i])
 
-    const now = new Date()
-    const endDate = new Date(date)
-    const duration = (endDate.getTime() - now.getTime()) / 1000
+        const result = {
+            title: titleMemo,
+            subTitle: subTitleMemo,
+            background: backgroundMemo,
+            date: dateMemo,
+            songs: songsMemo
+        }
+        console.log('WaitSession - useMemo')
+        console.log(result)
+        return result
+    }, [queryString])
 
-    let next = 0
-    let playlistDuration = songlistDuration(playlist)
-    while (playlistDuration < duration) {
-        playlist.unshift(songs[next++ % songs.length])
-        playlistDuration = songlistDuration(playlist)
-    }
 
-    const [idle, setIdle] = useState(false)
-    const [song, setSong] = useState(0)
-    const [songCurrentTime, setSongCurrentTime] = useState(playlistDuration - duration)
 
     useEffect(() => {
+        console.log('WaitSession - useEffect')
         timeout = setTimeout(() => {
             setIdle(true)
         }, 1500)
         return () => {
             clearTimeout(timeout)
-
         }
     }, [])
 
@@ -121,10 +145,98 @@ const WaitSession = () => {
         }
     }
 
+    const onStartPlaying = () => {
+        // Compute playlist and starting point
+        const now = new Date()
+        const endDate = new Date(date)
+        const duration = (endDate.getTime() - now.getTime()) / 1000
+        const playlist = []
+
+        if (duration < 0) {
+            setPlayerState(STATE.ENDED)
+        } else {
+            let next = 0
+            let resultDuration = songlistDuration(playlist)
+            while (resultDuration < duration) {
+                playlist.unshift(songs[next++ % songs.length])
+                resultDuration = songlistDuration(playlist)
+            }
+            setPlaylist(playlist)
+            setSongCurrentTime(resultDuration - duration)
+            setPlayerState(STATE.PLAYING)
+        }
+
+    }
+
     const onComplete = () => {
-        const nextSong = (song + 1) % songs.length
-        setSongCurrentTime(0)
-        setSong(nextSong)
+        console.log('WaitSession - onComplete')
+        if (playlistSong + 1 === playlist.length) {
+            setPlayerState(STATE.ENDED)
+            setSongCurrentTime(0)
+            setPlaylistSong(null)
+        } else {
+            const nextPlaylistSong = playlistSong + 1
+            setSongCurrentTime(0)
+            setPlaylistSong(nextPlaylistSong)
+        }
+    }
+
+    const renderAlarmArea = () => {
+        switch (playerState) {
+            case STATE.PLAYING: {
+                return (
+                    <Alarm
+                        alarm={date}
+                        showHours={true}
+                        showMinutes={true}
+                        showSeconds={true}
+                    />
+                );
+            }
+            case STATE.NOT_STARTED:
+            case STATE.ENDED:
+            default:  {
+                return null;
+            }
+        }
+    }
+
+    const renderAudioArea = () => {
+        switch (playerState) {
+            case STATE.NOT_STARTED: {
+                return (
+
+                    <button
+                        className='button-start'
+                        onClick={onStartPlaying}
+                    >
+                        <FontAwesomeIcon icon={['fas', 'play']} />
+                    </button>
+                );
+            }
+            case STATE.PLAYING: {
+                return (
+                    <AudioPlayer
+                        title={playlist[playlistSong]?.name}
+                        src={playlist[playlistSong]?.url}
+                        time={songCurrentTime}
+                        onComplete={onComplete}
+                    />
+                );
+            }
+            case STATE.END:
+            default: {
+                return null;
+            }
+        }
+    }
+
+    const classes = ['waitsession']
+    if (idle) {
+        classes.push('waitsession-idle')
+    }
+    if (playerState === STATE.ENDED) {
+        classes.push('waitsession-ended')
     }
 
     return (
@@ -132,48 +244,34 @@ const WaitSession = () => {
             <AppBackground
                 src={background.url}
             />
-            <AppToolbar>
-                <Link to='/'>
-                    <Button
-                        icon={['fas', 'home']}
-                    />
-                </Link>
-            </AppToolbar>
-            <AppPage
-                className={idle ? 'waitsession waitsession-idle' : 'waitsession'}
+            <div
+                className={classes.join(' ')}
                 onClick={onClick}
                 onMouseMove={onMouseMove}
             >
-                <div
-                    className='waitsession-header'
-                >
-                    <h1 className='title'>
+                <AppToolbar>
+                    <Link to='/'>
+                        <Button
+                            icon={['fas', 'home']}
+                        />
+                    </Link>
+                </AppToolbar>
+                <div className='overlay-header overlay'>
+                    <h1 className='text title'>
                         <div>
                             {title}
                         </div>
-                        <Alarm
-                            alarm={date}
-                            showHours={true}
-                            showMinutes={true}
-                            showSeconds={true}
-                        />
+                        {renderAlarmArea()}
                     </h1>
-                    <h2 className='subtitle'>
+                    <h2 className='text subtitle'>
                         {subTitle}
                     </h2>
                 </div>
 
-                <div
-                    className='waitsession-audio'
-                >
-                    <AudioPlayer
-                        title={playlist[song]?.name}
-                        src={playlist[song]?.url}
-                        time={songCurrentTime}
-                        onComplete={onComplete}
-                    />
+                <div className='overlay-audio overlay'>
+                    {renderAudioArea()}
                 </div>
-            </AppPage>
+            </div>
         </>
     )
 }

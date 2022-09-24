@@ -1,0 +1,108 @@
+.wizard-progress-steps {
+    flex-grow: 0;
+    flex-shrink: 0;
+    width: 100%;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+
+    padding: 1rem;
+
+    >.wizard-progress-step {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-grow: 1;
+        width: 0;
+        position: relative;
+        cursor: pointer;
+
+        >.wizard-progress-step-info {
+            display: inline-flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            z-index: 2;
+
+            >.wizard-progress-step-info-index {
+                border: 3px solid lightgrey;
+                background: white;
+                border-radius: 50%;
+                width: 35px;
+                height: 35px;
+                text-align: center;
+                line-height: 35px;
+            }
+            >.wizard-progress-step-info-name {
+
+            }
+            &::before {
+                content: ' ';
+                position: absolute;
+                z-index: -1;
+                top: 18px;
+                left: 0;
+                width: 50%;
+                border: 1.5px solid lightgrey;
+            }
+            &::after {
+                content: ' ';
+                position: absolute;
+                z-index: -1;
+                top: 18px;
+                right: 0;
+                width: 50%;
+                border: 1.5px solid lightgrey;
+            }
+        }
+
+        &.done {
+            >.wizard-progress-step-info {
+                >.wizard-progress-step-info-index {
+                    background: teal;
+                    color: white;
+                }
+                &::before {
+                    border-color: teal;
+                }
+                &::after {
+                    border-color: teal;
+                }
+                >.wizard-progress-step-info-name {
+                    color: teal;
+                }
+            }
+        }
+        &.current {
+            >.wizard-progress-step-info {
+                >.wizard-progress-step-info-index {
+                    border-color: teal;
+                    font-weight: bold;
+                }
+                &::before {
+                    border-color: teal;
+                }
+                >.wizard-progress-step-info-name {
+                    font-weight: bold;
+                }
+            }
+        }
+    }
+
+    >.wizard-progress-step:first-child {
+        >.wizard-progress-step-info {
+            &::before {
+                content: none;
+            }
+        }
+    }
+    >.wizard-progress-step:last-child {
+        >.wizard-progress-step-info {
+            &::after {
+                content: none;
+            }
+        }
+    }
+}

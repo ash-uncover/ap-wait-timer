@@ -14,6 +14,7 @@ import {
     AppToolbar,
 } from 'components/commons/app'
 
+import BreathWizard from 'components/breath/BreathWizard'
 import WaitWizard from 'components/wait/WaitWizard'
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
@@ -23,13 +24,20 @@ import './Home.scss'
 const Home = () => {
 
     const [showWaitWizard, setShowWaitWizard] = useState(false)
+    const [showBreathWizard, setShowBreathWizard] = useState(false)
 
     const onNewWaitPress = () => {
         setShowWaitWizard(!showWaitWizard)
     }
-
-    const onDialogClose = () => {
+    const onNewWaitDialogClose = () => {
         setShowWaitWizard(!showWaitWizard)
+    }
+
+    const onNewBreathPress = () => {
+        setShowBreathWizard(!showBreathWizard)
+    }
+    const onNewBreathDialogClose = () => {
+        setShowBreathWizard(!showBreathWizard)
     }
 
     return (
@@ -59,7 +67,7 @@ const Home = () => {
                     </button>
                     <button
                         className='tile teal'
-                        onClick={onNewWaitPress}
+                        onClick={onNewBreathPress}
                     >
                         <FontAwesomeIcon icon={['fas', 'lungs']} />
                     </button>
@@ -71,13 +79,23 @@ const Home = () => {
                     </button>
                 </div>
             </AppContent>
+            { showBreathWizard ?
+                <Dialog
+                    title='Start new breath session'
+                    onClose={onNewBreathDialogClose}
+                >
+                    <BreathWizard
+                        onCancel={onNewBreathDialogClose}
+                    />
+                </Dialog>
+            : null}
             { showWaitWizard ?
                 <Dialog
-                    title='wizard'
-                    onClose={onDialogClose}
+                    title='Start new wait session'
+                    onClose={onNewWaitDialogClose}
                 >
                     <WaitWizard
-                        onCancel={onDialogClose}
+                        onCancel={onNewWaitDialogClose}
                     />
                 </Dialog>
             : null}

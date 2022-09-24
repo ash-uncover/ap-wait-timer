@@ -4,6 +4,7 @@ import React from 'react'
 
 import {
     useEffect,
+    useMemo,
     useState
 } from 'lib/hooks'
 
@@ -17,7 +18,10 @@ export const AudioPlayer = ({
 }) => {
     // HOOKS
 
-    const audio = new Audio(src)
+    const audio = useMemo(() => {
+        console.log('AudioPlayer - useMemo')
+        return new Audio(src)
+    }, [src])
     audio.addEventListener('ended', onComplete)
 
     const [percentage, setPercentage] = useState(0)
@@ -25,6 +29,7 @@ export const AudioPlayer = ({
     const [error, setError] = useState(null)
 
     const startAudio = () => {
+        console.log('AudioPlayer - startAudio')
         audio.removeEventListener('canplay', startAudio)
         play()
     }
@@ -32,8 +37,10 @@ export const AudioPlayer = ({
     let progressInterval;
 
     useEffect(() => {
+        console.log('AudioPlayer - useEffect')
         audio.addEventListener('canplay', startAudio)
         return () => {
+            console.log('AudioPlayer - useEffect return')
             clearInterval(progressInterval)
             audio.pause()
         }
@@ -42,6 +49,7 @@ export const AudioPlayer = ({
     // VIEW CALLBACKS
 
     const play = () => {
+        console.log('AudioPlayer - play')
         audio.play()
             .then(() => {
                 audio.currentTime = time
@@ -60,6 +68,7 @@ export const AudioPlayer = ({
 
     // RENDERING
 
+    console.log('AudioPlayer - render')
     return (
         <div style={{ display: 'flex' }}>
             {!playing && <button onClick={play}>Play</button>}
@@ -76,7 +85,6 @@ export const AudioPlayerRenderer = ({
     className,
     title,
     percentage,
-    onPlay
 }) => {
     return (
         <div className={`audio-player ${className}`}>
