@@ -10,9 +10,8 @@ import {
 } from 'react-router-dom'
 
 import store from 'store'
-import Root from 'routes/__layout'
+import Root from 'routes'
 
-import './index.css'
 import './i18n'
 import './index-icons'
 

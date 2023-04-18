@@ -1,21 +1,19 @@
 import React from 'react'
-
+// Hooks
 import {
-  useEffect,
   useSelector,
 } from 'lib/hooks'
 import { useAppData } from 'lib/services/ServiceHelper'
-
+// Store
 import AppSelectors from 'store/app/app.selectors'
-import { AppBackground } from 'components/commons/app'
-
+// Utils
 import { DataStates } from '@uncover/js-utils'
+// Components
+import AppBackground from 'components/commons/app/AppBackground'
 import HomeLoading from 'components/home/HomeLoading'
 import HomeError from 'components/home/HomeError'
 
 import './App.css'
-import { useDispatch } from 'react-redux'
-import Home from 'components/home/Home'
 
 const App = ({
   children,
@@ -45,7 +43,7 @@ const App = ({
       return (
         <div className='app'>
           <AppBackground src={appBackground} />
-          <Home />
+          {children}
         </div>
       )
     }

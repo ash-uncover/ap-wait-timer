@@ -34,32 +34,6 @@ const STATE = {
   ENDED: 'ENDED',
 }
 
-const extractTitle = (queryTitle) => {
-  return queryTitle || ''
-}
-
-const extractSubTitle = (querySubTitle) => {
-  return querySubTitle || ''
-}
-
-const extractBackground = (queryBackground, size) => {
-  if (isNaN(queryBackground)) {
-    return Math.floor(Math.random() * size);
-  }
-  return Number(queryBackground)
-}
-
-const extractDate = (queryDate) => {
-  if (isNaN(queryDate)) {
-    return new Date().getTime()
-  }
-  return Number(queryDate)
-}
-
-const extractSongs = (querySongs) => {
-  const list = (querySongs || '').split(',')
-  return list.map(Number)
-}
 
 const songlistDuration = (songlist) => {
   return songlist.reduce((acc, song) => {
@@ -67,8 +41,28 @@ const songlistDuration = (songlist) => {
   }, 0)
 }
 
-const WaitSession = () => {
-  let timeout
+type WaitSessionProperties = {
+  title?: string
+  subTitle?: string
+  date: number
+  background: string
+  songs: string[]
+}
+const WaitSession = ({
+  title,
+  subTitle,
+  date,
+  background,
+  songs
+}: WaitSessionProperties) => {
+
+
+
+  console.log(title)
+  console.log(subTitle)
+  console.log(date)
+  console.log(background)
+  console.log(songs)
 
   // HOOKS
 
@@ -78,49 +72,13 @@ const WaitSession = () => {
   const [playlistSong, setPlaylistSong] = useState(0)
   const [songCurrentTime, setSongCurrentTime] = useState(0)
 
-  const dataImages = useSelector(DataSelectors.images)
-  const dataSongs = useSelector(DataSelectors.songs)
-
-  const query = useQuery()
-  const queryString = String(query)
-
-  console.log('WaitSession - rerender')
-  console.log(queryString)
-
-  const {
-    title,
-    subTitle,
-    background,
-    date,
-    songs,
-  } = useMemo(() => {
-    const titleMemo = extractTitle(query.get('title'))
-    const subTitleMemo = extractSubTitle(query.get('subTitle'))
-    const backgroundMemo = dataImages[extractBackground(query.get('background'), dataImages.length)]
-    const dateMemo = extractDate(query.get('date'))
-    const songsMemo = extractSongs(query.get('songs')).map(i => dataSongs[i])
-
-    const result = {
-      title: titleMemo,
-      subTitle: subTitleMemo,
-      background: backgroundMemo,
-      date: dateMemo,
-      songs: songsMemo
-    }
-    console.log('WaitSession - useMemo')
-    console.log(result)
-    return result
-  }, [queryString])
-
-
-
+  let idleTimeout
   useEffect(() => {
-    console.log('WaitSession - useEffect')
-    timeout = setTimeout(() => {
+    idleTimeout = setTimeout(() => {
       setIdle(true)
     }, 1500)
     return () => {
-      clearTimeout(timeout)
+      clearTimeout(idleTimeout)
     }
   }, [])
 
@@ -129,10 +87,11 @@ const WaitSession = () => {
   const onClick = () => {
     setIdle(false)
   }
+
   const onMouseMove = () => {
-    clearTimeout(timeout)
+    clearTimeout(idleTimeout)
     if (!idle) {
-      timeout = setTimeout(() => {
+      idleTimeout = setTimeout(() => {
         setIdle(true)
       }, 1500)
     }
@@ -234,7 +193,7 @@ const WaitSession = () => {
   return (
     <>
       <AppBackground
-        src={background.url}
+        src={background}
       />
       <div
         className={classes.join(' ')}

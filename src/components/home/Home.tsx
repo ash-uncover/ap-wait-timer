@@ -22,8 +22,11 @@ import './Home.css'
 
 const Home = () => {
 
+  // Hooks //
+
   const [showWaitWizard, setShowWaitWizard] = useState(false)
-  const [showBreathWizard, setShowBreathWizard] = useState(false)
+
+  // Callbacks //
 
   const onNewWaitPress = () => {
     setShowWaitWizard(!showWaitWizard)
@@ -32,23 +35,10 @@ const Home = () => {
     setShowWaitWizard(!showWaitWizard)
   }
 
+  // Rendering //
+
   return (
     <AppPage>
-      <AppToolbar>
-        <div className='app-toolbar-left'>
-          <button>
-            <FontAwesomeIcon icon={['fas', 'home']} />
-          </button>
-          <label>
-            AP Sounds
-          </label>
-        </div>
-        <div className='app-toolbar-right'>
-          <button>
-            <FontAwesomeIcon icon={['fas', 'cog']} />
-          </button>
-        </div>
-      </AppToolbar>
       <AppContent>
         <div className='tile-container'>
           <button

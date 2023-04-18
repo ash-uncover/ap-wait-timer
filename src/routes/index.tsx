@@ -1,6 +1,13 @@
 import React from 'react'
+
 import App from 'components/commons/app/App'
-import { Outlet } from 'react-router-dom'
+
+import {
+  Route,
+  Routes,
+} from 'react-router-dom'
+import RouteWait from './wait'
+import Home from 'components/home/Home'
 
 const RouteRoot = () => {
 
@@ -8,7 +15,10 @@ const RouteRoot = () => {
 
   return (
     <App>
-      <Outlet />
+      <Routes>
+        <Route path='/wait' element={<RouteWait />} />
+        <Route path='/' element={<Home />} />
+      </Routes>
     </App>
   )
 }

@@ -1,6 +1,7 @@
-$color-error: #A00;
 
 .audio-player {
+  --color-error: #A00;
+
   height: 8rem;
   width: 20rem;
   padding: 1rem;
@@ -11,9 +12,9 @@ $color-error: #A00;
   justify-content: center;
 
   &.error {
-    color: $color-error;
+    color: var(--color-error);
     .audio-player-bar {
-      background: $color-error;
+      background: var(--color-error);
     }
   }
 
@@ -24,7 +25,7 @@ $color-error: #A00;
     font-size: 1.5rem;
     font-style: italic;
     color: darkgray;
-    .audio-player-title {
+    & .audio-player-title {
       display: inline-block;
       padding-right: 2rem;
       padding-left: 100%;
