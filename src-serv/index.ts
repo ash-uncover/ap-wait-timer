@@ -9,8 +9,8 @@ const { getAudioDurationInSeconds } = require('get-audio-duration');
 const path = require('path');
 const fs = require('fs');
 
-const DIR_SOUND = path.join(__dirname, '../public/assets/sound');
-const DIR_IMAGE = path.join(__dirname, '../public/assets/images');
+const DIR_SOUND = path.join(__dirname, '../public/sound');
+const DIR_IMAGE = path.join(__dirname, '../public/images');
 
 const DATA_SOUND:any[] = []
 const DATA_IMAGE:any[] = []
@@ -64,10 +64,10 @@ export const loadSounds = async () => {
 }
 
 export const loadSound = async (file:string) => {
-    const absolutePath = path.resolve(`public/assets/sound/${file}`)
+    const absolutePath = path.resolve(`public/sound/${file}`)
     const duration = await getAudioDurationInSeconds(absolutePath)
     return {
-        url: `http://localhost:8090/assets/sound/${encodeURIComponent(file)}`,
+        url: `http://localhost:8090/sound/${encodeURIComponent(file)}`,
         name: file,
         duration
     }
@@ -95,12 +95,12 @@ export const loadImages = async () => {
 
 export const loadImage = (file:string) => {
     return {
-        url: `http://localhost:8090/assets/images/${encodeURIComponent(file)}`,
+        url: `http://localhost:8090/images/${encodeURIComponent(file)}`,
         name: file
     }
 }
 
-export const getPictures = (req:any, res:any, next:any) => {
+export const getImages = (req:any, res:any, next:any) => {
     res.status(200).send({ data: DATA_IMAGE })
 }
 
@@ -123,7 +123,7 @@ app.use(useHeaders)
 app.use(express.urlencoded({ extended: true }))
 app.use(express.json())
 
-app.get('/api/pictures/', getPictures)
+app.get('/api/images/', getImages)
 app.get('/api/songs/', getSongs)
 
 Promise.all([
