@@ -5,18 +5,13 @@
     "build": "webpack",
     "start": "concurrently --kill-others \"npm run start:*\"",
     "start:front": "webpack serve --progress --mode development",
-    "start:back": "ts-node ./src-serv/index",
-    "test": "jest",
-    "test:coverage": "jest --collectCoverage",
-    "test:update": "jest --updateSnapshot"
+    "start:back": "ts-node ./src-serv/index"
   },
   "dependencies": {
     "@fortawesome/fontawesome-svg-core": "^6.4.0",
     "@fortawesome/free-regular-svg-icons": "^6.4.0",
     "@fortawesome/free-solid-svg-icons": "^6.4.0",
     "@fortawesome/react-fontawesome": "^0.2.0",
-    "@headlessui/react": "^1.7.14",
-    "@heroicons/react": "^2.0.17",
     "@uncover/js-utils": "^0.0.13",
     "@uncover/js-utils-logger": "^0.1.5",
     "get-audio-duration": "^3.1.1",
