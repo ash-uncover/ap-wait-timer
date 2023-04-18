@@ -1,5 +1,5 @@
 {
-  "name": "ap-wimhof",
+  "name": "ap-wait-timer",
   "version": "1.0.0",
   "scripts": {
     "build": "webpack",
