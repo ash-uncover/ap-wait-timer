@@ -8,11 +8,10 @@ import {
   useState
 } from 'lib/hooks'
 
-
 import AudioPlayerTitle from './AudioPlayerTitle'
+import AudioPlayerProgress from './AudioPlayerProgress'
 
 import './AudioPlayer.css'
-import AudioPlayerProgress from './AudioPlayerProgress'
 
 export const AudioPlayer = ({
   title,
@@ -28,7 +27,6 @@ export const AudioPlayer = ({
   }, [src])
   audio.addEventListener('ended', onComplete)
 
-  const [playing, setPlaying] = useState(false)
   const [error, setError] = useState(null)
 
   const startAudio = () => {
@@ -52,35 +50,25 @@ export const AudioPlayer = ({
     audio.play()
       .then(() => {
         audio.currentTime = time
-        setPlaying(true)
         setError(null)
       })
       .catch((error) => {
-        setPlaying(false)
         setError(error)
       })
   }
 
   // RENDERING //
 
-  return (
-    <AudioPlayerRenderer
-      className={error ? 'error' : ''}
-      title={error ? 'Failed to start' : title}
-      audio={audio}
-    />
-  )
-}
+  if (error) {
+    return (
+      <div className='audio-player error'>
+        Failed to start
+      </div>
+    )
+  }
 
-export const AudioPlayerRenderer = ({
-  className,
-  title,
-  audio,
-}) => {
-
-  // RENDERING //
   return (
-    <div className={`audio-player ${className}`}>
+    <div className='audio-player'>
       <AudioPlayerTitle title={title} />
       <AudioPlayerProgress audio={audio} />
     </div>
