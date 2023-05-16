@@ -21,32 +21,14 @@ export const AudioPlayer = ({
 }) => {
 
   // HOOKS //
+  const [error, setError] = useState(null)
 
   const audio = useMemo(() => {
     return new Audio(src)
   }, [src])
-  audio.addEventListener('ended', onComplete)
 
-  const [error, setError] = useState(null)
-
-  const startAudio = () => {
-    audio.removeEventListener('canplay', startAudio)
-    play()
-  }
-
-  let progressInterval;
-
-  useEffect(() => {
-    audio.addEventListener('canplay', startAudio)
-    return () => {
-      clearInterval(progressInterval)
-      audio.pause()
-    }
-  }, [src])
-
-  // VIEW CALLBACKS //
-
-  const play = () => {
+  const playAudio = () => {
+    audio.removeEventListener('canplay', playAudio)
     audio.play()
       .then(() => {
         audio.currentTime = time
@@ -56,6 +38,13 @@ export const AudioPlayer = ({
         setError(error)
       })
   }
+
+  useEffect(() => {
+    audio.addEventListener('ended', onComplete)
+    audio.addEventListener('canplay', playAudio)
+
+    return audio.pause
+  }, [src])
 
   // RENDERING //
 
