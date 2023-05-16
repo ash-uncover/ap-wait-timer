@@ -1,8 +1,9 @@
-
 .audio-player {
   --color-error: red;
   --color-content: darkgrey;
-  --color-background: white;
+  --color-background: #DDD;
+
+  --progress-bar-height: 1.25rem;
 
   height: 100%;
   width: 100%;
@@ -20,20 +21,6 @@
     color: var(--color-error);
     .audio-player-progress {
       background: var(--color-error);
-    }
-  }
-
-  & .audio-player-bar {
-    background: var(--color-content);
-    height: 1rem;
-    overflow: hidden;
-    width: 100%;
-    margin-bottom: 0.5rem;
-    & .audio-player-progress {
-      background: var(--color-background);
-      height: 1rem;
-      width: 0%;
-      transition: width 0.25s;
     }
   }
 }
