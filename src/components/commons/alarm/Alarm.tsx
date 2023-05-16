@@ -26,6 +26,7 @@ const Alarm = ({
   showSeconds,
   showMilliseconds
 }: AlarmProperties) => {
+
   // HOOKS //
 
   const [value, setValue] = useState(formatAlarm(alarm))

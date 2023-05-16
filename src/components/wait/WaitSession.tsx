@@ -56,14 +56,6 @@ const WaitSession = ({
   songs
 }: WaitSessionProperties) => {
 
-
-
-  console.log(title)
-  console.log(subTitle)
-  console.log(date)
-  console.log(background)
-  console.log(songs)
-
   // HOOKS
 
   const [idle, setIdle] = useState(false)
@@ -220,7 +212,9 @@ const WaitSession = ({
         </div>
 
         <div className='overlay-audio overlay'>
-          {renderAudioArea()}
+          <div className='overlay-audio__control'>
+            {renderAudioArea()}
+          </div>
         </div>
       </div>
     </>

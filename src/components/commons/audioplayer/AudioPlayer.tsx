@@ -8,7 +8,11 @@ import {
   useState
 } from 'lib/hooks'
 
+
+import AudioPlayerTitle from './AudioPlayerTitle'
+
 import './AudioPlayer.css'
+import AudioPlayerProgress from './AudioPlayerProgress'
 
 export const AudioPlayer = ({
   title,
@@ -16,20 +20,18 @@ export const AudioPlayer = ({
   time,
   onComplete
 }) => {
-  // HOOKS
+
+  // HOOKS //
 
   const audio = useMemo(() => {
-    console.log('AudioPlayer - useMemo')
     return new Audio(src)
   }, [src])
   audio.addEventListener('ended', onComplete)
 
-  const [percentage, setPercentage] = useState(0)
   const [playing, setPlaying] = useState(false)
   const [error, setError] = useState(null)
 
   const startAudio = () => {
-    console.log('AudioPlayer - startAudio')
     audio.removeEventListener('canplay', startAudio)
     play()
   }
@@ -37,26 +39,19 @@ export const AudioPlayer = ({
   let progressInterval;
 
   useEffect(() => {
-    console.log('AudioPlayer - useEffect')
     audio.addEventListener('canplay', startAudio)
     return () => {
-      console.log('AudioPlayer - useEffect return')
       clearInterval(progressInterval)
       audio.pause()
     }
   }, [src])
 
-  // VIEW CALLBACKS
+  // VIEW CALLBACKS //
 
   const play = () => {
-    console.log('AudioPlayer - play')
     audio.play()
       .then(() => {
         audio.currentTime = time
-        progressInterval = setInterval(() => {
-          const newPercentage = audio.currentTime * 100 / audio.duration
-          setPercentage(newPercentage)
-        }, 100)
         setPlaying(true)
         setError(null)
       })
@@ -66,40 +61,28 @@ export const AudioPlayer = ({
       })
   }
 
-  // RENDERING
+  // RENDERING //
 
-  console.log('AudioPlayer - render')
   return (
-    <div style={{ display: 'flex' }}>
-      {!playing && <button onClick={play}>Play</button>}
-      <AudioPlayerRenderer
-        className={error ? 'error' : ''}
-        title={error ? 'Failed to start' : title}
-        percentage={percentage}
-      />
-    </div>
+    <AudioPlayerRenderer
+      className={error ? 'error' : ''}
+      title={error ? 'Failed to start' : title}
+      audio={audio}
+    />
   )
 }
 
 export const AudioPlayerRenderer = ({
   className,
   title,
-  percentage,
+  audio,
 }) => {
+
+  // RENDERING //
   return (
     <div className={`audio-player ${className}`}>
-      <div className='audio-player-header'>
-        <div className='audio-player-title'>
-          {title}
-        </div>
-      </div>
-
-      <div className='audio-player-bar'>
-        <div
-          className='audio-player-progress'
-          style={{ width: `${percentage}%` }}
-        />
-      </div>
+      <AudioPlayerTitle title={title} />
+      <AudioPlayerProgress audio={audio} />
     </div>
   )
 }
