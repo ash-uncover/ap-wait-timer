@@ -2,10 +2,7 @@ import React from 'react'
 
 import {
   useEffect,
-  useMemo,
-  useQuery,
   useState,
-  useSelector
 } from 'lib/hooks'
 
 import {
@@ -26,14 +23,12 @@ import Button from 'components/commons/basic/Button'
 import AudioPlayer from 'components/commons/audioplayer/AudioPlayer'
 
 import './WaitSession.css'
-import DataSelectors from 'store/data/data.selectors'
 
 const STATE = {
   NOT_STARTED: 'NOT_STARTED',
   PLAYING: 'PLAYING',
   ENDED: 'ENDED',
 }
-
 
 const songlistDuration = (songlist) => {
   return songlist.reduce((acc, song) => {
@@ -148,14 +143,13 @@ const WaitSession = ({
     switch (playerState) {
       case STATE.NOT_STARTED: {
         return (
-
           <button
             className='button-start'
             onClick={onStartPlaying}
           >
             <FontAwesomeIcon icon={['fas', 'play']} />
           </button>
-        );
+        )
       }
       case STATE.PLAYING: {
         return (
@@ -165,7 +159,7 @@ const WaitSession = ({
             time={songCurrentTime}
             onComplete={onComplete}
           />
-        );
+        )
       }
       case STATE.ENDED:
       default: {

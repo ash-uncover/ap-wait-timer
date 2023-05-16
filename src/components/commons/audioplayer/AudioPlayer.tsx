@@ -21,6 +21,7 @@ export const AudioPlayer = ({
 }) => {
 
   // HOOKS //
+
   const [error, setError] = useState(null)
 
   const audio = useMemo(() => {
