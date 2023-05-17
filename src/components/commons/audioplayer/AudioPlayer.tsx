@@ -44,7 +44,7 @@ export const AudioPlayer = ({
     audio.addEventListener('ended', onComplete)
     audio.addEventListener('canplay', playAudio)
 
-    return audio.pause
+    return () => audio.pause()
   }, [src])
 
   // RENDERING //

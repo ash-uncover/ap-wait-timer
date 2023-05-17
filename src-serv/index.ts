@@ -57,9 +57,9 @@ export const loadSounds = async () => {
             if (file !== '.__root') {
                 const data = await loadSound(file)
                 DATA_SOUND.push(data)
+                DATA_SOUND.sort((e1, e2) => e1.name.localeCompare(e2.name))
             }
         })
-        DATA_SOUND.sort((e1, e2) => e1.name.localeCompare(e2.name))
     })
 }
 
