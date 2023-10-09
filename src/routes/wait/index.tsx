@@ -22,8 +22,9 @@ const useQueryBackground = () => {
   let index = 0
   if (isNaN(queryBackground as any)) {
     index = Math.floor(Math.random() * dataImages.length);
+  } else {
+    index = Number(queryBackground)
   }
-  index = Number(queryBackground)
   return dataImages[index % dataImages.length].url
 }
 
