@@ -1,0 +1,15 @@
+.thumbnail-container {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  max-width: 100%;
+  overflow: auto;
+  padding: 1rem;
+  flex-wrap: wrap;
+
+  border: 1px solid #AAA;
+  background: #DDD;
+
+  height: 0;
+  flex-grow: 1;
+}

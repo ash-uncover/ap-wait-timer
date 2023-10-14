@@ -14,8 +14,8 @@ module.exports = {
   entry: path.resolve(DIR_SRC, 'index.tsx'),
 
   resolve: {
-    modules: ['node_modules', './src'],
-    extensions: ['.js', '.jsx', '.ts', '.tsx'],
+    modules: [DIR_NODE_MODULES, DIR_SRC],
+    extensions: ['.js', '.jsx', '.ts', '.tsx', '.css'],
   },
 
   output: {
@@ -53,7 +53,7 @@ module.exports = {
     rules: [
       {
         test: /.(jsx|js)$/,
-        include: DIR_SRC,
+        include: [DIR_SRC, path.resolve(DIR_NODE_MODULES, '@uncover')],
         exclude: DIR_NODE_MODULES,
         use: [
           { loader: 'babel-loader' },
@@ -61,7 +61,7 @@ module.exports = {
       },
       {
         test: /\.tsx?$/,
-        include: DIR_SRC,
+        include: [DIR_SRC, path.resolve(DIR_NODE_MODULES, '@uncover')],
         exclude: DIR_NODE_MODULES,
         use: [
           { loader: 'ts-loader' },

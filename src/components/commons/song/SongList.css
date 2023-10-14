@@ -1,0 +1,16 @@
+.song-list {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+
+  padding: 1rem;
+
+  border: 1px solid #AAA;
+  background: #DDD;
+  overflow: auto;
+
+  align-items: flex-start;
+  height: 0;
+  flex-grow: 1;
+  justify-content: space-evenly;
+}

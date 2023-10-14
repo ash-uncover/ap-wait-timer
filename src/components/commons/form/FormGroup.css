@@ -1,0 +1,20 @@
+:root {}
+.ap-form-group {
+
+  &.ap-form-group--vertical {
+  }
+
+  &.ap-form-group--horizontal {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+
+    & .ap-label {
+      flex-shrink: 0;
+    }
+    & .ap-input {
+      flex-grow: 1;
+    }
+
+  }
+}

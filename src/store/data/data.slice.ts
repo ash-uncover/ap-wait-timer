@@ -25,10 +25,17 @@ interface PayloadimagesSuccess {
   data: any[]
 }
 const imagesGetSuccess: CaseReducer<DataState, PayloadAction<PayloadimagesSuccess>> = (state, action) => {
-  state.images = action.payload.data.map((entry, i) => ({
-    ...entry,
-    id: i,
-  }))
+  state.images = [
+    {
+      url: 'http://localhost:8090/random.png',
+      name: 'random.png',
+      id: 0
+    },
+    ...action.payload.data.map((entry, i) => ({
+      ...entry,
+      id: i + 1,
+    }))
+  ]
   delete state.imagesError
   state.imagesState = DataStates.SUCCESS
 }

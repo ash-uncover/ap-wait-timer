@@ -18,13 +18,8 @@ type AlarmProperties = {
   showSeconds?: boolean
   showMilliseconds?: boolean
 }
-
 const Alarm = ({
-  alarm,
-  showHours,
-  showMinutes,
-  showSeconds,
-  showMilliseconds
+  alarm
 }: AlarmProperties) => {
 
   // HOOKS //
@@ -33,12 +28,7 @@ const Alarm = ({
 
   useEffect(() => {
     const interval = setInterval(() => {
-      const newVal = formatAlarm(alarm, {
-        showHours,
-        showMinutes,
-        showSeconds,
-        showMilliseconds
-      })
+      const newVal = formatAlarm(alarm)
       setValue(newVal)
     }, 100)
     return () => clearInterval(interval)

@@ -14,6 +14,7 @@ import Root from 'routes'
 
 import './i18n'
 import './index-icons'
+import './index.css'
 
 const container = document.getElementById('react-root')
 const root = createRoot(container!)

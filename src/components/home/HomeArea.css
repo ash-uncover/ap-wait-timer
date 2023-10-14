@@ -1,0 +1,15 @@
+& .home-area {
+  background: var(--ap-panel--background);
+  box-shadow: var(--ap-panel--box-shadow);
+  padding: 1rem;
+  overflow: hidden;
+  border-radius: 0.75rem;
+
+  & +.home-area {
+    margin-top: 1rem;
+  }
+
+  & .ap-title {
+    margin-bottom: 0.5rem;
+  }
+}

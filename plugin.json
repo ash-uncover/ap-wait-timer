@@ -1,0 +1,9 @@
+{
+  "name": "ap-wait-timer",
+  "url": "http://localhost:8080",
+  "dependencies": [],
+  "defines": {
+  },
+  "provides": {
+  }
+}

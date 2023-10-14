@@ -1,0 +1,14 @@
+.song {
+
+  .song_input {
+    pointer-events: none;
+    cursor: pointer;
+  }
+  .song_label {
+    pointer-events: none;
+    cursor: pointer;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+  }
+}
