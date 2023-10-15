@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react'
+import { useNavigate } from 'react-router-dom'
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faPause, faPlay, faStop } from '@fortawesome/free-solid-svg-icons'
@@ -10,15 +11,14 @@ import {
   Button,
   ClassBuilder,
   Shell,
-  ShellBackground
+  ShellBackground,
+  Slider
 } from '@uncover/react-commons'
 
 import { WaitToolbar } from './WaitToolbar'
 import { WaitOverlay } from './WaitOverlay'
 
 import './Wait.css'
-import { Slider } from 'components/commons/slider/Slider'
-import { useNavigate } from 'react-router-dom'
 
 // ---------------------------------------------------
 // Static Items
@@ -66,6 +66,7 @@ export const Wait = ({
   const [playlistSong, setPlaylistSong] = useState(0)
   const [songCurrentTime, setSongCurrentTime] = useState(0)
   const [volume, setVolume] = useState(100)
+  const [test, setTest] = useState(100)
 
   let idleTimeout
   useEffect(() => {
