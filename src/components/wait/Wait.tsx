@@ -1,31 +1,32 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
+
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faPause, faPlay, faStop } from '@fortawesome/free-solid-svg-icons'
+
+import { Alarm } from 'components/commons/alarm/Alarm'
+import { AudioPlayer } from 'components/commons/audioplayer/AudioPlayer'
 
 import {
-  useEffect,
-  useState,
-} from 'lib/hooks'
+  Button,
+  ClassBuilder,
+  Shell,
+  ShellBackground
+} from '@uncover/react-commons'
 
-import {
-  FontAwesomeIcon
-} from '@fortawesome/react-fontawesome'
+import { WaitToolbar } from './WaitToolbar'
+import { WaitOverlay } from './WaitOverlay'
 
-import {
-  AppBackground,
-  AppToolbar
-} from 'components/commons/app'
+import './Wait.css'
+import { Slider } from 'components/commons/slider/Slider'
+import { useNavigate } from 'react-router-dom'
 
-import {
-  Link
-} from 'react-router-dom'
-
-import Alarm from 'components/commons/alarm/Alarm'
-import Button from 'components/commons/basic/Button'
-import AudioPlayer from 'components/commons/audioplayer/AudioPlayer'
-
-import './WaitSession.css'
+// ---------------------------------------------------
+// Static Items
+// ---------------------------------------------------
 
 const STATE = {
   NOT_STARTED: 'NOT_STARTED',
+  PAUSED: 'PAUSED',
   PLAYING: 'PLAYING',
   ENDED: 'ENDED',
 }
@@ -36,28 +37,35 @@ const songlistDuration = (songlist) => {
   }, 0)
 }
 
-type WaitSessionProperties = {
+// ---------------------------------------------------
+// Create Component
+// ---------------------------------------------------
+
+interface WaitProperties {
   title?: string
   subTitle?: string
   date: number
   background: string
   songs: string[]
 }
-const WaitSession = ({
+export const Wait = ({
   title,
   subTitle,
   date,
   background,
   songs
-}: WaitSessionProperties) => {
+}: WaitProperties) => {
 
-  // HOOKS
+  // Hooks //
+
+  const navigate = useNavigate()
 
   const [idle, setIdle] = useState(false)
   const [playerState, setPlayerState] = useState(STATE.NOT_STARTED)
   const [playlist, setPlaylist] = useState([])
   const [playlistSong, setPlaylistSong] = useState(0)
   const [songCurrentTime, setSongCurrentTime] = useState(0)
+  const [volume, setVolume] = useState(100)
 
   let idleTimeout
   useEffect(() => {
@@ -69,13 +77,22 @@ const WaitSession = ({
     }
   }, [])
 
-  // VIEW CALLBACKS
+  useEffect(() => {
+    window.addEventListener('click', onClick)
+    window.addEventListener('mousemove', onMouseMove)
+    return () => {
+      window.removeEventListener('click', onClick)
+      window.removeEventListener('mousemove', onMouseMove)
+    }
+  }, [])
 
-  const onClick = () => {
+  // Events //
+
+  function onClick() {
     setIdle(false)
   }
 
-  const onMouseMove = () => {
+  function onMouseMove() {
     clearTimeout(idleTimeout)
     if (!idle) {
       idleTimeout = setTimeout(() => {
@@ -84,7 +101,12 @@ const WaitSession = ({
     }
   }
 
-  const onStartPlaying = () => {
+  function onVolumeChange(event) {
+    setVolume(event.value);
+  }
+
+  function onStartPlaying(event: React.FormEvent<HTMLButtonElement>) {
+    event.stopPropagation()
     // Compute playlist and starting point
     const now = new Date()
     const endDate = new Date(date)
@@ -107,7 +129,7 @@ const WaitSession = ({
 
   }
 
-  const onComplete = () => {
+  function onComplete() {
     if (playlistSong + 1 === playlist.length) {
       setPlayerState(STATE.ENDED)
       setSongCurrentTime(0)
@@ -119,7 +141,21 @@ const WaitSession = ({
     }
   }
 
-  const renderAlarmArea = () => {
+  function onPause(event: React.FormEvent<HTMLButtonElement>) {
+    if (playerState === STATE.PLAYING) {
+      setPlayerState(STATE.NOT_STARTED)
+    } else {
+      onStartPlaying(event)
+    }
+  }
+
+  function onQuit() {
+    navigate('/')
+  }
+
+  // Rendering //
+
+  function renderAlarmArea() {
     switch (playerState) {
       case STATE.PLAYING: {
         return (
@@ -139,7 +175,7 @@ const WaitSession = ({
     }
   }
 
-  const renderAudioArea = () => {
+  function renderAudioArea() {
     switch (playerState) {
       case STATE.NOT_STARTED: {
         return (
@@ -157,6 +193,7 @@ const WaitSession = ({
             title={playlist[playlistSong]?.name}
             src={playlist[playlistSong]?.url}
             time={songCurrentTime}
+            volume={volume / 100}
             onComplete={onComplete}
           />
         )
@@ -168,32 +205,55 @@ const WaitSession = ({
     }
   }
 
-  const classes = ['waitsession']
+  const classes = new ClassBuilder(['wait'])
   if (idle) {
-    classes.push('waitsession-idle')
+    classes.add('wait--idle')
   }
   if (playerState === STATE.ENDED) {
-    classes.push('waitsession-ended')
+    classes.add('wait--ended')
   }
 
   return (
-    <>
-      <AppBackground
-        src={background}
-      />
+    <Shell className={classes.className}>
+
+      <ShellBackground>
+        <img
+          style={{
+            height: '100%',
+            width: '100%',
+            objectFit: 'cover'
+          }}
+          src={background}
+        />
+      </ShellBackground>
+
+      <WaitToolbar show={!idle}>
+        <Slider
+          style={{
+            width: '15rem',
+            marginLeft: 'auto'
+          }}
+          min={0}
+          max={100}
+          value={volume}
+          onChange={onVolumeChange}
+        />
+        <Button
+          style={{ flexShrink: 0 }}
+          icon={playerState === STATE.PLAYING ? faPause : faPlay}
+          onClick={onPause}
+        />
+        <Button
+          style={{ flexShrink: 0 }}
+          icon={faStop}
+          onClick={onQuit}
+        />
+      </WaitToolbar>
+
       <div
-        className={classes.join(' ')}
-        onClick={onClick}
-        onMouseMove={onMouseMove}
+        className='ap-shell__content'
       >
-        <AppToolbar>
-          <Link to='/'>
-            <Button
-              icon={['fas', 'home']}
-            />
-          </Link>
-        </AppToolbar>
-        <div className='overlay-header overlay'>
+        <WaitOverlay className='overlay-header'>
           <h1 className='text title'>
             <div>
               {title}
@@ -203,16 +263,15 @@ const WaitSession = ({
           <h2 className='text subtitle'>
             {subTitle}
           </h2>
-        </div>
+        </WaitOverlay>
 
-        <div className='overlay-audio overlay'>
+        <WaitOverlay className='overlay-audio'>
           <div className='overlay-audio__control'>
             {renderAudioArea()}
           </div>
-        </div>
+        </WaitOverlay>
       </div>
-    </>
+
+    </Shell>
   )
 }
-
-export default WaitSession

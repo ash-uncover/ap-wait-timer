@@ -1,15 +1,14 @@
-import React from 'react'
-
-import {
-  useEffect,
-  useState
-} from 'lib/hooks'
+import React, { useEffect, useState } from 'react'
 
 import {
   formatAlarm
 } from 'lib/utils/TimeUtils'
 
 import './Alarm.css'
+
+// ---------------------------------------------------
+// Create Component
+// ---------------------------------------------------
 
 type AlarmProperties = {
   alarm: number
@@ -18,11 +17,11 @@ type AlarmProperties = {
   showSeconds?: boolean
   showMilliseconds?: boolean
 }
-const Alarm = ({
+export const Alarm = ({
   alarm
 }: AlarmProperties) => {
 
-  // HOOKS //
+  // Hooks //
 
   const [value, setValue] = useState(formatAlarm(alarm))
 
@@ -32,9 +31,11 @@ const Alarm = ({
       setValue(newVal)
     }, 100)
     return () => clearInterval(interval)
-  })
+  }, [])
 
-  // RENDERING //
+  // Events //
+
+  // Rendering //
 
   return (
     <div className='alarm'>
@@ -42,5 +43,3 @@ const Alarm = ({
     </div>
   )
 }
-
-export default Alarm

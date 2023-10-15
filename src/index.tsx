@@ -10,7 +10,7 @@ import {
 } from 'react-router-dom'
 
 import store from 'store'
-import Root from 'routes'
+import { RouteRoot } from 'routes'
 
 import './i18n'
 import './index-icons'
@@ -21,7 +21,7 @@ const root = createRoot(container!)
 root.render(
   <Provider store={store}>
     <BrowserRouter>
-      <Root />
+      <RouteRoot />
     </BrowserRouter>
   </Provider>
 )

@@ -1,26 +1,29 @@
-/* globals Audio */
+import React, { useEffect, useMemo, useState } from 'react'
 
-import React from 'react'
-
-import {
-  useEffect,
-  useMemo,
-  useState
-} from 'lib/hooks'
-
-import AudioPlayerTitle from './AudioPlayerTitle'
-import AudioPlayerProgress from './AudioPlayerProgress'
+import { AudioPlayerProgress } from './AudioPlayerProgress'
 
 import './AudioPlayer.css'
 
+// ---------------------------------------------------
+// Create Component
+// ---------------------------------------------------
+
+interface AudioPlayerProperties {
+  src: string
+  title: string
+  time: number
+  volume: number
+  onComplete: () => void
+}
 export const AudioPlayer = ({
   title,
   src,
   time,
+  volume,
   onComplete
-}) => {
+}: AudioPlayerProperties) => {
 
-  // HOOKS //
+  // Hooks //
 
   const [error, setError] = useState(null)
 
@@ -30,6 +33,7 @@ export const AudioPlayer = ({
 
   const playAudio = () => {
     audio.removeEventListener('canplay', playAudio)
+    audio.volume = volume
     audio.play()
       .then(() => {
         audio.currentTime = time
@@ -41,13 +45,19 @@ export const AudioPlayer = ({
   }
 
   useEffect(() => {
+    if (audio) {
+      audio.volume = volume
+    }
+  }, [volume])
+
+  useEffect(() => {
     audio.addEventListener('ended', onComplete)
     audio.addEventListener('canplay', playAudio)
 
     return () => audio.pause()
   }, [src])
 
-  // RENDERING //
+  // Rendering //
 
   if (error) {
     return (
@@ -59,10 +69,12 @@ export const AudioPlayer = ({
 
   return (
     <div className='audio-player'>
-      <AudioPlayerTitle title={title} />
+      <div className='audio-player-title'>
+        <div className='audio-player-title__text'>
+          {title}
+        </div>
+      </div>
       <AudioPlayerProgress audio={audio} />
     </div>
   )
 }
-
-export default AudioPlayer

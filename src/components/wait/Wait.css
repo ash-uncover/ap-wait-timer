@@ -1,0 +1,85 @@
+@keyframes changeOverlay {
+  0% {
+    background-color: rgba(255, 255, 255, 0.5);
+  }
+  100% {
+    background-color: rgba(255, 255, 255, 0.1);
+  }
+}
+
+.wait {
+  --ap-shell--padding: 0;
+
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+
+  &.wait--idle {
+    & .app-toolbar {
+      translate: 0 -3rem;
+    }
+  }
+
+  &.wait--ended {
+    & .overlay {
+      animation-duration: 1.2s;
+      animation-name: changeOverlay;
+      animation-iteration-count: infinite;
+      animation-direction: alternate;
+    }
+  }
+
+  & .overlay-header {
+    top: 0;
+    height: 100%;
+    left: 5rem;
+    width: 20rem;
+    padding: 5rem 1rem;
+  }
+
+  & .overlay-audio {
+    height: 8rem;
+    bottom: 5rem;
+    padding: 0rem 5rem;
+    left: 0;
+    right: 0;
+
+    & .overlay-audio__control {
+      position: relative;
+      width: 22rem;
+      height: 8rem;
+    }
+
+    & .button-start {
+      width: 100%;
+      height: 100%;
+      border: none;
+      background: none;
+      font-size: 50px;
+      color: darkslategrey;
+      cursor: pointer;
+    }
+  }
+
+  & .text {
+    color: gray;
+  }
+
+  & .title {
+    text-align: center;
+    font-weight: bold;
+    text-transform: uppercase;
+    margin-bottom: 3rem;
+
+    & >*+* {
+      margin-top: 1rem;
+    }
+  }
+
+  & .subtitle {
+    text-align: center;
+    margin-top: 5rem;
+  }
+}

@@ -3,10 +3,13 @@ import { useSelector } from 'react-redux'
 
 import AppSelectors from 'store/app/app.selectors'
 
-import { Shell, ShellArea, ShellBackground, ShellNavbar } from '@uncover/react-commons'
+import {
+  Shell,
+  ShellBackground,
+  ShellNavbar
+} from '@uncover/react-commons'
 
 import './AppShell.css'
-import { useAppData } from 'lib/services/ServiceHelper'
 
 // ---------------------------------------------------
 // Create Component
@@ -23,8 +26,6 @@ export const AppShell = ({
 
   const appBackground = useSelector(AppSelectors.background)
 
-  useAppData()
-
   // Rendering //
 
   return (
@@ -32,7 +33,11 @@ export const AppShell = ({
 
       <ShellBackground>
         <img
-          className='app-background-image'
+          style={{
+            height: '100%',
+            width: '100%',
+            objectFit: 'cover'
+          }}
           src={appBackground}
         />
       </ShellBackground>

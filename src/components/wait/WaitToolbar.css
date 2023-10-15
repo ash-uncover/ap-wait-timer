@@ -1,0 +1,17 @@
+.wait-toolbar {
+  position: fixed;
+  height: 3rem;
+  width: 100%;
+  background: #333;
+  z-index: 1;
+  transition: translate 0.5s;
+  padding: 0 2rem;
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+
+  &.wait-toolbar--hide2 {
+    translate: 0 -3rem;
+  }
+}

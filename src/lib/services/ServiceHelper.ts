@@ -2,7 +2,6 @@ import AppSlice from 'store/app/app.slice'
 import DataSlice from 'store/data/data.slice'
 
 import RestService from 'lib/services/RestService'
-import { useDispatch, useEffect } from 'lib/hooks'
 
 export const useSongs = async (dispatch) => {
   dispatch(DataSlice.actions.songsGetFetch())
@@ -28,20 +27,16 @@ export const useImages = async (dispatch) => {
     })
 }
 
-export const useAppData = async () => {
-  const dispatch = useDispatch()
-  useEffect(() => {
-    dispatch(AppSlice.actions.appLoadFetch())
-    Promise.all([
-      useSongs(dispatch),
-      useImages(dispatch)
-    ])
-      .then(() => {
-        dispatch(AppSlice.actions.appLoadSuccess())
-      })
-      .catch((error) => {
-        console.log('here')
-        dispatch(AppSlice.actions.appLoadFailure(error))
-      })
-  }, [])
+export const useAppData = async (dispatch) => {
+  dispatch(AppSlice.actions.appLoadFetch())
+  Promise.all([
+    useSongs(dispatch),
+    useImages(dispatch)
+  ])
+    .then(() => {
+      dispatch(AppSlice.actions.appLoadSuccess())
+    })
+    .catch((error) => {
+      dispatch(AppSlice.actions.appLoadFailure(error))
+    })
 }

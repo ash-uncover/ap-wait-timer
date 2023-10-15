@@ -1,6 +1,0 @@
-.app-content {
-    flex-grow: 1;
-    height: 0;
-    overflow: auto;
-    background: rgba(255,255,255, 0.5);
-}

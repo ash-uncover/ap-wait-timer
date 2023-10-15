@@ -1,7 +1,8 @@
 import React from 'react'
-import WaitSession from 'components/wait/WaitSession'
-import { useQuery, useSelector } from 'lib/hooks'
+import { Wait } from 'components/wait/Wait'
 import DataSelectors from 'store/data/data.selectors'
+import { useQuery } from 'lib/hooks/useQuery'
+import { useSelector } from 'react-redux'
 
 const useQueryTitle = () => {
   const query = useQuery()
@@ -20,8 +21,8 @@ const useQueryBackground = () => {
   const queryBackground = query.get('background')
   const dataImages = useSelector(DataSelectors.images)
   let index = 0
-  if (isNaN(queryBackground as any)) {
-    index = Math.floor(Math.random() * dataImages.length);
+  if (isNaN(queryBackground as any) || queryBackground === '0') {
+    index = Math.floor(Math.random() * (dataImages.length - 1)) + 1;
   } else {
     index = Number(queryBackground)
   }
@@ -45,7 +46,7 @@ const useQuerySongs = () => {
   return list.map(Number).map(i => dataSongs[i])
 }
 
-const RouteWait = () => {
+export const RouteWait = () => {
 
   // Hooks //
 
@@ -58,7 +59,7 @@ const RouteWait = () => {
   // Rendering //
 
   return (
-    <WaitSession
+    <Wait
       title={title}
       subTitle={subTitle}
       background={background}
@@ -67,5 +68,3 @@ const RouteWait = () => {
     />
   )
 }
-
-export default RouteWait

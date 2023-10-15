@@ -1,3 +1,12 @@
+@keyframes scroll-rtl {
+  0% {
+    transform: translate3d(0, 0, 0);
+  }
+  100% {
+    transform: translate3d(-100%, 0, 0);
+  }
+}
+
 .audio-player {
   --color-error: red;
   --color-content: darkgrey;
@@ -21,6 +30,23 @@
     color: var(--color-error);
     .audio-player-progress {
       background: var(--color-error);
+    }
+  }
+
+  & .audio-player-title {
+    width: 100%;
+    overflow: hidden;
+    margin-bottom: 0.5rem;
+    font-size: 1.5rem;
+    font-style: italic;
+    color: darkgray;
+
+    & .audio-player-title__text {
+      display: inline-block;
+      padding-right: 2rem;
+      padding-left: 100%;
+      white-space: nowrap;
+      animation: scroll-rtl 10s infinite linear;
     }
   }
 }
